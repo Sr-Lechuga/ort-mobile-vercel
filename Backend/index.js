@@ -1,7 +1,7 @@
-require("dotenv").config();
+require("dotenv").config()
 const express = require('express')
 const morgan = require('morgan')
-const { userRoute } = require('./src/routes/user.route.js')
+const authRoute = require("./src/1_routes/auth.route")
 
 const app = express()
 
@@ -13,7 +13,8 @@ app.get('/', (req, res) => {
   res.send('pong')
 })
 
-app.use('/auth', userRoute)
+// Routes
+app.use('/auth', authRoute)
 
 const { PORT } = process.env
 app.listen(PORT, () => {
