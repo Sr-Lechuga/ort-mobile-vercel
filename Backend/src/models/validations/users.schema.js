@@ -1,6 +1,14 @@
-import joi from 'joi'
+const joi = require('joi')
 
-const volunteerSignUpSchema = Joi.object({
+const volunteerLoginSchema = joi.object({
+  username: joi
+    .string()
+    .max(20),
+  password: joi.string()
+    .required()
+})
+
+const volunteerSignUpSchema = joi.object({
   username: joi
     .string()
     .min(3)
@@ -28,6 +36,7 @@ const volunteerSignUpSchema = Joi.object({
     .max(110)
 })
 
-export {
-  volunteerSignUpSchema
+module.exports = {
+  volunteerSignUpSchema,
+  volunteerLoginSchema
 }
