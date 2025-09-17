@@ -1,10 +1,24 @@
 const express = require('express')
 const payloadValidator = require('../2_middlewares/payloadValidator.middleware')
-const { loginRequestSchema } = require('../2_middlewares/request_schemas/authRequest.schema')
-const { postVolunteerLogin } = require('../3_controllers/auth.controller')
+const {
+  volunteerLoginRequestSchema,
+  volunteerSignUpRequestSchema
+} = require('../2_middlewares/request_schemas/authRequest.schema')
+const {
+  postVolunteerLogin,
+  postVolunteerSignUp,
+  postOrganizerLogin,
+  postOrganizerSignUp
+} = require('../3_controllers/auth.controller')
 
 const authRoute = express.Router()
 
-authRoute.post('/voluntario/iniciar_sesion', payloadValidator(loginRequestSchema), postVolunteerLogin)
+// VOLUNTEERS
+authRoute.post('/voluntario/iniciar_sesion', payloadValidator(volunteerLoginRequestSchema), postVolunteerLogin)
+authRoute.post('/voluntario/registro', payloadValidator(volunteerSignUpRequestSchema), postVolunteerSignUp)
+
+// ORGANIZERS
+authRoute.post('/organizador/iniciar_sesion', payloadValidator(volunteerLoginRequestSchema), postOrganizerLogin)
+authRoute.post('/organizador/registro', payloadValidator(volunteerSignUpRequestSchema), postOrganizerSignUp)
 
 module.exports = authRoute

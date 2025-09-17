@@ -1,13 +1,16 @@
-const { findVolunteerByCredentials } = require("../5_repositories/volunteer.repository")
+const { USER_VOLUNTEER } = require("../utils/constants")
+const { userLogin, userInsert } = require("./helpers/userAuth.helper")
 
-const volunteerLogin = (username, password) => {
-  const volunteer = findVolunteerByCredentials(username, password)
+const volunteerLogin = async (username, password) => {
+  const token = await userLogin(username, password, USER_VOLUNTEER)
+  return token
+}
 
-  if (!volunteer) return null
-
-
+const volunteerSignUp = async (volunteerData) => {
+  await userInsert(volunteerData, USER_VOLUNTEER)
 }
 
 module.exports = {
-  volunteerLogin
+  volunteerLogin,
+  volunteerSignUp
 }

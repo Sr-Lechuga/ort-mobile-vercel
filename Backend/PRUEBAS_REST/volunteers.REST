@@ -1,0 +1,19 @@
+### Login Volunteer
+POST http://localhost:3000/auth/voluntario/iniciar_sesion HTTP/1.1
+content-type: application/json
+
+{
+  "username": "gini123",
+  "password": "gini123"
+}
+
+### SignUp Volunteer
+POST http://localhost:3000/auth/voluntario/registro HTTP/1.1
+content-type: application/json
+
+{
+  "username": "gini123",
+  "password": "gini123",
+  "name": "Gini",
+  "email": "gini123@gmail.com"
+}
