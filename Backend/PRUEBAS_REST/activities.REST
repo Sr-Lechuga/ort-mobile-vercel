@@ -1,0 +1,2 @@
+### Get ALL activties
+GET http://localhost:3000/v1/actividades HTTP/1.1
