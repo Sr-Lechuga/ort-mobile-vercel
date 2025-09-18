@@ -48,6 +48,13 @@ O utiliza el script ejecutable:
 - **Documentación**: https://www.npmjs.com/package/morgan
 - **Uso en el proyecto**: Logging de requests HTTP
 
+### swagger-ui-express (^5.0.1)
+
+- **Descripción**: Middleware para servir documentación Swagger UI
+- **Documentación**: https://www.npmjs.com/package/swagger-ui-express
+- **Uso en el proyecto**: Documentación interactiva de la API
+- **Archivos relacionados**: `swagger.json`
+
 ## Dependencias de Desarrollo
 
 ### dotenv (^17.2.2)
@@ -64,7 +71,7 @@ O utiliza el script ejecutable:
 
 ## Última actualización
 
-- **Fecha**: 18/09/2025 00:41:23
+- **Fecha**: 19/09/2025 01:23:23
 - **Versión del proyecto**: 1.0.0
 
 ---
