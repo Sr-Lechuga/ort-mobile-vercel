@@ -36,13 +36,19 @@
 
 ```
 ORT_Movile/
-├── dependencies.md              # Documentación de dependencias
-├── install-deps.bat            # Script de instalación
-├── REGLAS_REPOSITORIO.md       # Este archivo
-├── resumenes/                  # Resúmenes diarios
-│   ├── README.md
-│   └── YYYY-MM-DD_resumen.md
-└── Backend/                    # Código del proyecto
+├── documentacion/                   # Carpeta de documentación
+│   ├── arquitectura/               # Documentos de arquitectura
+│   │   ├── ENTIDADES.txt
+│   │   ├── UML_Detallado.puml
+│   │   ├── UML_Simplificado.puml
+│   │   └── UML.drawio
+│   ├── dependencies.md             # Documentación de dependencias
+│   ├── REGLAS_REPOSITORIO.md       # Este archivo
+│   └── resumenes/                  # Resúmenes diarios
+│       ├── README.md
+│       └── YYYY-MM-DD_resumen.md
+├── install-deps.bat                # Script de instalación
+└── Backend/                        # Código del proyecto
     └── ...
 ```
 
