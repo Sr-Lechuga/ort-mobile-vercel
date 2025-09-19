@@ -1,4 +1,4 @@
-@startuml
+@startuml UML Detallado
 
 
 entity "Voluntario" as Voluntario {
