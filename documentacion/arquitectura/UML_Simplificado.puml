@@ -1,0 +1,32 @@
+@startuml
+
+
+entity Voluntario
+entity Centro
+entity Actividad
+entity InstanciaActividad
+entity Inscripcion
+entity Comentario
+entity Badge
+entity Categoria
+entity Notificacion
+
+Voluntario ||--o{ Inscripcion : "realiza"
+InstanciaActividad ||--o{ Inscripcion : "tiene"
+
+Actividad ||--o{ InstanciaActividad : "genera"
+Centro ||--o{ Actividad : "crea"
+
+Voluntario ||--o{ Comentario : "escribe"
+Comentario }o--|| Actividad : "sobre"
+Comentario }o--|| Centro : "sobre"
+
+Voluntario ||--o{ Badge : "obtiene"
+
+Actividad ||--o{ Categoria : "pertenece"
+Centro ||--o{ Categoria : "enfocado"
+Voluntario ||--o{ Categoria : "interesado"
+
+Voluntario ||--o{ Notificacion : "recibe"
+
+@enduml

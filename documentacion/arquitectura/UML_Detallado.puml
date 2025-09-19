@@ -1,0 +1,119 @@
+@startuml
+
+
+entity "Voluntario" as Voluntario {
+  *id_voluntario : int
+  --
+  nombre : string
+  apellido : string
+  username : string
+  correo : string
+  edad : int
+  genero : string
+  idioma : string
+  fecha_registro : datetime
+}
+
+entity "Centro" as Centro {
+  *id_centro : int
+  --
+  nombre : string
+  correo : string
+  telefono : string
+  redes_sociales : string
+  persona_contacto : string
+  descripcion : text
+  direccion : string
+  latitud : decimal
+  longitud : decimal
+}
+
+entity "Actividad" as Actividad {
+  *id_actividad : int
+  --
+  nombre : string
+  descripcion : text
+  imagen : string
+  idioma : string
+  estado : string
+  inscripcion_abierta : boolean
+  cupo : int
+}
+
+entity "InstanciaActividad" as Instancia {
+  *id_instancia : int
+  --
+  fecha_hora : datetime
+  direccion : string
+  latitud : decimal
+  longitud : decimal
+  estado : string
+  cantidad_inscriptos : int
+}
+
+entity "Inscripcion" as Inscripcion {
+  *id_inscripcion : int
+  --
+  estado : string
+  fecha_inscripcion : datetime
+  certificado_asistencia : boolean
+}
+
+entity "Comentario" as Comentario {
+  *id_comentario : int
+  --
+  texto : text
+  rating : int
+  anonimo : boolean
+  fecha : datetime
+  tipo_objetivo : string  // "Actividad" o "Centro"
+}
+
+entity "Badge" as Badge {
+  *id_badge : int
+  --
+  titulo : string
+  descripcion : text
+  condicion : string
+  imagen : string
+  fecha_obtencion : datetime
+}
+
+entity "Categoria" as Categoria {
+  *id_categoria : int
+  --
+  nombre : string
+  descripcion : text
+}
+
+entity "Notificacion" as Notificacion {
+  *id_notificacion : int
+  --
+  tipo : string
+  mensaje : text
+  fecha_envio : datetime
+  leida : boolean
+}
+
+' =========================
+' RELACIONES
+' =========================
+Voluntario ||--o{ Inscripcion : "realiza"
+Instancia ||--o{ Inscripcion : "tiene"
+
+Actividad ||--o{ Instancia : "genera"
+Centro ||--o{ Actividad : "crea"
+
+Voluntario ||--o{ Comentario : "escribe"
+Comentario }o--|| Actividad : "sobre"
+Comentario }o--|| Centro : "sobre"
+
+Voluntario ||--o{ Badge : "obtiene"
+
+Actividad ||--o{ Categoria : "pertenece"
+Centro ||--o{ Categoria : "enfocado"
+Voluntario ||--o{ Categoria : "interesado"
+
+Voluntario ||--o{ Notificacion : "recibe"
+
+@enduml
