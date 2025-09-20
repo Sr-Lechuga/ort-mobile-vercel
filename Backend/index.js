@@ -5,6 +5,7 @@ const authRoute = require("./src/1_routes/auth.route")
 const activityRoute = require("./src/1_routes/activity.route")
 const verifySesion = require("./src/2_middlewares/verifySesion.middleware")
 const connectDB = require("./src/config/mongodb")
+const organizerRoute = require("./src/1_routes/organizer.route")
 
 // Connection to Mongodb Atlas
 connectDB()
@@ -25,6 +26,7 @@ app.use('/v1/actividades', activityRoute)
 
 // Private Routes
 app.use(verifySesion) // Session verify middleware
+app.use('/v1/organizer', organizerRoute)
 
 const { PORT } = process.env
 app.listen(PORT, () => {
