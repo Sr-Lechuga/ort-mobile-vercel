@@ -14,7 +14,7 @@ entity "Voluntario" as Voluntario {
   fecha_registro : datetime
 }
 
-entity "Centro" as Centro {
+entity "Organizador" as Organizador {
   *id_centro : int
   --
   nombre : string
@@ -44,6 +44,7 @@ entity "InstanciaActividad" as Instancia {
   *id_instancia : int
   --
   fecha_hora : datetime
+  duracion : int
   direccion : string
   latitud : decimal
   longitud : decimal
@@ -66,7 +67,7 @@ entity "Comentario" as Comentario {
   rating : int
   anonimo : boolean
   fecha : datetime
-  tipo_objetivo : string  // "Actividad" o "Centro"
+  tipo_objetivo : string  // "Actividad" o "Organizador"
 }
 
 entity "Badge" as Badge {
@@ -102,16 +103,16 @@ Voluntario ||--o{ Inscripcion : "realiza"
 Instancia ||--o{ Inscripcion : "tiene"
 
 Actividad ||--o{ Instancia : "genera"
-Centro ||--o{ Actividad : "crea"
+Organizador ||--o{ Actividad : "crea"
 
 Voluntario ||--o{ Comentario : "escribe"
 Comentario }o--|| Actividad : "sobre"
-Comentario }o--|| Centro : "sobre"
+Comentario }o--|| Organizador : "sobre"
 
 Voluntario ||--o{ Badge : "obtiene"
 
 Actividad ||--o{ Categoria : "pertenece"
-Centro ||--o{ Categoria : "enfocado"
+Organizador ||--o{ Categoria : "enfocado"
 Voluntario ||--o{ Categoria : "interesado"
 
 Voluntario ||--o{ Notificacion : "recibe"
