@@ -21,10 +21,14 @@ const activitiesSelect = async (requestQuery) => {
   }
 
   const activities = await findActivities(filters, pagination)
-
   return activities
 }
 
+const activityInsert = async (newActivity) => {
+
+}
+
 module.exports = {
-  activitiesSelect
+  activitiesSelect,
+  activityInsert
 }

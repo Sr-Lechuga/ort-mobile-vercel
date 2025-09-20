@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { ACTIVITY_CATEGORIES } = require('../utils/constants')
 
 /*
   CATEGORIAS:
@@ -17,7 +18,7 @@ const activitySchema = new mongoose.Schema(
     title: { type: String, required: true },
     categories: {
       type: [String],
-      enum: ['social', 'ambiental', 'educativo', 'cultural', 'salud', 'emergencia'],
+      enum: [...ACTIVITY_CATEGORIES],
       required: true,
       validate: {
         validator: function (categories) {
