@@ -203,37 +203,6 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-07 — Lista de Espera
-
-**Código:** UC-07
-
-**Requerimientos relacionados:** RF-06, RF-05
-
-**Descripción:** Voluntarios pueden apuntarse a lista de espera cuando cupo está lleno; centro puede promover usuarios desde la lista.
-
-**Pre-condiciones:** Voluntario autenticado; instancia con cupo lleno.
-
-**Post-condiciones:** Voluntario añadido a lista de espera; centro recibe información sobre orden y cantidad.
-
-**Secuencia normal:**
-
-1. Usuario solicita inscripción y sistema detecta cupo lleno.
-2. Sistema ofrece opción "Apuntarme a lista de espera".
-3. Usuario acepta.
-4. Sistema agrega al final de la cola y confirma.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Usuario se retira de la lista → puede eliminar su entrada.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Se libera cupo → sistema notifica al primer en la lista (UC-14) y espera confirmación.
-
-**Atributos:** Orden FIFO, timestamp de ingreso a lista.
-
----
-
 ## UC-08 — Certificar Asistencia / Marcar asistencia
 
 **Código:** UC-08
