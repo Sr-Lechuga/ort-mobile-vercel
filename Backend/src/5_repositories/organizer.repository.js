@@ -1,14 +1,12 @@
-const organizers = require('../db/organizers')
+const Organizer = require('../models/organizer.model')
 
 const findOrganizerByUsername = async (username) => {
-  const organizer = organizers.find(u => u.username === username)
+  const organizer = await Organizer.findOne({ username })
   return organizer
 }
 
 const insertOrganizer = async (organizerData) => {
-  const newOrganizer = { ...organizerData }
-  organizers.push(newOrganizer)
-  console.log(organizers)
+  await Organizer.create(organizerData)
 }
 
 module.exports = {

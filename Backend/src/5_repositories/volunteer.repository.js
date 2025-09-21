@@ -1,14 +1,13 @@
 const volunteers = require('../db/volunteers')
+const Volunteer = require('../models/volunteer.model')
 
 const findVolunteerByUsername = async (username) => {
-  const volunteer = volunteers.find(u => u.username === username)
+  const volunteer = await Volunteer.findOne({ username })
   return volunteer
 }
 
 const insertVolunteer = async (volunteerData) => {
-  const newVolunteer = { ...volunteerData }
-  volunteers.push(newVolunteer)
-  console.log(volunteers)
+  await Volunteer.create(volunteerData)
 }
 
 module.exports = {

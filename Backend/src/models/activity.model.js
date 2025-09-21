@@ -10,7 +10,7 @@ const { ACTIVITY_CATEGORIES } = require('../utils/constants')
   Emergencias: ayuda en desastres naturales o crisis humanitarias.
 */
 
-// ISODate format: YYYY-MM-DDTHH:mm:ssZ
+// ISODate format: YYYY-MM-DD || YYYY-MM-DDTHH:mm:ssZ
 
 const activitySchema = new mongoose.Schema(
   { // Fields
@@ -29,7 +29,7 @@ const activitySchema = new mongoose.Schema(
     },
     description: { type: String },
     date: { type: Date, required: true },
-    status: { type: String, enum: ['programado', 'en curso', 'finalizado'] },
+    status: { type: String, enum: ['inactiva', 'programado', 'en curso', 'finalizado'] },
     open: { type: Boolean, required: true, default: true },
     volunteers: {
       type: [
