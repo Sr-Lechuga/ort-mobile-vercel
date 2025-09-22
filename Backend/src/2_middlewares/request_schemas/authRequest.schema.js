@@ -28,8 +28,8 @@ const volunteerSignUpRequestSchema = joi.object({
     }),
   email: joi.string().pattern(/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/).max(70).required()
     .messages({
-      'any.required': 'El Email es requerida',
-      'string.empty': 'El Email es requerida',
+      'any.required': 'El Email es requerido',
+      'string.empty': 'El Email es requerido',
       'string.max': 'El Email puede contener hasta 70 caracteres',
       'string.pattern.base': 'Formato de Email incorrecto'
     }),
@@ -92,8 +92,8 @@ const organizerSignUpRequestSchema = joi.object({
     }),
   email: joi.string().pattern(/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/).max(70).required()
     .messages({
-      'any.required': 'El Email es requerida',
-      'string.empty': 'El Email es requerida',
+      'any.required': 'El Email es requerido',
+      'string.empty': 'El Email es requerido',
       'string.max': 'El Email puede contener hasta 70 caracteres',
       'string.pattern.base': 'Formato de Email incorrecto'
     }),
@@ -120,15 +120,35 @@ const organizerSignUpRequestSchema = joi.object({
     .messages({
       'string.max': 'El Teléfono puede contener hasta 25 caracteres'
     }),
-  instagram: joi.string().max(25),
-  facebook: joi.string().max(25),
-  linkedIn: joi.string().max(25),
-  personal: joi.string().max(120),
-  country: joi.string().max(25),
-  city: joi.string().max(25),
-  street: joi.string().max(120),
-  lat: joi.number(),
-  lgn: joi.number(),
+  social: joi.object({
+    instagram: joi.string().max(25).messages({ 'string.max': 'El usuario de red social puede contener hasta 25 caracteres' }),
+    facebook: joi.string().max(25).messages({ 'string.max': 'El usuario de red social puede contener hasta 25 caracteres' }),
+    linkedIn: joi.string().max(25).messages({ 'string.max': 'El usuario de red social puede contener hasta 25 caracteres' }),
+    personal: joi.string().max(120).messages({ 'string.max': 'El link personal puede contener hasta 120 caracteres' }),
+  }),
+  location: joi.object({
+    country: joi.string().max(25).required()
+      .messages({
+        'any.required': 'El Nombre de país es requerido',
+        'string.max': 'El nombre de país puede contener hasta 25 caracteres'
+      }),
+    city: joi.string().max(25).required()
+      .messages({
+        'any.required': 'El Nombre de ciudad es requerido',
+        'string.max': 'El nombre de ciudad puede contener hasta 25 caracteres'
+      }),
+    address: joi.string().max(255).required()
+      .messages({
+        'any.required': 'La dirección es requerida',
+        'string.max': 'La dirección puede contener hasta 255 caracteres'
+      }),
+    lat: joi.number(),
+    lng: joi.number(),
+  }).required()
+    .messages({
+      'any.required': 'Faltan datos requeridos en Localización',
+      'object.base': 'Formato de Localización incorrecto'
+    })
 })
 
 module.exports = {

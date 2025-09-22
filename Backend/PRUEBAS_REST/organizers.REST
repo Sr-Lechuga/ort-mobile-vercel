@@ -1,13 +1,5 @@
-### SignUp Organizer
-POST http://localhost:3000/auth/organizador/registro HTTP/1.1
-content-type: application/json
-
-{
-  "username": "orgfour123",
-  "password": "orgfour123",
-  "name": "Org Four",
-  "email": "orgfour@gmail.com"
-}
+### Test Organizer
+GET http://localhost:3000/test/organizers HTTP/1.1
 
 ### Login Organizer
 POST http://localhost:3000/auth/organizador/iniciar_sesion HTTP/1.1
@@ -17,3 +9,22 @@ content-type: application/json
   "username": "orgfour123",
   "password": "orgfour123"
 }
+
+### SignUp Organizer
+POST http://localhost:3000/auth/organizador/registro HTTP/1.1
+content-type: application/json
+
+{
+  "username": "orgfour123",
+  "password": "orgfour123",
+  "name": "Org Four",
+  "email": "orgfour@gmail.com",
+  "location": {
+    "country": "Uruguay",
+    "city": "Montevideo",
+    "address": "Calle Falsa 123"
+  }
+}
+
+### Crear Actividad como Organizer
+

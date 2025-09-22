@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { ACTIVITY_CATEGORIES } = require('../utils/constants')
+const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require('../utils/constants')
 
 /*
   CATEGORIAS:
@@ -29,7 +29,7 @@ const activitySchema = new mongoose.Schema(
     },
     description: { type: String },
     date: { type: Date, required: true },
-    status: { type: String, enum: ['inactiva', 'programado', 'en curso', 'finalizado'] },
+    status: { type: String, enum: [...ACTIVITY_STATUS], default: 'inactiva' },
     open: { type: Boolean, required: true, default: true },
     volunteers: {
       type: [
@@ -45,7 +45,12 @@ const activitySchema = new mongoose.Schema(
   },
   { // Options
     timestamps: true,
-    collection: 'activities'
+    collection: 'activities',
+    toJSON: {
+      transform: function (doc, ret) {
+        delete ret.__v
+      }
+    }
   }
 )
 

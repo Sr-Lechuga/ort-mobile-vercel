@@ -1,4 +1,3 @@
-const volunteers = require('../db/volunteers')
 const Volunteer = require('../models/volunteer.model')
 
 const findVolunteerByUsername = async (username) => {

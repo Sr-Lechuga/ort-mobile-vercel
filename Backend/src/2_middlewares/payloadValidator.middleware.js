@@ -5,9 +5,9 @@ const payloadValidator = (schema) => {
     const { error } = schema.validate(body)
 
     if (error) {
-      let message = error.details?.[0]?.message ?? 'Datos incorrectos'
-      res.status(400).json({ message })
-      return
+      error.placeOfError = 'Joi schema'
+      error.name = 'JoiValidationError'
+      return next(error)
     }
 
     next()

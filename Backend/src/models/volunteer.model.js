@@ -5,7 +5,7 @@ const volunteerSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true, minLength: 3, maxLength: 30 },
     email: { type: String, required: true, unique: true, match: /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/, maxLength: 70 },
-    password: { type: String, required: true, minLength: 6, maxLength: 30 },
+    password: { type: String, required: true, minLength: 6 },
     name: { type: String, required: true, minLength: 3, maxLength: 30 },
     lastname: { type: String, required: true, minLength: 3, maxLength: 30 },
     age: { type: Number, requird: true, min: 18, max: 110 },
@@ -13,7 +13,13 @@ const volunteerSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: 'volunteers'
+    collection: 'volunteers',
+    toJSON: {
+      transform: function (doc, ret) {
+        delete ret.__v
+        delete ret.password
+      }
+    }
   }
 )
 

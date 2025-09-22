@@ -1,3 +1,6 @@
+### Test Volunteer
+GET http://localhost:3000/test/volunteers HTTP/1.1
+
 ### Login Volunteer
 POST http://localhost:3000/auth/voluntario/iniciar_sesion HTTP/1.1
 content-type: application/json
@@ -15,5 +18,7 @@ content-type: application/json
   "username": "gini123",
   "password": "gini123",
   "name": "Gini",
-  "email": "gini123@gmail.com"
+  "lastname": "ginigni",
+  "age": 20,
+  "email": "blablabla@bla.com"
 }
