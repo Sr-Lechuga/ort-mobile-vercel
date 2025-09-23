@@ -6,8 +6,8 @@ const getActivities = async (req, res) => {
     res.status(200).json({ activities })
   }
   catch (err) {
-    console.log('=====> ERROR ON GET ACTIVITIES: ', err)
-    res.status(500).json({ message: 'Algo no salió correctamente' })
+    err.placeOfError = 'Error en obtener actividades'
+    next(err)
   }
 }
 
