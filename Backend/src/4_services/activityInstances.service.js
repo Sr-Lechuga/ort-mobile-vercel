@@ -58,7 +58,7 @@ const activityInstancesSelect = async (parameters) => {
     const isValid = createDate(maxDate);
     if (isValid) filters.startDate = { ...(filters.date || {}), $lte: isValid };
   }
-  if (geoLocationFilter) filters.geoLocation = geoLocationFilter;
+  if (geoLocationFilter) filters.locationCoordinates = geoLocationFilter;
 
   const activities = await findActivityInstances(filters, pagination);
   return activities;
