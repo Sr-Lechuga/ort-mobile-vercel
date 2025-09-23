@@ -41,7 +41,7 @@ const activityInstanceSchema = new mongoose.Schema(
       minLength: [3, "La ubicación debe tener al menos 3 caracteres"],
       maxLength: [255, "La ubicación debe tener menos de 255 caracteres"],
     },
-    location_coordinates: {
+    locationCoordinates: {
       type: {
         type: String,
         enum: ["Point"],
@@ -109,7 +109,7 @@ activityInstanceSchema.index(
 );
 
 //Used to make geospacial queries
-activityInstanceSchema.index({ location: "2dsphere" });
+activityInstanceSchema.index({ locationCoordinates: "2dsphere" });
 
 const ActivityInstance = mongoose.model(
   "ActivityInstance",

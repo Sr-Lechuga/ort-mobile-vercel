@@ -1,6 +1,7 @@
 const joi = require("joi");
 const { ACTIVITY_INSTANCE_STATUS } = require("../../utils/constants");
 
+// Esquema para crear una instancia de actividad
 const activityInstancePostRequestSchema = joi.object({
   activity: joi
     .string()
@@ -42,7 +43,7 @@ const activityInstancePostRequestSchema = joi.object({
     "any.required": "La ubicación es requerida",
   }),
 
-  location_coordinates: joi
+  locationCoordinates: joi
     .object({
       type: joi.string().valid("Point").required().messages({
         "any.only": 'El tipo de coordenadas debe ser "Point"',
@@ -106,7 +107,7 @@ const activityInstancePutRequestSchema = joi.object({
     "string.max": "La ubicación debe tener menos de 255 caracteres",
   }),
 
-  location_coordinates: joi
+  locationCoordinates: joi
     .object({
       type: joi.string().valid("Point").messages({
         "any.only": 'El tipo de coordenadas debe ser "Point"',

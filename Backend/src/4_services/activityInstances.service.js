@@ -1,5 +1,6 @@
 const {
   findActivityInstances,
+  insertActivityInstances,
 } = require("../5_repositories/activityInstance.repository");
 const { createDate } = require("../utils/datesHandler");
 
@@ -11,39 +12,39 @@ const _getOffset = (page, limit) => {
   return (parseInt(page) - 1) * parseInt(limit);
 };
 
-const activityInstancesSelect = async (requestQuery) => {
+const activityInstancesSelect = async (parameters) => {
   const filters = {};
   const {
-    //category,
-    //location,
+    location,
+    status,
     minDate,
     maxDate,
-    //page = requestQuery.page,
     page = 1,
-    //limit = requestQuery.limit,
-    limit = 10,
-  } = requestQuery;
+    limit = 20,
+  } = parameters;
 
   const elements = _bufferElementLimit(limit);
   const offset = _getOffset(page, elements);
   const pagination = { skip: offset, limit: elements };
 
-  //if (category) filters.category = category;
-  //if (location) filters.location = new RegExp(location, "i"); // 'i' = Case insensitive
+  if (status) filters.status = status;
+  if (location) filters.location = new RegExp(location, "i"); // 'i' = Case insensitive
   if (minDate) {
     const isValid = createDate(minDate);
-    if (isValid) filters.date = { $gte: isValid };
+    if (isValid) filters.startDate = { $gte: isValid };
   }
   if (maxDate) {
     const isValid = createDate(maxDate);
-    if (isValid) filters.date = { ...(filters.date || {}), $lte: isValid };
+    if (isValid) filters.startDate = { ...(filters.date || {}), $lte: isValid };
   }
 
   const activities = await findActivityInstances(filters, pagination);
   return activities;
 };
 
-const activityInstancesInsert = async (newActivity) => {};
+const activityInstancesInsert = async (activityInstanceData) => {
+  await insertActivityInstances(activityInstanceData);
+};
 
 module.exports = {
   activityInstancesSelect,
