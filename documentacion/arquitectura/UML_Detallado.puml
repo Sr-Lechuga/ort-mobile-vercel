@@ -106,7 +106,7 @@ Actividad ||--o{ Instancia : "genera"
 Organizador ||--o{ Actividad : "crea"
 
 Voluntario ||--o{ Comentario : "escribe"
-Comentario }o--|| Actividad : "sobre"
+Comentario }o--|| Instancia : "sobre"
 Comentario }o--|| Organizador : "sobre"
 
 Voluntario ||--o{ Badge : "obtiene"
