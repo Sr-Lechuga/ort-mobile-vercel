@@ -36,9 +36,20 @@ const postActivityInstances = async (req, res) => {
 };
 
 const getActivityInstances = async (req, res) => {
-  const { location, status, minDate, maxDate, page, limit } = req.query;
+  const { location, status, minDate, maxDate, page, limit, lat, lng, radius } =
+    req.query;
   try {
-    const parameters = { location, status, minDate, maxDate, page, limit };
+    const parameters = {
+      location,
+      status,
+      minDate,
+      maxDate,
+      page,
+      limit,
+      lat,
+      lng,
+      radius,
+    };
     const activityInstances = await activityInstancesSelect(parameters);
 
     if (activityInstances.length == 0) {

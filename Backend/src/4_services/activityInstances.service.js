@@ -12,9 +12,29 @@ const _getOffset = (page, limit) => {
   return (parseInt(page) - 1) * parseInt(limit);
 };
 
+const _geoLocationRadiusFilter = (lat, lng, radius) => {
+  if (lat && lng && radius) {
+    return {
+      geoLocation: {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          $maxDistance: parseInt(radius, 10), // in meters
+        },
+      },
+    };
+  }
+  return null;
+};
+
 const activityInstancesSelect = async (parameters) => {
   const filters = {};
   const {
+    lat,
+    lng,
+    radius, //in meters
     location,
     status,
     minDate,
@@ -23,6 +43,7 @@ const activityInstancesSelect = async (parameters) => {
     limit = 20,
   } = parameters;
 
+  const geoLocationFilter = _geoLocationRadiusFilter(lat, lng, radius);
   const elements = _bufferElementLimit(limit);
   const offset = _getOffset(page, elements);
   const pagination = { skip: offset, limit: elements };
@@ -37,6 +58,7 @@ const activityInstancesSelect = async (parameters) => {
     const isValid = createDate(maxDate);
     if (isValid) filters.startDate = { ...(filters.date || {}), $lte: isValid };
   }
+  if (geoLocationFilter) filters.geoLocation = geoLocationFilter;
 
   const activities = await findActivityInstances(filters, pagination);
   return activities;
