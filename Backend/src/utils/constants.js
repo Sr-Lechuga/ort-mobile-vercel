@@ -9,7 +9,7 @@ const ACTIVITY_CATEGORIES = [
   "salud",
   "emergencia",
 ];
-const ACTIVITY_STATUS = ["inactiva", "programado", "en curso", "finalizado"];
+const ACTIVITY_STATUS = ["inactiva", "programado", "cerrado", "en curso", "finalizado"];
 const ACTIVITY_INSTANCE_STATUS = ["pending", "confirmed", "cancelled"];
 
 module.exports = {

@@ -16,7 +16,7 @@ const activityInstanceSchema = new mongoose.Schema(
         message: "La actividad referenciada no existe",
       },
     },
-    startDate: {
+    date: {
       type: Date,
       required: true,
       min: Date.now,
@@ -34,30 +34,6 @@ const activityInstanceSchema = new mongoose.Schema(
       min: [1, "La duración mínima es 1 minuto"],
       max: [24 * 60, "La duración máxima es 1440 minutos (24 horas)"],
     },
-    location: {
-      type: String,
-      required: true,
-      trim: true, //To avoid empty spaces at the beginning or at the end
-      minLength: [3, "La ubicación debe tener al menos 3 caracteres"],
-      maxLength: [255, "La ubicación debe tener menos de 255 caracteres"],
-    },
-    locationCoordinates: {
-      type: {
-        type: String,
-        enum: ["Point"],
-        required: true,
-      },
-      coordinates: {
-        type: [Number],
-        required: true,
-        validate: {
-          validator: function (coordinates) {
-            return coordinates?.length == 2;
-          },
-          message: "Las coordenadas deben ser [longitud, latitud]",
-        },
-      },
-    },
     status: {
       type: String,
       enum: [...ACTIVITY_INSTANCE_STATUS],
@@ -69,6 +45,10 @@ const activityInstanceSchema = new mongoose.Schema(
       min: [0, "La cantidad de inscriptos debe ser positiva"],
       default: 0,
     },
+    quota: {
+      type: Number,
+      min: [0, "La cantidad de inscriptos debe ser positiva"]
+    }
     //TODO: Update schemas logic
     /*inscriptions: {
       type: [inscriptionSchema],
@@ -107,9 +87,6 @@ activityInstanceSchema.index(
   { activity: 1, startDate: 1 },
   { unique: true, name: "uq_activity_start" }
 );
-
-//Used to make geospacial queries
-activityInstanceSchema.index({ locationCoordinates: "2dsphere" });
 
 const ActivityInstance = mongoose.model(
   "ActivityInstance",

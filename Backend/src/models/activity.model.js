@@ -16,7 +16,7 @@ const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require("../utils/constants");
 const activitySchema = new mongoose.Schema(
   {
     // Fields
-    owner: { type: mongoose.Schema.ObjectId, ref: "Volunteer", required: true },
+    owner: { type: mongoose.Schema.ObjectId, ref: "Organizer", required: true },
     title: { type: String, required: true },
     categories: {
       type: [String],
@@ -30,24 +30,39 @@ const activitySchema = new mongoose.Schema(
       },
     },
     description: { type: String },
-    date: { type: Date, required: true },
+    date: { type: Date },
     status: { type: String, enum: [...ACTIVITY_STATUS], default: "inactiva" },
-    open: { type: Boolean, required: true, default: true },
-    volunteers: {
+    instances: {
       type: [
         {
-          id: {
-            type: mongoose.Schema.ObjectId,
-            ref: "Volunteer",
-            required: true,
-          },
-          username: String,
-          name: String,
-          email: String,
-        },
+          id: { type: mongoose.Schema.ObjectId, ref: "ActivityInstance", required: true },
+          date: { type: Date }
+        }
       ],
       default: [],
     },
+    location: {
+      country: { type: String, required: true, maxLength: 25 },
+      city: { type: String, required: true, maxLength: 25 },
+      address: { type: String, required: true, maxLength: 255 }
+    },
+    locationCoordinates: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+        validate: {
+          validator: function (coordinates) {
+            return coordinates?.length == 2;
+          },
+          message: "Las coordenadas deben ser [longitud, latitud]",
+        },
+      },
+    }
   },
   {
     // Options
@@ -60,6 +75,9 @@ const activitySchema = new mongoose.Schema(
     },
   }
 );
+
+//Used to make geospacial queries
+activitySchema.index({ locationCoordinates: "2dsphere" });
 
 const Activity = mongoose.model("Activity", activitySchema);
 
