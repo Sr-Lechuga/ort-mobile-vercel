@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
-const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require('../utils/constants')
+const mongoose = require("mongoose");
+const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require("../utils/constants");
+//TODO: Es posible que neceite un cambio en este modelo por las instances
 
 /*
   CATEGORIAS:
@@ -13,8 +14,9 @@ const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require('../utils/constants')
 // ISODate format: YYYY-MM-DD || YYYY-MM-DDTHH:mm:ssZ
 
 const activitySchema = new mongoose.Schema(
-  { // Fields
-    owner: { type: mongoose.Schema.ObjectId, ref: 'Volunteer', required: true },
+  {
+    // Fields
+    owner: { type: mongoose.Schema.ObjectId, ref: "Volunteer", required: true },
     title: { type: String, required: true },
     categories: {
       type: [String],
@@ -22,38 +24,43 @@ const activitySchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (categories) {
-          return categories?.length <= 3
+          return categories?.length <= 3;
         },
-        message: 'La actividad puede tener hasta un máximo de 3 categorias'
-      }
+        message: "La actividad puede tener hasta un máximo de 3 categorias",
+      },
     },
     description: { type: String },
     date: { type: Date, required: true },
-    status: { type: String, enum: [...ACTIVITY_STATUS], default: 'inactiva' },
+    status: { type: String, enum: [...ACTIVITY_STATUS], default: "inactiva" },
     open: { type: Boolean, required: true, default: true },
     volunteers: {
       type: [
         {
-          id: { type: mongoose.Schema.ObjectId, ref: 'Volunteer', required: true },
+          id: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Volunteer",
+            required: true,
+          },
           username: String,
           name: String,
-          email: String
-        }
+          email: String,
+        },
       ],
-      default: []
-    }
+      default: [],
+    },
   },
-  { // Options
+  {
+    // Options
     timestamps: true,
-    collection: 'activities',
+    collection: "activities",
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.__v
-      }
-    }
+        delete ret.__v;
+      },
+    },
   }
-)
+);
 
-const Activity = mongoose.model('Activity', activitySchema)
+const Activity = mongoose.model("Activity", activitySchema);
 
-module.exports = Activity
+module.exports = Activity;
