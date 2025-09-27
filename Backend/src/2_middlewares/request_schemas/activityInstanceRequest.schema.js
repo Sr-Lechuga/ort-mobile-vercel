@@ -3,16 +3,6 @@ const { ACTIVITY_INSTANCE_STATUS } = require("../../utils/constants");
 
 // Esquema para crear una instancia de actividad
 const activityInstancePostRequestSchema = joi.object({
-  activity: joi
-    .string()
-    .pattern(/^[0-9a-fA-F]{24}$/)
-    .required()
-    .messages({
-      "string.pattern.base":
-        "El ID de la actividad debe ser un ObjectId válido",
-      "any.required": "El ID de la actividad es requerido",
-    }),
-
   startDate: joi.date().iso().min("now").required().messages({
     "date.base": "La fecha de inicio debe ser una fecha válida en formato ISO",
     "date.format":

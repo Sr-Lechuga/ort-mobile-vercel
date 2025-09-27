@@ -1,6 +1,6 @@
 const {
   activityInstancesSelect,
-  activityInstancesInsert,
+  activityInstanceInsert,
 } = require("../4_services/activityInstances.service");
 
 const postActivityInstances = async (req, res) => {
@@ -24,7 +24,7 @@ const postActivityInstances = async (req, res) => {
       status,
       inscriptionsAmount,
     };
-    await activityInstancesInsert(newActivityInstance);
+    await activityInstanceInsert(newActivityInstance);
 
     res.status(201).json({
       message: "La instancia de la actividad se creo satisfactoriamente",

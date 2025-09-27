@@ -1,14 +1,26 @@
 const {
-  findActivityInstances,
-  insertActivityInstances,
-} = require("../5_repositories/activityInstance.repository");
+  //findActivityInstances,
+  insertActivityInstances } = require("../5_repositories/activityInstance.repository");
+
+/*
 const { createDate } = require("../utils/datesHandler");
 const {
   bufferOffset,
   bufferElementLimit,
   geoLocationRadiusFilter,
 } = require("./helpers/requestParameters.helper");
+*/
 
+const activityInstanceInsert = async (activityInstanceData) => {
+  await insertActivityInstances(activityInstanceData);
+};
+
+module.exports = {
+  //activityInstancesSelect,
+  activityInstanceInsert,
+};
+
+/*
 const activityInstancesSelect = async (parameters) => {
   const filters = {};
   const {
@@ -43,12 +55,4 @@ const activityInstancesSelect = async (parameters) => {
   const activities = await findActivityInstances(filters, pagination);
   return activities;
 };
-
-const activityInstancesInsert = async (activityInstanceData) => {
-  await insertActivityInstances(activityInstanceData);
-};
-
-module.exports = {
-  activityInstancesSelect,
-  activityInstancesInsert,
-};
+*/

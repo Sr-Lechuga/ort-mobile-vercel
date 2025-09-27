@@ -1,20 +1,28 @@
 const express = require("express");
 const {
   getActivityInstances,
-  postActivityInstances,
+  //postActivityInstances,
 } = require("../3_controllers/activityInstance.controller");
+/*
 const {
   activityInstancePostRequestSchema,
 } = require("../2_middlewares/request_schemas/activityInstanceRequest.schema");
-const payloadValidator = require("../2_middlewares/payloadValidator.middleware");
+ */
+//const payloadValidator = require("../2_middlewares/payloadValidator.middleware");
 
 const activityInstanceRoute = express.Router();
 
+activityInstanceRoute.get("/", getActivityInstances);
+
+module.exports = activityInstanceRoute;
+
+/*
 activityInstanceRoute.post(
   "/",
   payloadValidator(activityInstancePostRequestSchema),
   postActivityInstances
 );
+*/
 
 // activityInstanceRoute.put(
 //   "/",
@@ -22,8 +30,4 @@ activityInstanceRoute.post(
 //   putActivityInstances
 // );
 
-activityInstanceRoute.get("/", getActivityInstances);
-
 //activityInstanceRoute.delete("/", deleteInstancePostRequestSchema);
-
-module.exports = activityInstanceRoute;

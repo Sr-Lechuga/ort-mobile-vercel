@@ -3,6 +3,7 @@ const { ACTIVITY_INSTANCE_STATUS } = require("../utils/constants");
 
 const activityInstanceSchema = new mongoose.Schema(
   {
+    owner: { type: mongoose.Schema.ObjectId, ref: "Organizer", required: true },
     activity: {
       type: mongoose.Schema.ObjectId,
       ref: "Activity",
@@ -47,7 +48,7 @@ const activityInstanceSchema = new mongoose.Schema(
     },
     quota: {
       type: Number,
-      min: [0, "La cantidad de inscriptos debe ser positiva"]
+      min: [0, "La cantidad maxima de inscriptos debe ser positiva"]
     }
     //TODO: Update schemas logic
     /*inscriptions: {

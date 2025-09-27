@@ -1,5 +1,9 @@
 const Activity = require("../models/activity.model");
 
+const findActivityById = async (id) => {
+  return await Activity.findById(id)
+}
+
 const insertActivity = async (activityData) => {
   await Activity.create(activityData);
 };
@@ -11,6 +15,7 @@ const findActivities = async (filters, pagination) => {
 };
 
 module.exports = {
+  findActivityById,
   findActivities,
   insertActivity,
 };

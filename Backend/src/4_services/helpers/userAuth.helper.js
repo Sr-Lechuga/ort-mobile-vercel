@@ -14,7 +14,7 @@ const userLogin = async (username, password, userType) => {
   if (!isCorrectPassword) return null
 
   const userData = { id: user._id, username: user.username, name: user.name }
-  const token = signToken(userData)
+  const token = signToken(userData, userType)
   return token
 }
 

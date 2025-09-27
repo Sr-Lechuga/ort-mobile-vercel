@@ -37,15 +37,12 @@ app.get("/test/organizers", async (req, res) => {
   return;
 });
 
-// Public Routes
+
 app.use("/", publicRouter); //Contains swagger and pong
 app.use("/auth", authRoute);
 app.use("/v1/actividades", activityRoute);
-
-// Private Routes
-app.use(verifySesion); // Session verify middleware
 app.use("/v1/organizer", organizerRoute);
-app.use("/v1/activity-instance", activityInstanceRoute);
+app.use("/v1/activity_instance", activityInstanceRoute);
 
 // Error Handler
 app.use(errorHandler);

@@ -1,12 +1,17 @@
 const {
   findActivities,
   insertActivity,
+  findActivityById,
 } = require("../5_repositories/activity.repository");
 const { createDate } = require("../utils/datesHandler");
 const {
   bufferElementLimit,
   bufferOffset,
 } = require("./helpers/requestParameters.helper");
+
+const activitySelectById = async (id) => {
+  return await findActivityById(id)
+}
 
 const activitiesSelect = async (requestQuery) => {
   const filters = {};
@@ -47,6 +52,7 @@ const activityInsert = async (activityData) => {
 };
 
 module.exports = {
+  activitySelectById,
   activitiesSelect,
   activityInsert,
 };

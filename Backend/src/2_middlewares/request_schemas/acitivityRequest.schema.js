@@ -9,7 +9,6 @@ const activityPostRequestSchema = joi.object({
     "string.base": "El título debe ser un texto",
     "any.required": "El título es requerido",
   }),
-
   categories: joi
     .array()
     .items(
@@ -30,18 +29,15 @@ const activityPostRequestSchema = joi.object({
       "array.max": "Se pueden ingresar hasta 3 categorías",
       "any.required": "Las categorías son requeridas",
     }),
-
   description: joi
     .string()
     .messages({ "string.base": "La descripción debe ser un texto" }),
-
   date: joi.date().iso().messages({
     "date.base":
       "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
     "date.format":
       "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
   }),
-
   status: joi
     .string()
     .valid(...ACTIVITY_STATUS)
@@ -49,7 +45,6 @@ const activityPostRequestSchema = joi.object({
       "any.only": "El estado ingresado no es correcto",
       "string.base": "El estado debe ser un texto",
     }),
-
   location: joi
     .object({
       country: joi.string().max(25).required().messages({
@@ -73,7 +68,6 @@ const activityPostRequestSchema = joi.object({
       "object.base": "La ubicación debe ser un objeto",
       "any.required": "La ubicación es requerida",
     }),
-
   locationCoordinates: joi
     .object({
       type: joi.string().valid("Point").required().messages({
