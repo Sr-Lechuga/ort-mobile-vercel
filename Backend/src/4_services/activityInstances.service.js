@@ -3,31 +3,11 @@ const {
   insertActivityInstances,
 } = require("../5_repositories/activityInstance.repository");
 const { createDate } = require("../utils/datesHandler");
-
-const _bufferElementLimit = (limit) => {
-  return limit <= 0 || limit > 20 ? 20 : limit;
-};
-
-const _getOffset = (page, limit) => {
-  return (parseInt(page) - 1) * parseInt(limit);
-};
-
-const _geoLocationRadiusFilter = (lat, lng, radius) => {
-  if (lat && lng && radius) {
-    return {
-      geoLocation: {
-        $near: {
-          $geometry: {
-            type: "Point",
-            coordinates: [parseFloat(lng), parseFloat(lat)],
-          },
-          $maxDistance: parseInt(radius, 10), // in meters
-        },
-      },
-    };
-  }
-  return null;
-};
+const {
+  bufferOffset,
+  bufferElementLimit,
+  geoLocationRadiusFilter,
+} = require("./helpers/requestParameters.helper");
 
 const activityInstancesSelect = async (parameters) => {
   const filters = {};
@@ -43,9 +23,9 @@ const activityInstancesSelect = async (parameters) => {
     limit = 20,
   } = parameters;
 
-  const geoLocationFilter = _geoLocationRadiusFilter(lat, lng, radius);
-  const elements = _bufferElementLimit(limit);
-  const offset = _getOffset(page, elements);
+  const geoLocationFilter = geoLocationRadiusFilter(lat, lng, radius);
+  const elements = bufferElementLimit(limit);
+  const offset = bufferOffset(page, elements);
   const pagination = { skip: offset, limit: elements };
 
   if (status) filters.status = status;

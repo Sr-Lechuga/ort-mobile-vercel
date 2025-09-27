@@ -30,8 +30,8 @@ const postActivityInstances = async (req, res) => {
       message: "La instancia de la actividad se creo satisfactoriamente",
     });
   } catch (err) {
-    //console.log("=====> ERROR ON CREATE ACTIVITY INSTANCES: ", err);
-    res.status(500).json({ message: "Algo no salió correctamente" });
+    err.placeOfError = "Error al crear una instancia de actividad";
+    next(err);
   }
 };
 
@@ -58,8 +58,8 @@ const getActivityInstances = async (req, res) => {
     }
     res.status(200).json({ activityInstances });
   } catch (err) {
-    //console.log("=====> ERROR ON GET ACTIVITY INSTANCES: ", err);
-    res.status(500).json({ message: "Algo no salió correctamente" });
+    err.placeOfError = "Error en obtener instancias de actividades";
+    next(err);
   }
 };
 
