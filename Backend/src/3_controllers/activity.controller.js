@@ -1,4 +1,10 @@
-const { activitiesSelect } = require("../4_services/activity.service");
+const {
+  activityPostRequestSchema,
+} = require("../2_middlewares/request_schemas/acitivityRequest.schema");
+const {
+  activitiesSelect,
+  activityInsert,
+} = require("../4_services/activity.service");
 
 const getActivities = async (req, res) => {
   try {
@@ -12,6 +18,40 @@ const getActivities = async (req, res) => {
   }
 };
 
+const postActivity = async (req, res) => {
+  const {
+    title,
+    categories,
+    description,
+    date,
+    status,
+    location,
+    locationCoordinates,
+  } = req.body;
+
+  try {
+    const newActivity = {
+      title,
+      categories,
+      description,
+      date,
+      status,
+      location,
+      locationCoordinates,
+    };
+
+    await activityInsert(newActivityInstance);
+
+    res.status(201).json({
+      message: "La actividad se creo satisfactoriamente",
+    });
+  } catch (err) {
+    err.placeOfError = "Error al crear una actividad";
+    next(err);
+  }
+};
+
 module.exports = {
   getActivities,
+  postActivity,
 };

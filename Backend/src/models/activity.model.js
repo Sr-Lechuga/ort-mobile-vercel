@@ -24,27 +24,31 @@ const activitySchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (categories) {
-          return categories?.length <= 3;
+          return 1 <= categories?.length && categories?.length <= 3;
         },
         message: "La actividad puede tener hasta un máximo de 3 categorias",
       },
     },
     description: { type: String },
     date: { type: Date },
-    status: { type: String, enum: [...ACTIVITY_STATUS], default: "inactiva" },
+    status: { type: String, enum: [...ACTIVITY_STATUS], default: "programado" },
     instances: {
       type: [
         {
-          id: { type: mongoose.Schema.ObjectId, ref: "ActivityInstance", required: true },
-          date: { type: Date }
-        }
+          id: {
+            type: mongoose.Schema.ObjectId,
+            ref: "ActivityInstance",
+            required: true,
+          },
+          date: { type: Date },
+        },
       ],
       default: [],
     },
     location: {
       country: { type: String, required: true, maxLength: 25 },
       city: { type: String, required: true, maxLength: 25 },
-      address: { type: String, required: true, maxLength: 255 }
+      address: { type: String, required: true, maxLength: 255 },
     },
     locationCoordinates: {
       type: {
@@ -62,7 +66,7 @@ const activitySchema = new mongoose.Schema(
           message: "Las coordenadas deben ser [longitud, latitud]",
         },
       },
-    }
+    },
   },
   {
     // Options

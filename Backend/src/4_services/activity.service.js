@@ -1,34 +1,52 @@
-const { findActivities } = require("../5_repositories/activity.repository")
-const { createDate } = require("../utils/datesHandler")
+const {
+  findActivities,
+  insertActivity,
+} = require("../5_repositories/activity.repository");
+const { createDate } = require("../utils/datesHandler");
+const {
+  bufferElementLimit,
+  bufferOffset,
+} = require("./helpers/requestParameters.helper");
 
 const activitiesSelect = async (requestQuery) => {
-  const filters = {}
-  const { category, location, minDate, maxDate, page = 1, limit = 10 } = requestQuery
+  const filters = {};
+  const {
+    category,
+    location,
+    minDate,
+    maxDate,
+    page = 1,
+    limit = 10,
+  } = requestQuery;
 
-  if (limit <= 0 || limit > 10) limit = 10
-  const skip = (parseInt(page) - 1) * parseInt(limit)
-  const pagination = { skip, limit }
+  // -------------------------------------------------------------------------------- Filters
+  if (category) filters.category = category;
+  if (location) filters.location = new RegExp(location, "i"); // 'i' = Case insensitive
 
-  if (category) filters.category = category
-  if (location) filters.location = new RegExp(location, 'i') // 'i' = Case insensitive
   if (minDate) {
-    const isValid = createDate(minDate)
-    if (isValid) filters.date = { $gte: isValid }
+    const isValid = createDate(minDate);
+    if (isValid) filters.date = { $gte: isValid };
   }
   if (maxDate) {
-    const isValid = createDate(maxDate)
-    if (isValid) filters.date = { ...(filters.date || {}), $lte: isValid }
+    const isValid = createDate(maxDate);
+    if (isValid) filters.date = { ...(filters.date || {}), $lte: isValid };
   }
 
-  const activities = await findActivities(filters, pagination)
-  return activities
-}
+  // -------------------------------------------------------------------------------- Pagination
+  let elements = bufferElementLimit(limit);
+  let offset = bufferOffset(page, limit);
+  const pagination = { skip: offset, limit: elements };
 
-const activityInsert = async (newActivity) => {
+  // -------------------------------------------------------------------------------- Request
+  const activities = await findActivities(filters, pagination);
+  return activities;
+};
 
-}
+const activityInsert = async (activityData) => {
+  await insertActivity(activityData);
+};
 
 module.exports = {
   activitiesSelect,
-  activityInsert
-}
+  activityInsert,
+};
