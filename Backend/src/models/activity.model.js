@@ -30,7 +30,7 @@ const activitySchema = new mongoose.Schema(
       },
     },
     description: { type: String },
-    date: { type: Date },
+    date: { type: Date, default: null },
     status: { type: String, enum: [...ACTIVITY_STATUS], default: "programado" },
     instances: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true }],

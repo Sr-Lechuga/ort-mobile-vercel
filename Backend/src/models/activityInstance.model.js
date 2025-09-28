@@ -84,7 +84,8 @@ activityInstanceSchema.post("save", async function (doc, next) {
   try {
     await mongoose.model("Activity").findByIdAndUpdate(
       doc.activity,
-      { $push: { instanceId: doc._id } }
+      { $push: { instanceId: doc._id } },
+      { $min: { date: doc.startDate } }
     )
     next()
   }

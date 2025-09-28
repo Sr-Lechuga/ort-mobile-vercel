@@ -5,7 +5,13 @@ const findActivityById = async (id) => {
 }
 
 const insertActivity = async (activityData) => {
-  await Activity.create(activityData);
+  const newActivity = await Activity.create(activityData);
+  return newActivity
+};
+
+const updateActivity = async (id, activityData) => {
+  const newData = await Activity.findByIdAndUpdate(id, activityData);
+  return newData
 };
 
 const findActivities = async (filters, pagination) => {
@@ -18,4 +24,5 @@ module.exports = {
   findActivityById,
   findActivities,
   insertActivity,
+  updateActivity
 };

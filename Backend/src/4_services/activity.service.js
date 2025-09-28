@@ -2,6 +2,7 @@ const {
   findActivities,
   insertActivity,
   findActivityById,
+  updateActivity,
 } = require("../5_repositories/activity.repository");
 const { createDate } = require("../utils/datesHandler");
 const {
@@ -48,11 +49,18 @@ const activitiesSelect = async (requestQuery) => {
 };
 
 const activityInsert = async (activityData) => {
-  await insertActivity(activityData);
+  const newActivity = await insertActivity(activityData);
+  return newActivity
+};
+
+const activityUpdate = async (activityId, activityData) => {
+  const newData = await updateActivity(activityId, activityData);
+  return newData
 };
 
 module.exports = {
   activitySelectById,
   activitiesSelect,
   activityInsert,
+  activityUpdate
 };

@@ -1,6 +1,6 @@
 const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription } = require("../4_services/activityInstances.service");
-const { isActivityOwner } = require("./helpers/ownership.helper");
+const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
   try {
@@ -25,24 +25,37 @@ const postActivity = async (req, res, next) => {
   }
 };
 
+const patchActivity = async (req, res, next) => {
+  try {
+    const { activityId } = req.params
+
+    // OWNERSHIP CHECK
+    const isOwner = checkOwnership(res, activitySelectById, activityId, "Activity", req.session.id)
+
+    if (isOwner) {
+      const newActivityData = { ...req.body }
+      const newData = await activityInsert(activityId, newActivityData)
+      res.status(201).json({ newData })
+    }
+  }
+  catch (err) {
+    err.placeOfError = "Error en editar (patch) actividad"
+    next(err)
+  }
+};
+
 const postActivityInstance = async (req, res, next) => {
   try {
-    const { id } = req.params // Activity Id
+    const { activityId } = req.params
 
-    const activity = await activitySelectById(id)
-    if (!activity) {
-      res.status(400).json({ message: "La actividad no existe o es incorrecta" })
-      return
-    }
     // OWNERSHIP CHECK
-    if (!isActivityOwner(activity, req.session.id)) {
-      res.status(409).json({ message: "No puedes generar la instancia porque la actividad no te pertenece" })
-      return
-    }
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Activity", req.session.id)
 
-    const newActivityInstance = { activity: id, ...req.body }
-    const insertedActivityInstance = await activityInstanceInsert(newActivityInstance)
-    res.status(201).json({ insertedActivityInstance })
+    if (isOwner) {
+      const newActivityInstance = { activity: id, ...req.body }
+      const insertedActivityInstance = await activityInstanceInsert(newActivityInstance)
+      res.status(201).json({ insertedActivityInstance })
+    }
   }
   catch (err) {
     err.placeOfError = "Error en insertar instancia de actividad"
@@ -74,6 +87,7 @@ const postInstanceInscription = async (req, res, next) => {
 module.exports = {
   getActivities,
   postActivity,
+  patchActivity,
   postActivityInstance,
   postInstanceInscription
 };
