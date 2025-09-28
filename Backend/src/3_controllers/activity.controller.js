@@ -1,8 +1,8 @@
 const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
-const { activityInstanceInsert } = require("../4_services/activityInstances.service");
+const { activityInstanceInsert, activityInstanceAddInscription } = require("../4_services/activityInstances.service");
 const { isActivityOwner } = require("./helpers/ownership.helper");
 
-const getActivities = async (req, res) => {
+const getActivities = async (req, res, next) => {
   try {
     const activities = await activitiesSelect(req.query);
     res.status(200).json({ activities });
@@ -12,7 +12,7 @@ const getActivities = async (req, res) => {
   }
 };
 
-const postActivity = async (req, res) => {
+const postActivity = async (req, res, next) => {
   try {
     const { id } = req.session
     const newActivity = { owner: id, ...req.body }
@@ -25,7 +25,7 @@ const postActivity = async (req, res) => {
   }
 };
 
-const postActivityInstance = async (req, res) => {
+const postActivityInstance = async (req, res, next) => {
   try {
     const { id } = req.params // Activity Id
 
@@ -50,10 +50,32 @@ const postActivityInstance = async (req, res) => {
   }
 }
 
+const postInstanceInscription = async (req, res, next) => {
+  try {
+    const volunteerId = req.session.id
+    const { activityId, instanceId } = req.params
+
+    if (!volunteerId || !activityId || !instanceId) {
+      res.status(400).json({ message: "Faltan datos" })
+    }
+
+    const newInscription = await activityInstanceAddInscription(instanceId, volunteerId)
+    res.status(200).json({
+      message: "Inscripción realizada correctamente",
+      inscription: newInscription
+    })
+  }
+  catch (err) {
+    err.placeOfError = "Error en inscripcion de voluntario en instancia"
+    next(err)
+  }
+}
+
 module.exports = {
   getActivities,
   postActivity,
-  postActivityInstance
+  postActivityInstance,
+  postInstanceInscription
 };
 
 /*

@@ -16,7 +16,7 @@ const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require("../utils/constants");
 const activitySchema = new mongoose.Schema(
   {
     // Fields
-    owner: { type: mongoose.Schema.ObjectId, ref: "Organizer", required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true },
     title: { type: String, required: true },
     categories: {
       type: [String],
@@ -33,16 +33,7 @@ const activitySchema = new mongoose.Schema(
     date: { type: Date },
     status: { type: String, enum: [...ACTIVITY_STATUS], default: "programado" },
     instances: {
-      type: [
-        {
-          id: {
-            type: mongoose.Schema.ObjectId,
-            ref: "ActivityInstance",
-            required: true,
-          },
-          date: { type: Date },
-        },
-      ],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true }],
       default: [],
     },
     location: {

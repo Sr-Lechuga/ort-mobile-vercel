@@ -1,7 +1,12 @@
 const ActivityInstance = require("../models/activityInstance.model");
 
-const insertActivityInstances = async (activityInstanceData) => {
-  await ActivityInstance.create(activityInstanceData);
+const findActivityInstanceById = async (id) => {
+  return await ActivityInstance.findById(id)
+}
+
+const insertActivityInstance = async (activityInstanceData) => {
+  const newActivityInstance = await ActivityInstance.create(activityInstanceData);
+  return newActivityInstance
 };
 
 const findActivityInstances = async (filters, pagination) => {
@@ -11,6 +16,7 @@ const findActivityInstances = async (filters, pagination) => {
 };
 
 module.exports = {
-  insertActivityInstances,
+  insertActivityInstance,
   findActivityInstances,
+  findActivityInstanceById
 };

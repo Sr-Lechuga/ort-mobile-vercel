@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { VOLUNTEER_GENRE } = require('../utils/constants')
+const mongoose = require("mongoose")
+const { VOLUNTEER_GENRE } = require("../utils/constants")
 
 const volunteerSchema = new mongoose.Schema(
   {
@@ -9,11 +9,21 @@ const volunteerSchema = new mongoose.Schema(
     name: { type: String, required: true, minLength: 3, maxLength: 30 },
     lastname: { type: String, required: true, minLength: 3, maxLength: 30 },
     age: { type: Number, requird: true, min: 18, max: 110 },
-    genre: { type: String, enum: [...VOLUNTEER_GENRE] }
+    genre: { type: String, enum: [...VOLUNTEER_GENRE] },
+    inscriptions: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Inscription",
+          required: true
+        }
+      ],
+      default: []
+    }
   },
   {
     timestamps: true,
-    collection: 'volunteers',
+    collection: "volunteers",
     toJSON: {
       transform: function (doc, ret) {
         delete ret.__v
@@ -23,6 +33,6 @@ const volunteerSchema = new mongoose.Schema(
   }
 )
 
-const Volunteer = mongoose.model('Volunteer', volunteerSchema)
+const Volunteer = mongoose.model("Volunteer", volunteerSchema)
 
 module.exports = Volunteer

@@ -3,9 +3,9 @@ const { ACTIVITY_INSTANCE_STATUS } = require("../utils/constants");
 
 const activityInstanceSchema = new mongoose.Schema(
   {
-    owner: { type: mongoose.Schema.ObjectId, ref: "Organizer", required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true },
     activity: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Activity",
       required: true,
       validate: {
@@ -49,17 +49,8 @@ const activityInstanceSchema = new mongoose.Schema(
     quota: {
       type: Number,
       min: [0, "La cantidad maxima de inscriptos debe ser positiva"]
-    }
-    //TODO: Update schemas logic
-    /*inscriptions: {
-      type: [inscriptionSchema],
-      validate: {
-        validator: function (inscriptions) {
-          return inscriptions?.length >= 0;
-        },
-        message: "La cantidad de inscripciones debe ser positiva",
-      },
-    },*/
+    },
+    inscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }]
     //TODO: Update schemas logic
     /*last_comments: {
       type: [commentSchema],
@@ -88,6 +79,20 @@ activityInstanceSchema.index(
   { activity: 1, startDate: 1 },
   { unique: true, name: "uq_activity_start" }
 );
+
+activityInstanceSchema.post("save", async function (doc, next) {
+  try {
+    await mongoose.model("Activity").findByIdAndUpdate(
+      doc.activity,
+      { $push: { instanceId: doc._id } }
+    )
+    next()
+  }
+  catch (err) {
+    err.placeOfError = "post save en activityInstanceSchema"
+    next(err)
+  }
+})
 
 const ActivityInstance = mongoose.model(
   "ActivityInstance",

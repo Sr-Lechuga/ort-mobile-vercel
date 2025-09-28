@@ -1,15 +1,16 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 const inscriptionSchema = mongoose.Schema(
   {
-    volunteer: { type: mongoose.Schema.ObjectId, required: true },
-    accepted: { type: boolean, required: true, default: false },
+    volunteer: { type: mongoose.Schema.Types.ObjectId, ref: "Volunteer", required: true },
+    instance: { type: mongoose.Schema.Types.ObjectId, ref: "ActivityInstance", required: true },
+    accepted: { type: Boolean, required: true, default: false },
     date: { type: Date, required: true, default: Date.now },
-    assisted: { type: boolean, required: true, default: false }
+    assisted: { type: Boolean, required: true, default: false }
   },
   {
     timestamps: true,
-    collection: 'inscriptions',
+    collection: "inscriptions",
     toJSON: {
       transform: function (doc, ret) {
         delete ret.__v
@@ -19,6 +20,23 @@ const inscriptionSchema = mongoose.Schema(
   }
 )
 
-const Inscription = mongoose.model('Inscription', inscriptionSchema)
+inscriptionSchema.post("save", async function (doc, next) {
+  try {
+    await mongoose.model("ActivityInstance").findByIdAndUpdate(
+      doc.instance,
+      { $push: { inscriptions: doc._id } }
+    );
+    await mongoose.model("Volunteer").findByIdAndUpdate(
+      doc.volunteer,
+      { $push: { inscriptions: doc._id } }
+    );
+    next();
+  } catch (err) {
+    err.placeOfError = "Post save en inscriptionSchema"
+    next(err);
+  }
+})
+
+const Inscription = mongoose.model("Inscription", inscriptionSchema)
 
 module.exports = Inscription
