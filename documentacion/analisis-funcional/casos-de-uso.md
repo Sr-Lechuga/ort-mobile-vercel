@@ -235,6 +235,43 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
+## UC-25 — Desinscribirse de Instancia
+
+**Código:** UC-25
+
+**Requerimientos relacionados:** RF-25, RF-05, RF-14
+
+**Descripción:** Permitir que un voluntario cancele su inscripción en una instancia de actividad antes de que comience, liberando el cupo para otros voluntarios.
+
+**Pre-condiciones:** Voluntario autenticado; inscrito en la instancia; instancia no ha comenzado aún.
+
+**Post-condiciones:** Inscripción cancelada; cupo liberado; notificación enviada al centro; voluntario removido de la lista de inscriptos.
+
+**Secuencia normal:**
+
+1. Voluntario accede a sus inscripciones activas.
+2. Selecciona la instancia de la cual desea desinscribirse.
+3. Confirma la cancelación de la inscripción.
+4. Sistema valida que la instancia no haya comenzado.
+5. Sistema actualiza el estado de la inscripción a "cancelada".
+6. Sistema decrementa el contador de inscriptos de la instancia.
+7. Sistema notifica al centro sobre la desinscripción.
+8. Si hay lista de espera, se notifica al siguiente voluntario en espera.
+
+**Secuencias alternativas — Actor:**
+
+- A1: Voluntario cancela la operación → no se realiza la desinscripción.
+
+**Secuencias alternativas — Sistema:**
+
+- S1: La instancia ya comenzó → rechaza la desinscripción y muestra mensaje explicativo.
+- S2: La inscripción ya está cancelada → muestra estado actual.
+- S3: Error al actualizar la base de datos → muestra error y permite reintento.
+
+**Atributos/Validaciones:** validar que la instancia no haya comenzado, actualizar contadores, notificaciones automáticas, liberación de cupo.
+
+---
+
 ## UC-09 — Publicar Comentario y Rating
 
 **Código:** UC-09
