@@ -1,5 +1,11 @@
 const ActivityInstance = require("../models/activityInstance.model");
 
+const findActivityInstances = async (filters, pagination) => {
+  const { skip, limit } = pagination;
+  const results = await ActivityInstance.find(filters).skip(skip).limit(limit);
+  return results;
+};
+
 const findActivityInstanceById = async (id) => {
   return await ActivityInstance.findById(id)
 }
@@ -9,14 +15,14 @@ const insertActivityInstance = async (activityInstanceData) => {
   return newActivityInstance
 };
 
-const findActivityInstances = async (filters, pagination) => {
-  const { skip, limit } = pagination;
-  const results = await ActivityInstance.find(filters).skip(skip).limit(limit);
-  return results;
+const updateActivityInstance = async (id, activityInstanceData) => {
+  const newData = await ActivityInstance.findByIdAndUpdate(id, activityInstanceData);
+  return newData
 };
 
 module.exports = {
-  insertActivityInstance,
   findActivityInstances,
-  findActivityInstanceById
+  findActivityInstanceById,
+  insertActivityInstance,
+  updateActivityInstance
 };

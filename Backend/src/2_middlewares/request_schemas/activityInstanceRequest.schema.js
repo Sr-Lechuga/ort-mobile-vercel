@@ -75,7 +75,7 @@ const activityInstancePostRequestSchema = joi.object({
 });
 
 // Esquema para actualizar una instancia de actividad
-const activityInstancePutRequestSchema = joi.object({
+const activityInstancePatchRequestSchema = joi.object({
   startDate: joi.date().iso().min("now").messages({
     "date.base": "La fecha de inicio debe ser una fecha válida en formato ISO",
     "date.format":
@@ -129,5 +129,5 @@ const activityInstancePutRequestSchema = joi.object({
 
 module.exports = {
   activityInstancePostRequestSchema,
-  activityInstancePutRequestSchema,
+  activityInstancePatchRequestSchema,
 };

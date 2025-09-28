@@ -1,5 +1,5 @@
 const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
-const { activityInstanceInsert, activityInstanceAddInscription } = require("../4_services/activityInstances.service");
+const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate } = require("../4_services/activityInstances.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
@@ -30,7 +30,7 @@ const patchActivity = async (req, res, next) => {
     const { activityId } = req.params
 
     // OWNERSHIP CHECK
-    const isOwner = checkOwnership(res, activitySelectById, activityId, "Activity", req.session.id)
+    const isOwner = checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id)
 
     if (isOwner) {
       const newActivityData = { ...req.body }
@@ -49,12 +49,31 @@ const postActivityInstance = async (req, res, next) => {
     const { activityId } = req.params
 
     // OWNERSHIP CHECK
-    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Activity", req.session.id)
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id)
 
     if (isOwner) {
       const newActivityInstance = { activity: id, ...req.body }
       const insertedActivityInstance = await activityInstanceInsert(newActivityInstance)
       res.status(201).json({ insertedActivityInstance })
+    }
+  }
+  catch (err) {
+    err.placeOfError = "Error en insertar instancia de actividad"
+    next(err)
+  }
+}
+
+const patchActivityInstance = async (req, res, next) => {
+  try {
+    const { activityId, instanceId } = req.params
+
+    // OWNERSHIP CHECK
+    const isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id)
+
+    if (isOwner) {
+      const newActivityInstanceData = { ...req.body }
+      const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData)
+      res.status(201).json({ newData })
     }
   }
   catch (err) {
@@ -89,6 +108,7 @@ module.exports = {
   postActivity,
   patchActivity,
   postActivityInstance,
+  patchActivityInstance,
   postInstanceInscription
 };
 
