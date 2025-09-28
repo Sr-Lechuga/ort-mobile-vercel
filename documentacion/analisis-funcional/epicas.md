@@ -28,7 +28,9 @@
 
 3. UC-08 Certificar Asistencia / Marcar asistencia
 
-4. UC-19 Exportar Historial de Participación (como deliverable)
+4. UC-25 Desinscribirse de Instancia
+
+5. UC-19 Exportar Historial de Participación (como deliverable)
 
 # Feedback & Reputación
 

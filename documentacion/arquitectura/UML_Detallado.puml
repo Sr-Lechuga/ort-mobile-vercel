@@ -4,60 +4,63 @@
 entity "Voluntario" as Voluntario {
   *id_voluntario : int
   --
-  nombre : string
-  apellido : string
   username : string
-  correo : string
-  edad : int
-  genero : string
-  idioma : string
+  email : string
+  password : string
+  name : string
+  lastname : string
+  age : int
+  genre : string
   fecha_registro : datetime
 }
 
 entity "Organizador" as Organizador {
   *id_centro : int
   --
-  nombre : string
-  correo : string
-  telefono : string
-  redes_sociales : string
-  persona_contacto : string
-  descripcion : text
-  direccion : string
-  latitud : decimal
-  longitud : decimal
+  username : string
+  email : string
+  contactEmail : string
+  password : string
+  name : string
+  telephone : string
+  social : string
+  location : string
+  lat : decimal
+  lng : decimal
 }
 
 entity "Actividad" as Actividad {
   *id_actividad : int
   --
-  nombre : string
-  descripcion : text
-  imagen : string
-  idioma : string
-  estado : string
-  inscripcion_abierta : boolean
-  cupo : int
+  owner : Organizador
+  title : string
+  description : text
+  date : datetime
+  status : string
+  location : string
+  locationCoordinates : string
+  instances : InstanciaActividad
 }
 
 entity "InstanciaActividad" as Instancia {
   *id_instancia : int
   --
-  fecha_hora : datetime
-  duracion : int
-  direccion : string
-  latitud : decimal
-  longitud : decimal
-  estado : string
-  cantidad_inscriptos : int
+  owner : Organizador
+  activity : Actividad
+  date : datetime
+  duration : int
+  status : string
+  inscriptionsAmount : int
+  quota : int
 }
 
 entity "Inscripcion" as Inscripcion {
   *id_inscripcion : int
   --
-  estado : string
-  fecha_inscripcion : datetime
-  certificado_asistencia : boolean
+  volunteer : Voluntario
+  accepted : boolean
+  date : datetime
+  assisted : boolean
 }
 
 entity "Comentario" as Comentario {
