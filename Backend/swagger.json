@@ -1,1 +1,1189 @@
-{}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ORT Mobile - API de Voluntariado",
+    "description": "API para gestión de actividades de voluntariado, organizadores y voluntarios",
+    "version": "1.0.0",
+    "contact": {
+      "name": "ORT Mobile Team"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor de desarrollo - Nico"
+    },
+    {
+      "url": "http://localhost:4242",
+      "description": "Servidor de desarrollo - Jona"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Público",
+      "description": "Endpoints públicos"
+    },
+    {
+      "name": "Autenticación",
+      "description": "Endpoints para registro e inicio de sesión de voluntarios y organizadores"
+    },
+    {
+      "name": "Actividades",
+      "description": "Gestión de actividades de voluntariado"
+    },
+    {
+      "name": "Instancias de Actividades",
+      "description": "Gestión de instancias específicas de actividades"
+    },
+    {
+      "name": "Organizadores",
+      "description": "Gestión de organizadores"
+    },
+    {
+      "name": "Voluntarios",
+      "description": "Gestión de voluntarios"
+    }
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "tags": ["Público"],
+        "summary": "Verificar estado del servidor",
+        "description": "Endpoint simple para verificar que el servidor está funcionando",
+        "responses": {
+          "200": {
+            "description": "Servidor funcionando correctamente",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "pong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/swagger": {
+      "get": {
+        "tags": ["Público"],
+        "summary": "Documentación Swagger UI",
+        "description": "Interfaz web para explorar la documentación de la API",
+        "responses": {
+          "200": {
+            "description": "Interfaz Swagger UI cargada correctamente"
+          }
+        }
+      }
+    },
+    "/auth/voluntario/iniciar_sesion": {
+      "post": {
+        "tags": ["Autenticación"],
+        "summary": "Iniciar sesión como voluntario",
+        "description": "Autentica a un voluntario y devuelve un token de sesión",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Credenciales incorrectas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/voluntario/registro": {
+      "post": {
+        "tags": ["Autenticación"],
+        "summary": "Registrar nuevo voluntario",
+        "description": "Crea una nueva cuenta de voluntario en el sistema",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VolunteerSignUpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Voluntario registrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos de registro",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/organizador/iniciar_sesion": {
+      "post": {
+        "tags": ["Autenticación"],
+        "summary": "Iniciar sesión como organizador",
+        "description": "Autentica a un organizador y devuelve un token de sesión",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizerLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitoso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Credenciales incorrectas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/organizador/registro": {
+      "post": {
+        "tags": ["Autenticación"],
+        "summary": "Registrar nuevo organizador",
+        "description": "Crea una nueva cuenta de organizador en el sistema",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizerSignUpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organizador registrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos de registro",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actividades": {
+      "get": {
+        "tags": ["Actividades"],
+        "summary": "Obtener lista de actividades",
+        "description": "Obtiene todas las actividades disponibles con filtros opcionales",
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "query",
+            "description": "Filtrar por categorías",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "social",
+                  "ambiental",
+                  "educativo",
+                  "cultural",
+                  "salud",
+                  "emergencia"
+                ]
+              }
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filtrar por estado",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "inactiva",
+                "programado",
+                "cerrado",
+                "en curso",
+                "finalizado"
+              ]
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filtrar por ubicación",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de actividades obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivitiesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Actividades"],
+        "summary": "Crear nueva actividad",
+        "description": "Crea una nueva actividad de voluntariado (requiere autenticación de organizador)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Actividad creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos de la actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actividades/{id}/instancias": {
+      "post": {
+        "tags": ["Actividades"],
+        "summary": "Crear instancia de actividad",
+        "description": "Crea una nueva instancia de una actividad existente (requiere ser propietario)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityInstanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Instancia de actividad creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityInstanceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos o actividad no existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "No tienes permisos para crear instancias de esta actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actividades/{activityId}/instancias/{instanceId}/inscriptions": {
+      "post": {
+        "tags": ["Actividades"],
+        "summary": "Inscribirse a instancia de actividad",
+        "description": "Permite a un voluntario inscribirse a una instancia específica de actividad",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la instancia de actividad",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Inscripción realizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la inscripción",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/activity_instance": {
+      "get": {
+        "tags": ["Instancias de Actividades"],
+        "summary": "Obtener instancias de actividades",
+        "description": "Obtiene todas las instancias de actividades con filtros opcionales",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filtrar por ubicación",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filtrar por estado",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "confirmed", "cancelled"]
+            }
+          },
+          {
+            "name": "minDate",
+            "in": "query",
+            "description": "Fecha mínima (ISO 8601)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "maxDate",
+            "in": "query",
+            "description": "Fecha máxima (ISO 8601)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página para paginación",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Límite de resultados por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitud para búsqueda geográfica",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitud para búsqueda geográfica",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radio de búsqueda en kilómetros",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de instancias obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityInstancesResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No hay instancias para mostrar"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "VolunteerLoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Nombre de usuario del voluntario"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 30,
+            "description": "Contraseña del voluntario"
+          }
+        }
+      },
+      "VolunteerSignUpRequest": {
+        "type": "object",
+        "required": [
+          "username",
+          "email",
+          "password",
+          "name",
+          "lastname",
+          "age"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Nombre de usuario único"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 70,
+            "description": "Correo electrónico único"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 30,
+            "description": "Contraseña"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Nombre del voluntario"
+          },
+          "lastname": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Apellido del voluntario"
+          },
+          "age": {
+            "type": "integer",
+            "minimum": 18,
+            "maximum": 110,
+            "description": "Edad del voluntario (debe ser mayor de edad)"
+          },
+          "genre": {
+            "type": "string",
+            "enum": ["hombre", "mujer", "no especificado"],
+            "description": "Género del voluntario (opcional)"
+          }
+        }
+      },
+      "OrganizerLoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Nombre de usuario del organizador"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 30,
+            "description": "Contraseña del organizador"
+          }
+        }
+      },
+      "OrganizerSignUpRequest": {
+        "type": "object",
+        "required": ["username", "email", "password", "name", "location"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Nombre de usuario único"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 70,
+            "description": "Correo electrónico único"
+          },
+          "contactEmail": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 70,
+            "description": "Correo de contacto (opcional)"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 30,
+            "description": "Contraseña"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "description": "Nombre del organizador"
+          },
+          "telephone": {
+            "type": "string",
+            "maxLength": 25,
+            "description": "Número de teléfono (opcional)"
+          },
+          "social": {
+            "type": "object",
+            "description": "Redes sociales (opcional)",
+            "properties": {
+              "instagram": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Usuario de Instagram"
+              },
+              "facebook": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Usuario de Facebook"
+              },
+              "linkedIn": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Usuario de LinkedIn"
+              },
+              "personal": {
+                "type": "string",
+                "maxLength": 120,
+                "description": "Sitio web personal"
+              }
+            }
+          },
+          "location": {
+            "type": "object",
+            "required": ["country", "city", "address"],
+            "properties": {
+              "country": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "País"
+              },
+              "city": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Ciudad"
+              },
+              "address": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Dirección"
+              },
+              "lat": {
+                "type": "number",
+                "description": "Latitud (opcional)"
+              },
+              "lng": {
+                "type": "number",
+                "description": "Longitud (opcional)"
+              }
+            }
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Inicio de sesión correcta"
+          },
+          "token": {
+            "type": "string",
+            "description": "Token JWT para autenticación"
+          }
+        }
+      },
+      "SignUpResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Usuario registrado correctamente. Puede iniciar sesión"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje de error"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje de éxito"
+          }
+        }
+      },
+      "ActivityRequest": {
+        "type": "object",
+        "required": ["title", "categories", "location", "locationCoordinates"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Título de la actividad"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "social",
+                "ambiental",
+                "educativo",
+                "cultural",
+                "salud",
+                "emergencia"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 3,
+            "description": "Categorías de la actividad (1-3 categorías)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción de la actividad (opcional)"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de la actividad (opcional)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "inactiva",
+              "programado",
+              "cerrado",
+              "en curso",
+              "finalizado"
+            ],
+            "description": "Estado de la actividad (opcional)"
+          },
+          "location": {
+            "type": "object",
+            "required": ["country", "city", "address"],
+            "properties": {
+              "country": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "País"
+              },
+              "city": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Ciudad"
+              },
+              "address": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Dirección"
+              }
+            }
+          },
+          "locationCoordinates": {
+            "type": "object",
+            "required": ["type", "coordinates"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["Point"],
+                "description": "Tipo de coordenadas (siempre 'Point')"
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "Coordenadas [longitud, latitud]"
+              }
+            }
+          }
+        }
+      },
+      "ActivityInstanceRequest": {
+        "type": "object",
+        "required": [
+          "startDate",
+          "duration",
+          "location",
+          "locationCoordinates",
+          "status"
+        ],
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha y hora de inicio de la instancia"
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440,
+            "description": "Duración en minutos (1-1440)"
+          },
+          "location": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "description": "Ubicación específica de la instancia"
+          },
+          "locationCoordinates": {
+            "type": "object",
+            "required": ["type", "coordinates"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["Point"],
+                "description": "Tipo de coordenadas (siempre 'Point')"
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "Coordenadas [longitud, latitud]"
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "confirmed", "cancelled"],
+            "description": "Estado de la instancia"
+          },
+          "inscriptionsAmount": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Cantidad de inscripciones (opcional, por defecto 0)"
+          }
+        }
+      },
+      "ActivitiesResponse": {
+        "type": "object",
+        "properties": {
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            }
+          }
+        }
+      },
+      "ActivityResponse": {
+        "type": "object",
+        "properties": {
+          "insertedActivity": {
+            "$ref": "#/components/schemas/Activity"
+          }
+        }
+      },
+      "ActivityInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "activityInstances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityInstance"
+            }
+          }
+        }
+      },
+      "ActivityInstanceResponse": {
+        "type": "object",
+        "properties": {
+          "insertedActivityInstance": {
+            "$ref": "#/components/schemas/ActivityInstance"
+          }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "ID único de la actividad"
+          },
+          "owner": {
+            "type": "string",
+            "description": "ID del organizador propietario"
+          },
+          "title": {
+            "type": "string",
+            "description": "Título de la actividad"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "social",
+                "ambiental",
+                "educativo",
+                "cultural",
+                "salud",
+                "emergencia"
+              ]
+            },
+            "description": "Categorías de la actividad"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción de la actividad"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de la actividad"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "inactiva",
+              "programado",
+              "cerrado",
+              "en curso",
+              "finalizado"
+            ],
+            "description": "Estado de la actividad"
+          },
+          "instances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID de la instancia"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Fecha de la instancia"
+                }
+              }
+            },
+            "description": "Instancias de la actividad"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "País"
+              },
+              "city": {
+                "type": "string",
+                "description": "Ciudad"
+              },
+              "address": {
+                "type": "string",
+                "description": "Dirección"
+              }
+            }
+          },
+          "locationCoordinates": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["Point"]
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "Coordenadas [longitud, latitud]"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de creación"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de última actualización"
+          }
+        }
+      },
+      "ActivityInstance": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "ID único de la instancia"
+          },
+          "owner": {
+            "type": "string",
+            "description": "ID del organizador propietario"
+          },
+          "activity": {
+            "type": "string",
+            "description": "ID de la actividad padre"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de la instancia"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duración en minutos"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "confirmed", "cancelled"],
+            "description": "Estado de la instancia"
+          },
+          "inscriptionsAmount": {
+            "type": "integer",
+            "description": "Cantidad de inscripciones"
+          },
+          "quota": {
+            "type": "integer",
+            "description": "Cupo máximo de inscripciones"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de creación"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de última actualización"
+          }
+        }
+      }
+    }
+  }
+}
