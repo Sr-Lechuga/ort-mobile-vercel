@@ -64,10 +64,10 @@ const volunteerSignUpRequestSchema = joi.object({
     .messages({
       "any.only": "El género ingresado no es correcto",
     }),
-  registrationDate: joi.date().required().messages({
-    "any.required": "La Fecha de registro es requerida",
-    "date.base": "La Fecha de registro no es válida",
-  }),
+  // registrationDate: joi.date().required().messages({
+  //   "any.required": "La Fecha de registro es requerida",
+  //   "date.base": "La Fecha de registro no es válida",
+  // }),
 });
 
 const organizerLoginRequestSchema = joi.object({
@@ -125,33 +125,21 @@ const organizerSignUpRequestSchema = joi.object({
     "string.max": "El Teléfono puede contener hasta 25 caracteres",
   }),
   social: joi.object({
-    instagram: joi
-      .string()
-      .max(25)
-      .messages({
-        "string.max":
-          "El usuario de red social puede contener hasta 25 caracteres",
-      }),
-    facebook: joi
-      .string()
-      .max(25)
-      .messages({
-        "string.max":
-          "El usuario de red social puede contener hasta 25 caracteres",
-      }),
-    linkedIn: joi
-      .string()
-      .max(25)
-      .messages({
-        "string.max":
-          "El usuario de red social puede contener hasta 25 caracteres",
-      }),
-    personal: joi
-      .string()
-      .max(120)
-      .messages({
-        "string.max": "El link personal puede contener hasta 120 caracteres",
-      }),
+    instagram: joi.string().max(25).messages({
+      "string.max":
+        "El usuario de red social puede contener hasta 25 caracteres",
+    }),
+    facebook: joi.string().max(25).messages({
+      "string.max":
+        "El usuario de red social puede contener hasta 25 caracteres",
+    }),
+    linkedIn: joi.string().max(25).messages({
+      "string.max":
+        "El usuario de red social puede contener hasta 25 caracteres",
+    }),
+    personal: joi.string().max(120).messages({
+      "string.max": "El link personal puede contener hasta 120 caracteres",
+    }),
   }),
   location: joi
     .object({
