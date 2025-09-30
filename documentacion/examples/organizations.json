@@ -1,0 +1,44 @@
+[
+  {
+    "username": "ccbarriosur",
+    "email": "ccbarriosur@gmail.com",
+    "contactEmail": "ccbarriosur@gmail.com",
+    "password": "ccbarriosur123",
+    "name": "Centro Cultural Barrio Sur",
+    "telephone": "59899123456",
+    "social": {
+      "instagram": "@ccbarriosur",
+      "facebook": "@ccbarriosur",
+      "linkedIn": "/ccbarriosur",
+      "personal": "https://ccbarriosur.com"
+    },
+    "location": {
+      "country": "Uruguay",
+      "city": "Montevideo",
+      "address": "Av. 18 de Julio 1670",
+      "lat": -34.903077,
+      "lng": -56.180523
+    }
+  },
+  {
+    "username": "crv",
+    "name": "Centro Raices Verdes",
+    "email": "crv@gmail.com",
+    "contactEmail": "crv@gmail.com",
+    "password": "crv123",
+    "telephone": "59899123456",
+    "social": {
+      "instagram": "@crv",
+      "facebook": "@crv",
+      "linkedIn": "/crv",
+      "personal": "https://crv.com"
+    },
+    "location": {
+      "country": "Uruguay",
+      "city": "Canelones",
+      "address": "Los Camalotes esq. Calle 2",
+      "lat": -34.854641,
+      "lng": -56.018665
+    }
+  }
+]

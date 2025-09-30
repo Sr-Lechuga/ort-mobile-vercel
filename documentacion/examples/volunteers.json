@@ -1,0 +1,29 @@
+[
+  {
+    "username": "mrodriguez",
+    "email": "mrodriguez@gmail.com",
+    "password": "Maria.123",
+    "name": "Maria",
+    "lastname": "Rodriguez",
+    "age": 25,
+    "genre": "mujer"
+  },
+  {
+    "username": "cpereira",
+    "email": "cpereira@gmail.com",
+    "password": "Carlos.123",
+    "name": "Carlos",
+    "lastname": "Pereira",
+    "age": 68,
+    "genre": "hombre"
+  },
+  {
+    "username": "scabrera",
+    "email": "scabrera@gmail.com",
+    "password": "Sofia.123",
+    "name": "Sofia",
+    "lastname": "Cabrera",
+    "age": 34,
+    "genre": "no especificado"
+  }
+]

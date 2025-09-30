@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Taller de Arte Urbano Comunitario",
+    "categories": ["cultural", "social"],
+    "description": "Taller práctico donde los participantes aprenderán técnicas de arte urbano y muralismo para embellecer espacios públicos del barrio.",
+    "date": "2025-02-15T10:00:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Montevideo",
+      "address": "Av. 18 de Julio 1670, Barrio Sur"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.180523, -34.903077]
+    }
+  },
+  {
+    "title": "Cine Debate: Identidad Afrodescendiente",
+    "categories": ["cultural", "educativo"],
+    "description": "Proyección de documentales sobre la cultura afrodescendiente en Uruguay, seguido de un debate moderado por especialistas.",
+    "date": "2025-02-22T19:00:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Montevideo",
+      "address": "Av. 18 de Julio 1670, Barrio Sur"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.180523, -34.903077]
+    }
+  },
+  {
+    "title": "Mercado Solidario Barrio Sur",
+    "categories": ["social"],
+    "description": "Feria comunitaria donde emprendedores locales pueden vender sus productos a precios accesibles.",
+    "date": "2025-03-01T09:00:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Montevideo",
+      "address": "Av. 18 de Julio 1670, Barrio Sur"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.180523, -34.903077]
+    }
+  },
+  {
+    "title": "Reforestación del Parque Los Camalotes",
+    "categories": ["ambiental", "social"],
+    "description": "Jornada de plantación de árboles nativos en el parque comunitario con charla sobre especies autóctonas.",
+    "date": "2025-02-20T08:00:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Canelones",
+      "address": "Parque Los Camalotes, Los Camalotes esq. Calle 2"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.018665, -34.854641]
+    }
+  },
+  {
+    "title": "Taller de Huerta Orgánica Familiar",
+    "categories": ["educativo", "ambiental"],
+    "description": "Aprende a crear y mantener tu propia huerta orgánica en casa. Incluye semillas y herramientas básicas.",
+    "date": "2025-02-25T14:00:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Canelones",
+      "address": "Centro Raices Verdes, Los Camalotes esq. Calle 2"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.018665, -34.854641]
+    }
+  },
+  {
+    "title": "Limpieza de Lago Calcagno",
+    "categories": ["ambiental", "social"],
+    "description": "Campaña de limpieza del lago local para preservar la biodiversidad acuática con educación ambiental.",
+    "date": "2025-03-05T09:30:00.000Z",
+    "status": "programado",
+    "location": {
+      "country": "Uruguay",
+      "city": "Canelones",
+      "address": "Lago Calcagno, zona Los Camalotes"
+    },
+    "locationCoordinates": {
+      "type": "Point",
+      "coordinates": [-56.010287, -34.849757]
+    }
+  }
+]
