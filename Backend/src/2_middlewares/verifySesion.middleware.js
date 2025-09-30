@@ -6,7 +6,7 @@ const verifySesion = async (req, res, next) => {
   const decodedUserData = verifyToken(token);
 
   if (!token || !decodedUserData) {
-    res.send(401).json({
+    res.status(401).json({
       message: "Sesión expirada o inválida. Por favor inicie sesión nuevamente",
     });
     return;
