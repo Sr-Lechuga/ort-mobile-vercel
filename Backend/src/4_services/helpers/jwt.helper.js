@@ -1,22 +1,21 @@
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 const signToken = (userData, userType) => {
-  const payload = { userType, ...userData }
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' })
-}
+  const payload = { userType, ...userData };
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+};
 
 const verifyToken = (token) => {
   try {
-    const decodedUserData = jwt.verify(token, process.env.JWT_SECRET)
-    return decodedUserData
+    const decodedUserData = jwt.verify(token, process.env.JWT_SECRET);
+    return decodedUserData;
+  } catch (err) {
+    console.log("===> ERROR VERIFYING TOKEN: ", err);
+    return null;
   }
-  catch (err) {
-    console.log('===> ERROR VERIFYING TOKEN: ', err)
-    return null
-  }
-}
+};
 
 module.exports = {
   signToken,
-  verifyToken
-}
+  verifyToken,
+};
