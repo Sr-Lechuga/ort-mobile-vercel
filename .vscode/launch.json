@@ -1,0 +1,42 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Backend - Node.js",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/Backend/index.js",
+      "cwd": "${workspaceFolder}/Backend",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "console": "integratedTerminal",
+      "restart": true,
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect"]
+    },
+    {
+      "name": "Debug Backend - Nodemon",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/Backend/index.js",
+      "cwd": "${workspaceFolder}/Backend",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "console": "integratedTerminal",
+      "restart": true,
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": ["--inspect"]
+    },
+    {
+      "name": "Debug Backend - Attach",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "restart": true,
+      "localRoot": "${workspaceFolder}/Backend",
+      "remoteRoot": "${workspaceFolder}/Backend"
+    }
+  ]
+}
