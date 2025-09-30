@@ -1,0 +1,124 @@
+[
+  {
+    "owner": "68db23cb124ef0b80f5b4f90",
+    "activity": "68db40c88a93743d7b9e1e0c",
+    "instances": [
+      {
+        "date": "2025-12-15T10:00:00.000Z",
+        "duration": 180,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 25
+      },
+      {
+        "date": "2025-12-22T10:00:00.000Z",
+        "duration": 180,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 25
+      }
+    ]
+  },
+  {
+    "owner": "68db23cb124ef0b80f5b4f90",
+    "activity": "68db40ff8a93743d7b9e1e0e",
+    "instances": [
+      {
+        "date": "2025-12-22T19:00:00.000Z",
+        "duration": 120,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 50
+      },
+      {
+        "owner": "68db23cb124ef0b80f5b4f90",
+        "activity": "68db40ff8a93743d7b9e1e0e",
+        "date": "2025-12-01T19:00:00.000Z",
+        "duration": 120,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 50
+      }
+    ]
+  },
+  {
+    "owner": "68db23cb124ef0b80f5b4f90",
+    "activity": "68db41118a93743d7b9e1e10",
+    "instances": [
+      {
+        "date": "2025-12-01T09:00:00.000Z",
+        "duration": 240,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 100
+      },
+      {
+        "date": "2025-12-15T09:00:00.000Z",
+        "duration": 240,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 100
+      }
+    ]
+  },
+  {
+    "owner": "68db23d8124ef0b80f5b4f92",
+    "activity": "68db41568a93743d7b9e1e13",
+    "instances": [
+      {
+        "date": "2025-12-20T08:00:00.000Z",
+        "duration": 300,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 30
+      },
+      {
+        "date": "2025-12-06T08:00:00.000Z",
+        "duration": 300,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 30
+      }
+    ]
+  },
+  {
+    "owner": "68db23d8124ef0b80f5b4f92",
+    "activity": "68db41608a93743d7b9e1e15",
+    "instances": [
+      {
+        "date": "2025-12-25T14:00:00.000Z",
+        "duration": 150,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 20
+      },
+      {
+        "date": "2025-12-11T14:00:00.000Z",
+        "duration": 150,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 20
+      }
+    ]
+  },
+  {
+    "owner": "68db23d8124ef0b80f5b4f92",
+    "activity": "68db416c8a93743d7b9e1e17",
+    "instances": [
+      {
+        "date": "2025-12-05T09:30:00.000Z",
+        "duration": 180,
+        "status": "confirmed",
+        "inscriptionsAmount": 0,
+        "quota": 40
+      },
+      {
+        "date": "2025-12-19T09:30:00.000Z",
+        "duration": 180,
+        "status": "pending",
+        "inscriptionsAmount": 0,
+        "quota": 40
+      }
+    ]
+  }
+]
