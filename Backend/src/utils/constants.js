@@ -16,7 +16,6 @@ const ACTIVITY_STATUS = [
   "en curso",
   "finalizado",
 ];
-const ACTIVITY_INSTANCE_STATUS = ["pending", "confirmed", "cancelled"];
 
 module.exports = {
   USER_VOLUNTEER,
@@ -26,3 +25,15 @@ module.exports = {
   ACTIVITY_STATUS,
   ACTIVITY_INSTANCE_STATUS,
 };
+
+/*
+const ACTIVITY_STATUS = [
+  "inactiva",
+  "programado",
+  "cerrado",
+  "en curso",
+  "finalizado",
+];
+
+  const ACTIVITY_INSTANCE_STATUS = ["pending", "confirmed", "cancelled"];
+*/

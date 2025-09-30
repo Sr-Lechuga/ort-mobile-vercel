@@ -5,9 +5,7 @@ const activityInstanceSchema = new mongoose.Schema(
   {
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true },
     activity: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Activity",
-      required: true,
+      type: mongoose.Schema.Types.ObjectId, ref: "Activity", required: true,
       validate: {
         // Validate activity exists, always an activity must exist to create an instance
         validator: async function (id) {
@@ -18,52 +16,38 @@ const activityInstanceSchema = new mongoose.Schema(
       },
     },
     date: {
-      type: Date,
-      required: true,
-      min: Date.now,
-      immutable: true,
+      type: Date, required: true, min: Date.now, immutable: true,
       validate: {
         validator: function (v) {
           return v >= new Date();
         },
         message: "La fecha de inicio debe ser la actual o una fecha futura",
-      },
+      }
     },
     duration: {
-      type: Number,
-      required: true,
+      type: Number, required: true,
       min: [1, "La duración mínima es 1 minuto"],
       max: [24 * 60, "La duración máxima es 1440 minutos (24 horas)"],
     },
-    status: {
-      type: String,
-      enum: [...ACTIVITY_INSTANCE_STATUS],
-      required: true,
-    },
-    inscriptionsAmount: {
-      type: Number,
-      required: true,
-      min: [0, "La cantidad de inscriptos debe ser positiva"],
-      default: 0,
-    },
-    quota: {
-      type: Number,
-      min: [0, "La cantidad maxima de inscriptos debe ser positiva"],
+
+    // INSCRIPTIONS LOGIC
+    inscriptionsOpen: { type: Boolean, required: true, default: true },
+    slots: {
+      type: Number, default: null,
+      validate: {
+        validator: function (value) {
+          if (value !== null && value !== undefined) return value > 0
+          return true
+        },
+        message: "El número máximo de cupos debe ser mayor a 0 (o vacío si no es por cupos)"
+      }
     },
     inscriptions: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }],
       default: [],
     },
-    //TODO: Update schemas logic
-    /*last_comments: {
-      type: [commentSchema],
-      validate: {
-        validator: function (comments) {
-          return comments?.length <= 20;
-        },
-        message: "Solo se permiten hasta 20 comentarios",
-      },
-    },*/
+    // END INSCRIPTIONS LOGIC
+
   },
   {
     timestamps: true,
@@ -93,3 +77,14 @@ activityInstanceSchema.post("save", async function (doc, next) {
 const ActivityInstance = mongoose.model("ActivityInstance", activityInstanceSchema);
 
 module.exports = ActivityInstance;
+
+//TODO: Update schemas logic
+/*last_comments: {
+  type: [commentSchema],
+  validate: {
+    validator: function (comments) {
+      return comments?.length <= 20;
+    },
+    message: "Solo se permiten hasta 20 comentarios",
+  },
+},*/
