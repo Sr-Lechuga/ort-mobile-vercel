@@ -4,7 +4,7 @@ const { getActivities, postActivity, postActivityInstance, postInstanceInscripti
 const { activityPostRequestSchema, activityPatchRequestSchema } = require("../2_middlewares/request_schemas/acitivityRequest.schema");
 const { activityInstancePostRequestSchema, activityInstancePatchRequestSchema } = require("../2_middlewares/request_schemas/activityInstanceRequest.schema");
 const payloadValidator = require("../2_middlewares/payloadValidator.middleware");
-const { USER_ORGANIZER } = require("../utils/constants");
+const { USER_ORGANIZER, USER_VOLUNTEER } = require("../utils/constants");
 const verifyAccessLevel = require("../2_middlewares/verifyAccessLevel.middleware");
 
 const activityRoute = express.Router();
