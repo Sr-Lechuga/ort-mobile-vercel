@@ -48,9 +48,12 @@ const activityInstanceSchema = new mongoose.Schema(
     },
     quota: {
       type: Number,
-      min: [0, "La cantidad maxima de inscriptos debe ser positiva"]
+      min: [0, "La cantidad maxima de inscriptos debe ser positiva"],
     },
-    inscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }]
+    inscriptions: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }],
+      default: [],
+    },
     //TODO: Update schemas logic
     /*last_comments: {
       type: [commentSchema],
@@ -75,29 +78,18 @@ const activityInstanceSchema = new mongoose.Schema(
 );
 
 //Make sure no inserts on same date for same activity
-activityInstanceSchema.index(
-  { activity: 1, startDate: 1 },
-  { unique: true, name: "uq_activity_start" }
-);
+activityInstanceSchema.index({ activity: 1, date: 1 }, { unique: true, name: "uq_activity_start" });
 
 activityInstanceSchema.post("save", async function (doc, next) {
   try {
-    await mongoose.model("Activity").findByIdAndUpdate(
-      doc.activity,
-      { $push: { instanceId: doc._id } },
-      { $min: { date: doc.startDate } }
-    )
-    next()
+    await mongoose.model("Activity").findByIdAndUpdate(doc.activity, { $push: { instanceId: doc._id } }, { $min: { date: doc.date } });
+    next();
+  } catch (err) {
+    err.placeOfError = "post save en activityInstanceSchema";
+    next(err);
   }
-  catch (err) {
-    err.placeOfError = "post save en activityInstanceSchema"
-    next(err)
-  }
-})
+});
 
-const ActivityInstance = mongoose.model(
-  "ActivityInstance",
-  activityInstanceSchema
-);
+const ActivityInstance = mongoose.model("ActivityInstance", activityInstanceSchema);
 
 module.exports = ActivityInstance;

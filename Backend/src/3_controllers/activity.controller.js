@@ -14,94 +14,89 @@ const getActivities = async (req, res, next) => {
 
 const postActivity = async (req, res, next) => {
   try {
-    const { id } = req.session
-    const newActivity = { owner: id, ...req.body }
-    const insertedActivity = await activityInsert(newActivity)
-    res.status(201).json({ insertedActivity })
-  }
-  catch (err) {
-    err.placeOfError = "Error en insertar actividad"
-    next(err)
+    const { id } = req.session;
+    const newActivity = { owner: id, ...req.body };
+    const insertedActivity = await activityInsert(newActivity);
+    res.status(201).json({ insertedActivity });
+  } catch (err) {
+    err.placeOfError = "Error en insertar actividad";
+    next(err);
   }
 };
 
 const patchActivity = async (req, res, next) => {
   try {
-    const { activityId } = req.params
+    const { activityId } = req.params;
 
     // OWNERSHIP CHECK
-    const isOwner = checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id)
+    const isOwner = checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
 
     if (isOwner) {
-      const newActivityData = { ...req.body }
-      const newData = await activityInsert(activityId, newActivityData)
-      res.status(201).json({ newData })
+      const newActivityData = { ...req.body };
+      const newData = await activityInsert(activityId, newActivityData);
+      res.status(201).json({ newData });
     }
-  }
-  catch (err) {
-    err.placeOfError = "Error en editar (patch) actividad"
-    next(err)
+  } catch (err) {
+    err.placeOfError = "Error en editar (patch) actividad";
+    next(err);
   }
 };
 
 const postActivityInstance = async (req, res, next) => {
   try {
-    const { activityId } = req.params
+    const { activityId } = req.params;
 
     // OWNERSHIP CHECK
-    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id)
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
 
     if (isOwner) {
-      const newActivityInstance = { activity: id, ...req.body }
-      const insertedActivityInstance = await activityInstanceInsert(newActivityInstance)
-      res.status(201).json({ insertedActivityInstance })
+      const newActivityInstance = { owner: req.session.id, activity: activityId, ...req.body };
+      const insertedActivityInstance = await activityInstanceInsert(newActivityInstance);
+      res.status(201).json({ insertedActivityInstance });
     }
+  } catch (err) {
+    err.placeOfError = "Error en insertar instancia de actividad";
+    next(err);
   }
-  catch (err) {
-    err.placeOfError = "Error en insertar instancia de actividad"
-    next(err)
-  }
-}
+};
 
 const patchActivityInstance = async (req, res, next) => {
   try {
-    const { activityId, instanceId } = req.params
+    const { activityId, instanceId } = req.params;
 
     // OWNERSHIP CHECK
-    const isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id)
+    const isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id);
 
     if (isOwner) {
-      const newActivityInstanceData = { ...req.body }
-      const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData)
-      res.status(201).json({ newData })
+      const newActivityInstanceData = { ...req.body };
+      const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData);
+      res.status(201).json({ newData });
     }
+  } catch (err) {
+    err.placeOfError = "Error en insertar instancia de actividad";
+    next(err);
   }
-  catch (err) {
-    err.placeOfError = "Error en insertar instancia de actividad"
-    next(err)
-  }
-}
+};
 
 const postInstanceInscription = async (req, res, next) => {
   try {
-    const volunteerId = req.session.id
-    const { activityId, instanceId } = req.params
+    const volunteerId = req.session.id;
+    const { activityId, instanceId } = req.params;
 
     if (!volunteerId || !activityId || !instanceId) {
-      res.status(400).json({ message: "Faltan datos" })
+      res.status(400).json({ message: "Faltan datos" });
     }
 
-    const newInscription = await activityInstanceAddInscription(instanceId, volunteerId)
+    const newInscription = await activityInstanceAddInscription(instanceId, volunteerId);
     res.status(200).json({
       message: "Inscripción realizada correctamente",
-      inscription: newInscription
-    })
+      inscription: newInscription,
+    });
+  } catch (err) {
+    err.placeOfError = "Error en inscripcion de voluntario en instancia";
+    next(err);
   }
-  catch (err) {
-    err.placeOfError = "Error en inscripcion de voluntario en instancia"
-    next(err)
-  }
-}
+};
 
 module.exports = {
   getActivities,
@@ -109,7 +104,7 @@ module.exports = {
   patchActivity,
   postActivityInstance,
   patchActivityInstance,
-  postInstanceInscription
+  postInstanceInscription,
 };
 
 /*
