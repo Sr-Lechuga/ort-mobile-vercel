@@ -33,7 +33,7 @@ const activitySchema = new mongoose.Schema(
     date: { type: Date, default: null },
     status: { type: String, enum: [...ACTIVITY_STATUS], default: "programado" },
     instances: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Organizer", required: true }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ActivityInstance", required: true }],
       default: [],
     },
     location: {
