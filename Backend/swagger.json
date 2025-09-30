@@ -248,14 +248,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "social",
-                  "ambiental",
-                  "educativo",
-                  "cultural",
-                  "salud",
-                  "emergencia"
-                ]
+                "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
               }
             }
           },
@@ -266,13 +259,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "inactiva",
-                "programado",
-                "cerrado",
-                "en curso",
-                "finalizado"
-              ]
+              "enum": ["inactiva", "programado", "cerrado", "en curso", "finalizado"]
             }
           },
           {
@@ -632,14 +619,7 @@
       },
       "VolunteerSignUpRequest": {
         "type": "object",
-        "required": [
-          "username",
-          "email",
-          "password",
-          "name",
-          "lastname",
-          "age"
-        ],
+        "required": ["username", "email", "password", "name", "lastname", "age"],
         "properties": {
           "username": {
             "type": "string",
@@ -848,14 +828,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "social",
-                "ambiental",
-                "educativo",
-                "cultural",
-                "salud",
-                "emergencia"
-              ]
+              "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
             },
             "minItems": 1,
             "maxItems": 3,
@@ -872,13 +845,7 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "inactiva",
-              "programado",
-              "cerrado",
-              "en curso",
-              "finalizado"
-            ],
+            "enum": ["inactiva", "programado", "cerrado", "en curso", "finalizado"],
             "description": "Estado de la actividad (opcional)"
           },
           "location": {
@@ -926,15 +893,9 @@
       },
       "ActivityInstanceRequest": {
         "type": "object",
-        "required": [
-          "startDate",
-          "duration",
-          "location",
-          "locationCoordinates",
-          "status"
-        ],
+        "required": ["date", "duration", "status"],
         "properties": {
-          "startDate": {
+          "date": {
             "type": "string",
             "format": "date-time",
             "description": "Fecha y hora de inicio de la instancia"
@@ -944,32 +905,6 @@
             "minimum": 1,
             "maximum": 1440,
             "description": "Duración en minutos (1-1440)"
-          },
-          "location": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 255,
-            "description": "Ubicación específica de la instancia"
-          },
-          "locationCoordinates": {
-            "type": "object",
-            "required": ["type", "coordinates"],
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": ["Point"],
-                "description": "Tipo de coordenadas (siempre 'Point')"
-              },
-              "coordinates": {
-                "type": "array",
-                "items": {
-                  "type": "number"
-                },
-                "minItems": 2,
-                "maxItems": 2,
-                "description": "Coordenadas [longitud, latitud]"
-              }
-            }
           },
           "status": {
             "type": "string",
@@ -981,6 +916,11 @@
             "minimum": 0,
             "default": 0,
             "description": "Cantidad de inscripciones (opcional, por defecto 0)"
+          },
+          "quota": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Cupo máximo de inscripciones (opcional)"
           }
         }
       },
@@ -1041,14 +981,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "social",
-                "ambiental",
-                "educativo",
-                "cultural",
-                "salud",
-                "emergencia"
-              ]
+              "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
             },
             "description": "Categorías de la actividad"
           },
@@ -1063,13 +996,7 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "inactiva",
-              "programado",
-              "cerrado",
-              "en curso",
-              "finalizado"
-            ],
+            "enum": ["inactiva", "programado", "cerrado", "en curso", "finalizado"],
             "description": "Estado de la actividad"
           },
           "instances": {
