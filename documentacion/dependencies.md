@@ -24,6 +24,12 @@ O utiliza el script ejecutable:
 - **Documentación**: https://www.npmjs.com/package/bcrypt
 - **Uso en el proyecto**: Encriptación de contraseñas de usuarios
 
+### cors (^2.8.5)
+
+- **Descripción**: Middleware de Express para habilitar CORS (Cross-Origin Resource Sharing)
+- **Documentación**: https://www.npmjs.com/package/cors
+- **Uso en el proyecto**: Permite peticiones desde diferentes orígenes (frontend en diferentes dominios/puertos)
+
 ### express (^5.1.0)
 
 - **Descripción**: Framework web minimalista para Node.js
