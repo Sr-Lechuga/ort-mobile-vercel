@@ -66,7 +66,7 @@ activityInstanceSchema.index({ activity: 1, date: 1 }, { unique: true, name: "uq
 
 activityInstanceSchema.post("save", async function (doc, next) {
   try {
-    await mongoose.model("Activity").findByIdAndUpdate(doc.activity, { $push: { instanceId: doc._id } }, { $min: { date: doc.date } });
+    await mongoose.model("Activity").findByIdAndUpdate(doc.activity, { $push: { instanceId: doc._id } });
     next();
   } catch (err) {
     err.placeOfError = "post save en activityInstanceSchema";

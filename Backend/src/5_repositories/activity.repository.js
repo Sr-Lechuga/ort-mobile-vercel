@@ -1,7 +1,7 @@
 const Activity = require("../models/activity.model");
 
 const findActivityById = async (id) => {
-  return await Activity.findById(id)
+  return await Activity.findById(id).populate("instances");
 }
 
 const insertActivity = async (activityData) => {
@@ -16,7 +16,7 @@ const updateActivity = async (id, activityData) => {
 
 const findActivities = async (filters, pagination) => {
   const { skip, limit } = pagination;
-  const results = await Activity.find(filters).skip(skip).limit(limit);
+  const results = await Activity.find(filters).skip(skip).limit(limit).populate("instances");
   return results;
 };
 

@@ -5,10 +5,7 @@ const {
   updateActivity,
 } = require("../5_repositories/activity.repository");
 const { createDate } = require("../utils/datesHandler");
-const {
-  bufferElementLimit,
-  bufferOffset,
-} = require("./helpers/requestParameters.helper");
+const { bufferElementLimit, bufferOffset } = require("./helpers/requestParameters.helper");
 
 const activitySelectById = async (id) => {
   return await findActivityById(id)

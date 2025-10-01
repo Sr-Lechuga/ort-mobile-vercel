@@ -30,6 +30,13 @@ const errorHandler = (err, req, res, next) => {
     return
   }
 
+  // Error personalizado por mensaje para cuando la Instancia no acepta Inscripciones
+  if (err.message.startsWith("ERROR 010")) {
+    const message = err.message.split(", ")[1]
+    res.status(409).json({ message })
+    return
+  }
+
   // Para loguear errores que no se estén controlando
   //logError(err)
   res.status(500).json({ message: "Algo no salió incorrectamente. Por favor intente nuevamente" })

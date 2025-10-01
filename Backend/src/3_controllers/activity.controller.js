@@ -69,7 +69,7 @@ const patchActivityInstance = async (req, res, next) => {
 
     if (isOwner) {
       const newActivityInstanceData = { ...req.body };
-      const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData);
+      const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData, activityId);
       res.status(201).json({ newData });
     }
   } catch (err) {
