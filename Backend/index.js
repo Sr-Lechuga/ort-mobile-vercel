@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const rateLimiter = require("./src/config/rateLimiter");
 const connectDB = require("./src/config/mongodb");
 const errorHandler = require("./src/2_middlewares/errorHandler.middleware");
@@ -18,6 +19,7 @@ const app = express();
 
 // Middlewares
 app.use(rateLimiter);
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
