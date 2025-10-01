@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const rateLimiter = require("./src/config/rateLimiter");
 const connectDB = require("./src/config/mongodb");
 const errorHandler = require("./src/2_middlewares/errorHandler.middleware");
 const Volunteer = require("./src/models/volunteer.model");
@@ -16,6 +17,7 @@ connectDB();
 const app = express();
 
 // Middlewares
+app.use(rateLimiter);
 app.use(express.json());
 app.use(morgan("dev"));
 
