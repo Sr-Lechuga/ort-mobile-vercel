@@ -30,6 +30,12 @@ O utiliza el script ejecutable:
 - **Documentación**: https://expressjs.com/
 - **Uso en el proyecto**: Servidor web principal
 
+### express-rate-limit (^8.1.0)
+
+- **Descripción**: Middleware de rate limiting para Express
+- **Documentación**: https://www.npmjs.com/package/express-rate-limit
+- **Uso en el proyecto**: Protección contra ataques de fuerza bruta y control de tasa de peticiones por IP
+
 ### joi (^18.0.1)
 
 - **Descripción**: Validador de esquemas de datos
@@ -61,6 +67,21 @@ O utiliza el script ejecutable:
 - **Uso en el proyecto**: Documentación interactiva de la API
 - **Archivos relacionados**: `swagger.json`
 
+### node-cache (^5.1.2)
+
+- **Descripción**: Sistema de caché en memoria simple y rápido para Node.js
+- **Documentación**: https://www.npmjs.com/package/node-cache
+- **Uso en el proyecto**: Adaptador de caché en memoria para desarrollo y aplicaciones de baja escala
+- **Archivos relacionados**: `src/4_services/cache/adapters/inMemory.adapter.js`
+
+### @upstash/redis (^1.35.4)
+
+- **Descripción**: Cliente de Redis serverless compatible con REST API de Upstash
+- **Documentación**: https://github.com/upstash/upstash-redis
+- **Uso en el proyecto**: Adaptador de caché distribuido para producción usando Redis serverless
+- **Archivos relacionados**: `src/4_services/cache/adapters/redis.adapter.js`
+- **Variables de entorno requeridas**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
+
 ## Dependencias de Desarrollo
 
 ### dotenv (^17.2.2)
@@ -77,7 +98,7 @@ O utiliza el script ejecutable:
 
 ## Última actualización
 
-- **Fecha**: 19/12/2024
+- **Fecha**: 01/10/2025
 - **Versión del proyecto**: 1.0.0
 
 ---
