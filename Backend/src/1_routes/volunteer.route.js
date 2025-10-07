@@ -12,5 +12,4 @@ const volunteerRoute = express.Router()
 
 // Private
 volunteerRoute.use(verifySesion)
-
 volunteerRoute.delete("/inscripciones/:inscriptionId", verifyAccessLevel([USER_VOLUNTEER]), deleteInscription)
