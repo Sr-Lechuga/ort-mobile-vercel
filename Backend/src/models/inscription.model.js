@@ -20,6 +20,23 @@ const inscriptionSchema = mongoose.Schema(
   }
 )
 
+inscriptionSchema.post("findOneAndDelete", async function (doc) {
+  try {
+    await mongoose.model("ActivityInstance").findByIdAndUpdate(
+      doc.instance,
+      { $pull: { inscriptions: doc._id } }
+    );
+    await mongoose.model("Volunteer").findByIdAndUpdate(
+      doc.volunteer,
+      { $pull: { inscriptions: doc._id } }
+    );
+  } catch (err) {
+    err.placeOfError = "Post delete en inscriptionSchema"
+    next(err);
+  }
+})
+
+
 inscriptionSchema.post("save", async function (doc, next) {
   try {
     await mongoose.model("ActivityInstance").findByIdAndUpdate(

@@ -23,15 +23,22 @@ const errorHandler = (err, req, res, next) => {
     return
   }
 
-  // Error personalizado por mensaje para cuando no se encuentre un recurso
+  // Error personalizado para cuando no se encuentre un recurso
   if (err.message.startsWith("ERROR 001")) {
     const message = err.message.split(", ")[1]
     res.status(404).json({ message })
     return
   }
 
-  // Error personalizado por mensaje para cuando la Instancia no acepta Inscripciones
+  // Error personalizado para cuando la Instancia no acepta Inscripciones
   if (err.message.startsWith("ERROR 010")) {
+    const message = err.message.split(", ")[1]
+    res.status(409).json({ message })
+    return
+  }
+
+  // Error personalizado para cuando el Voluntario intenta borrar una Inscripcion que no le pertenece
+  if (err.message.startsWith("ERROR 011")) {
     const message = err.message.split(", ")[1]
     res.status(409).json({ message })
     return

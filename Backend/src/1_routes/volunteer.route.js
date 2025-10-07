@@ -1,5 +1,9 @@
 const express = require('express')
 const verifySesion = require('../2_middlewares/verifySesion.middleware')
+const verifyAccessLevel = require('../2_middlewares/verifyAccessLevel.middleware')
+const { USER_VOLUNTEER } = require('../utils/constants')
+const Inscription = require('../models/inscription.model')
+const { deleteInscription } = require('../3_controllers/volunteer.controller')
 
 const volunteerRoute = express.Router()
 
@@ -8,4 +12,5 @@ const volunteerRoute = express.Router()
 
 // Private
 volunteerRoute.use(verifySesion)
-//volunteerRoute.post()
+
+volunteerRoute.delete("/inscripciones/:inscriptionId", verifyAccessLevel([USER_VOLUNTEER]), deleteInscription)
