@@ -21,15 +21,15 @@ activityRoute.post("/", payloadValidator(activityPostRequestSchema), verifyAcces
 activityRoute.patch("/", payloadValidator(activityPatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivity);
 
 //Instances
-activityRoute.post("/:activityId/instancias", payloadValidator(activityInstancePostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivityInstance);
-activityRoute.patch("/:activityId/instancias/instanceId", payloadValidator(activityInstancePatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivityInstance);
+activityRoute.post("/:activityId/instances", payloadValidator(activityInstancePostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivityInstance);
+activityRoute.patch("/:activityId/instances/instanceId", payloadValidator(activityInstancePatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivityInstance);
 
 // Volunteer Inscription
-activityRoute.post("/:activityId/instancias/:instanceId/inscripciones", verifyAccessLevel([USER_VOLUNTEER]), postInstanceInscription);
+activityRoute.post("/:activityId/instances/:instanceId/inscriptions", verifyAccessLevel([USER_VOLUNTEER]), postInstanceInscription);
 
 // Organizer Inscription Attendance Validation
 activityRoute.patch(
-  "/:activityId/instancias/:instanceId/inscripciones/:inscriptionId/asistencia",
+  "/:activityId/instances/:instanceId/inscriptions/:inscriptionId/attendance",
   payloadValidator(inscriptionAttendanceSchema),
   verifyAccessLevel([USER_ORGANIZER]),
   patchInscriptionAttendance

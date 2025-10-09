@@ -11,6 +11,7 @@ const authRoute = require("./src/1_routes/auth.route");
 const activityRoute = require("./src/1_routes/activity.route");
 const organizerRoute = require("./src/1_routes/organizer.route");
 const publicRouter = require("./src/1_routes/public.route");
+const volunteerRoute = require("./src/1_routes/volunteer.route");
 
 // Connection to Mongodb Atlas
 connectDB();
@@ -43,8 +44,9 @@ app.get("/test/organizers", async (req, res) => {
 
 app.use("/", publicRouter); //Contains swagger and pong
 app.use("/auth", authRoute);
-app.use("/v1/actividades", activityRoute);
-app.use("/v1/organizer", organizerRoute);
+app.use("/v1/activities", activityRoute);
+app.use("/v1/organizers", organizerRoute);
+app.use("/v1/volunteers", volunteerRoute);
 
 // Error Handler
 app.use(errorHandler);
