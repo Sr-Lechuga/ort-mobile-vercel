@@ -18,6 +18,14 @@ O utiliza el script ejecutable:
 
 ## Dependencias de Producción
 
+### @sentry/node (^10.19.0)
+
+- **Descripción**: SDK de Sentry para Node.js - Monitoreo y seguimiento de errores en producción
+- **Documentación**: https://docs.sentry.io/platforms/node/
+- **Uso en el proyecto**: Monitoreo de errores, tracking de performance y alertas en tiempo real
+- **Archivos relacionados**: `src/config/instrument.js`, `index.js`
+- **Variables de entorno requeridas**: `SENTRY_DSN`, `SERVER_NAME`, `ENVIRONMENT`
+
 ### bcrypt (^6.0.0)
 
 - **Descripción**: Biblioteca para hashing de contraseñas
