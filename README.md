@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D16.0.0-green.svg)
 ![License](https://img.shields.io/badge/license-ISC-yellow.svg)
 
@@ -29,6 +29,7 @@ ORT Mobile Backend es una API RESTful diseñada para facilitar la conexión entr
 - 🚀 **Rate Limiting** - Protección contra abuso de endpoints
 - 💾 **Sistema de Caché** - Soporte para caché in-memory y Redis
 - 🌐 **CORS Habilitado** - Integración segura con aplicaciones frontend
+- 🔔 **Monitoreo con Sentry** - Tracking de errores y performance en tiempo real
 
 ---
 
@@ -44,7 +45,7 @@ La API está actualmente desplegada y disponible en:
 
 - **API Base**: `https://ort-mobile-vercel.vercel.app/`
 - **Documentación Swagger**: `https://ort-mobile-vercel.vercel.app/swagger`
-- **Health Check**: `https://ort-mobile-vercel.vercel.app/pong`
+- **Health Check**: `https://ort-mobile-vercel.vercel.app/ping`
 
 #### 📝 Nota sobre el Deploy
 
@@ -137,6 +138,11 @@ JWT_SECRET=tu_secreto_jwt_super_seguro
 RATE_LIMIT_WINDOW_ATTEMPTS=30
 CACHE_TYPE=in-memory
 CACHE_DEBUG=false
+
+# Opcional - Sentry para monitoreo de errores
+# SENTRY_DSN=tu_dsn_de_sentry
+# SERVER_NAME=ort-mobile-backend
+# ENVIRONMENT=development
 ```
 
 ### 2. Configurar MongoDB Atlas
@@ -165,12 +171,15 @@ Configura las siguientes variables en tu archivo `.env`:
 
 ### Variables Opcionales
 
-| Variable                   | Descripción                                                  | Valores                  | Default     |
-| -------------------------- | ------------------------------------------------------------ | ------------------------ | ----------- |
-| `CACHE_TYPE`               | Tipo de sistema de caché a utilizar                          | `in-memory` o `redis`    | `in-memory` |
-| `CACHE_DEBUG`              | Activar logs de debug del caché                              | `true` o `false`         | `false`     |
-| `UPSTASH_REDIS_REST_URL`   | URL de tu instancia Redis (solo si `CACHE_TYPE=redis`)       | `https://xxx.upstash.io` | -           |
-| `UPSTASH_REDIS_REST_TOKEN` | Token de autenticación de Redis (solo si `CACHE_TYPE=redis`) | `AxxxxxxxxxxxXXX`        | -           |
+| Variable                   | Descripción                                                  | Valores                  | Default       |
+| -------------------------- | ------------------------------------------------------------ | ------------------------ | ------------- |
+| `CACHE_TYPE`               | Tipo de sistema de caché a utilizar                          | `in-memory` o `redis`    | `in-memory`   |
+| `CACHE_DEBUG`              | Activar logs de debug del caché                              | `true` o `false`         | `false`       |
+| `UPSTASH_REDIS_REST_URL`   | URL de tu instancia Redis (solo si `CACHE_TYPE=redis`)       | `https://xxx.upstash.io` | -             |
+| `UPSTASH_REDIS_REST_TOKEN` | Token de autenticación de Redis (solo si `CACHE_TYPE=redis`) | `AxxxxxxxxxxxXXX`        | -             |
+| `SENTRY_DSN`               | DSN de Sentry para monitoreo de errores                      | `https://xxx@sentry.io`  | -             |
+| `SERVER_NAME`              | Nombre del servidor para identificación en Sentry            | Cualquier string         | -             |
+| `ENVIRONMENT`              | Ambiente de ejecución (desarrollo, producción, etc.)         | Cualquier string         | `development` |
 
 ### 📝 Notas Importantes
 
@@ -178,6 +187,7 @@ Configura las siguientes variables en tu archivo `.env`:
 - **JWT_SECRET**: Usa una cadena larga y aleatoria (recomendado 32+ caracteres)
 - **ATLAS_URI**: Asegúrate de reemplazar `<password>` con tu contraseña real
 - **Redis**: Solo necesario si quieres usar caché distribuido (opcional)
+- **Sentry**: Opcional pero muy recomendado para producción. Obtén tu DSN en [sentry.io](https://sentry.io/) después de crear un proyecto
 
 ### Ejemplo Completo
 
@@ -201,6 +211,11 @@ CACHE_DEBUG=false
 # Redis (Solo si CACHE_TYPE=redis)
 # UPSTASH_REDIS_REST_URL=https://tu-instancia.upstash.io
 # UPSTASH_REDIS_REST_TOKEN=tu_token_de_redis
+
+# Sentry - Monitoreo de Errores (Opcional pero recomendado para producción)
+# SENTRY_DSN=https://tu_clave@o12345.ingest.sentry.io/67890
+# SERVER_NAME=ort-mobile-backend
+# ENVIRONMENT=production
 ```
 
 ---
@@ -359,7 +374,7 @@ El proyecto sigue una **arquitectura en capas** con separación de responsabilid
 
 | Método | Endpoint    | Descripción           | Auth |
 | ------ | ----------- | --------------------- | ---- |
-| GET    | `/pong`     | Health check          | No   |
+| GET    | `/ping`     | Health check          | No   |
 | GET    | `/api-docs` | Documentación Swagger | No   |
 
 Para documentación completa de todos los endpoints, visita `/api-docs` en el servidor.
@@ -503,6 +518,10 @@ Para más información, consulta [REGLAS_REPOSITORIO.md](./documentacion/REGLAS_
 - **[dotenv](https://www.npmjs.com/package/dotenv)** - Variables de entorno
 - **[nodemon](https://nodemon.io/)** - Hot-reload en desarrollo
 - **[morgan](https://www.npmjs.com/package/morgan)** - Logger HTTP
+
+### Monitoreo y Observabilidad
+
+- **[Sentry](https://sentry.io/)** - Monitoreo de errores y tracking de performance en tiempo real
 
 ### Deploy
 
