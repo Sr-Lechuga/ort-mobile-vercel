@@ -1,13 +1,12 @@
 const joi = require("joi");
 
-const inscriptionAttendanceSchema = {
-  type: "object",
-  properties: {
-    assisted: { type: "boolean" },
-  },
-  required: ["assisted"],
-  additionalProperties: false,
-};
+// Esquema para marcar asistencia de una inscripción
+const inscriptionAttendanceSchema = joi.object({
+  assisted: joi.boolean().required().messages({
+    "boolean.base": "El campo asistencia debe ser un valor booleano",
+    "any.required": "El campo asistencia es requerido",
+  }),
+});
 
 module.exports = {
   inscriptionAttendanceSchema,
