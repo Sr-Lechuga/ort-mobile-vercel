@@ -18,4 +18,8 @@ publicRouter.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument, s
 
 publicRouter.get("/ping", getPing);
 
+publicRouter.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 module.exports = publicRouter;
