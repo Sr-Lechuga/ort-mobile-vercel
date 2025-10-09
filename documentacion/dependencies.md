@@ -54,7 +54,7 @@ O utiliza el script ejecutable:
 - **Documentación**: https://www.npmjs.com/package/jsonwebtoken
 - **Uso en el proyecto**: Autenticación y autorización
 
-### mongoose (^8.0.0)
+### mongoose (^8.18.1)
 
 - **Descripción**: Biblioteca de modelado de objetos para MongoDB
 - **Documentación**: https://mongoosejs.com/
@@ -104,7 +104,7 @@ O utiliza el script ejecutable:
 
 ## Última actualización
 
-- **Fecha**: 01/10/2025
+- **Fecha**: 09/10/2025
 - **Versión del proyecto**: 1.0.0
 
 ---
