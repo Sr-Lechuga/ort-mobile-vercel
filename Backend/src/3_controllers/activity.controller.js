@@ -1,5 +1,6 @@
 const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate } = require("../4_services/activityInstances.service");
+const { updateInscriptionAttendance } = require("../4_services/inscription.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
@@ -98,6 +99,33 @@ const postInstanceInscription = async (req, res, next) => {
   }
 };
 
+const patchInscriptionAttendance = async (req, res, next) => {
+  try {
+    const { activityId, instanceId, inscriptionId } = req.params;
+    const { assisted } = req.body;
+
+    // Activity Ownership check
+    let isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
+    if (!isOwner) {
+      //status is updated in checkOwnership
+      return;
+    }
+
+    // Instance Ownership check
+    isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id);
+    if (!isOwner) {
+      //status is updated in checkOwnership
+      return;
+    }
+
+    const newData = await patchInscriptionAttendance(inscriptionId, instanceId, assisted);
+    res.status(200).json({ newData });
+  } catch (err) {
+    err.placeOfError = "Error en actualizar asistencia de inscripción";
+    next(err);
+  }
+};
+
 module.exports = {
   getActivities,
   postActivity,
@@ -105,6 +133,7 @@ module.exports = {
   postActivityInstance,
   patchActivityInstance,
   postInstanceInscription,
+  patchInscriptionAttendance,
 };
 
 /*
