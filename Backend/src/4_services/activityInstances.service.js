@@ -1,39 +1,41 @@
-const {
-  insertActivityInstance,
-  findActivityInstanceById,
-  updateActivityInstance } = require("../5_repositories/activityInstance.repository");
+const { insertActivityInstance, findActivityInstanceById, updateActivityInstance } = require("../5_repositories/activityInstance.repository");
 const { insertInscription } = require("../5_repositories/inscription.repository");
 const { updateActivityDate } = require("./helpers/activityUpdates.helper");
 
 const activityInstanceInsert = async (activityInstanceData) => {
   const newActivityInstance = await insertActivityInstance(activityInstanceData);
-  await updateActivityDate(activityInstanceData.activity)
-  return newActivityInstance
+  await updateActivityDate(activityInstanceData.activity);
+  return newActivityInstance;
+};
+
+const activityInstanceSelectById = async (id) => {
+  return await findActivityInstanceById(id);
 };
 
 const activityInstanceUpdate = async (id, activityInstanceData, activityId) => {
   const newData = await updateActivityInstance(id, activityInstanceData);
-  await updateActivityDate(activityId)
-  return newData
+  await updateActivityDate(activityId);
+  return newData;
 };
 
 const activityInstanceAddInscription = async (instanceId, volunteerId) => {
-  const activityInstance = await findActivityInstanceById(instanceId)
-  if (!activityInstance) throw new Error("ERROR 001, No se encontró la Instance")
-  if (!activityInstance.inscriptionsOpen) throw new Error("ERROR 010, La Instancia no acepta más inscripciones")
+  const activityInstance = await findActivityInstanceById(instanceId);
+  if (!activityInstance) throw new Error("ERROR 001, No se encontró la Instance");
+  if (!activityInstance.inscriptionsOpen) throw new Error("ERROR 010, La Instancia no acepta más inscripciones");
 
   const inscriptionData = {
     volunteer: volunteerId,
-    instance: instanceId
-  }
-  const newInscription = await insertInscription(inscriptionData)
-  return newInscription
-}
+    instance: instanceId,
+  };
+  const newInscription = await insertInscription(inscriptionData);
+  return newInscription;
+};
 
 module.exports = {
   activityInstanceInsert,
   activityInstanceUpdate,
-  activityInstanceAddInscription
+  activityInstanceAddInscription,
+  activityInstanceSelectById,
 };
 
 /*

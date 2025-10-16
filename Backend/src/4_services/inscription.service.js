@@ -8,7 +8,7 @@ const updateInscriptionAttendance = async (inscriptionId, instanceId, assisted) 
   if (!inscription.accepted) {
     throw new Error("Inscripción no aceptada");
   }
-  if (inscription.instance !== instanceId) {
+  if (inscription.instance.toString() !== instanceId) {
     throw new Error("Inscripción no pertenece a la instancia");
   }
   const newInscription = await updateInscriptionAttendance(inscriptionId, assisted);

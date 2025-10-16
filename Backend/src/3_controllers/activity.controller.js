@@ -1,5 +1,5 @@
 const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
-const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate } = require("../4_services/activityInstances.service");
+const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/inscription.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
@@ -99,6 +99,7 @@ const postInstanceInscription = async (req, res, next) => {
   }
 };
 
+///:activityId/instances/:instanceId/inscriptions/:inscriptionId/attendance"
 const patchInscriptionAttendance = async (req, res, next) => {
   try {
     const { activityId, instanceId, inscriptionId } = req.params;
@@ -107,18 +108,19 @@ const patchInscriptionAttendance = async (req, res, next) => {
     // Activity Ownership check
     let isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
     if (!isOwner) {
+      res.status(401).json({ message: "No tienes permisos para actualizar la asistencia de esta inscripción" });
       //status is updated in checkOwnership
       return;
     }
 
-    // Instance Ownership check
-    isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id);
-    if (!isOwner) {
-      //status is updated in checkOwnership
-      return;
-    }
+    // // Instance Ownership check
+    // isOwner = await checkOwnership(res, activityInstanceSelectById, instanceId, "Instance de Actividad", req.session.id);
+    // if (!isOwner) {
+    //   //status is updated in checkOwnership
+    //   return;
+    // }
 
-    const newData = await patchInscriptionAttendance(inscriptionId, instanceId, assisted);
+    const newData = await updateInscriptionAttendance(inscriptionId, instanceId, assisted);
     res.status(200).json({ newData });
   } catch (err) {
     err.placeOfError = "Error en actualizar asistencia de inscripción";
