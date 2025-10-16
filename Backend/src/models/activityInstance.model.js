@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ACTIVITY_INSTANCE_STATUS } = require("../utils/constants");
+const { ACTIVITY_STATUS } = require("../utils/constants");
 
 const activityInstanceSchema = new mongoose.Schema(
   {
@@ -35,32 +35,25 @@ const activityInstanceSchema = new mongoose.Schema(
       min: [1, "La duración mínima es 1 minuto"],
       max: [24 * 60, "La duración máxima es 1440 minutos (24 horas)"],
     },
-    status: {
-      type: String,
-      enum: [...ACTIVITY_INSTANCE_STATUS],
-      required: true,
-    },
-    inscriptionsAmount: {
+
+    // INSCRIPTIONS LOGIC
+    inscriptionsOpen: { type: Boolean, required: true, default: true },
+    slots: {
       type: Number,
-      required: true,
-      min: [0, "La cantidad de inscriptos debe ser positiva"],
-      default: 0,
-    },
-    quota: {
-      type: Number,
-      min: [0, "La cantidad maxima de inscriptos debe ser positiva"]
-    },
-    inscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }]
-    //TODO: Update schemas logic
-    /*last_comments: {
-      type: [commentSchema],
+      default: null,
       validate: {
-        validator: function (comments) {
-          return comments?.length <= 20;
+        validator: function (value) {
+          if (value !== null && value !== undefined) return value > 0;
+          return true;
         },
-        message: "Solo se permiten hasta 20 comentarios",
+        message: "El número máximo de cupos debe ser mayor a 0 (o vacío si no es por cupos)",
       },
-    },*/
+    },
+    inscriptions: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Inscription", required: true }],
+      default: [],
+    },
+    // END INSCRIPTIONS LOGIC
   },
   {
     timestamps: true,
@@ -75,29 +68,35 @@ const activityInstanceSchema = new mongoose.Schema(
 );
 
 //Make sure no inserts on same date for same activity
-activityInstanceSchema.index(
-  { activity: 1, startDate: 1 },
-  { unique: true, name: "uq_activity_start" }
-);
+activityInstanceSchema.index({ activity: 1, date: 1 }, { unique: true, name: "uq_activity_start" });
 
 activityInstanceSchema.post("save", async function (doc, next) {
   try {
-    await mongoose.model("Activity").findByIdAndUpdate(
-      doc.activity,
-      { $push: { instanceId: doc._id } },
-      { $min: { date: doc.startDate } }
-    )
-    next()
-  }
-  catch (err) {
-    err.placeOfError = "post save en activityInstanceSchema"
-    next(err)
-  }
-})
+    //El doc es la instancia
+    const currentActivity = await mongoose.model("Activity").findById(doc.activity);
+    currentActivity.instances.push(doc._id);
+    currentActivity.status = ACTIVITY_STATUS[1];
+    currentActivity.date = !currentActivity.date ? doc.date : currentActivity.date < doc.date ? doc.date : currentActivity.date;
 
-const ActivityInstance = mongoose.model(
-  "ActivityInstance",
-  activityInstanceSchema
-);
+    await currentActivity.save();
+    next();
+  } catch (err) {
+    err.placeOfError = "post save en activityInstanceSchema";
+    next(err);
+  }
+});
+
+const ActivityInstance = mongoose.model("ActivityInstance", activityInstanceSchema);
 
 module.exports = ActivityInstance;
+
+//TODO: Update schemas logic
+/*last_comments: {
+  type: [commentSchema],
+  validate: {
+    validator: function (comments) {
+      return comments?.length <= 20;
+    },
+    message: "Solo se permiten hasta 20 comentarios",
+  },
+},*/

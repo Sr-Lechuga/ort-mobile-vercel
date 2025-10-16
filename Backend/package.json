@@ -18,12 +18,17 @@
     "nodemon": "^3.1.10"
   },
   "dependencies": {
+    "@sentry/node": "^10.19.0",
+    "@upstash/redis": "^1.35.4",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
     "joi": "^18.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "morgan": "^1.10.1",
+    "node-cache": "^5.1.2",
     "swagger-ui-express": "^5.0.1"
   }
 }

@@ -1,0 +1,501 @@
+{
+  "info": {
+    "name": "ORT Mobile - API de Voluntariado",
+    "description": "API para gestión de actividades de voluntariado, organizadores y voluntarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1"
+  },
+  "item": [
+    {
+      "name": "Público",
+      "item": [
+        {
+          "name": "Ping - Verificar estado del servidor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ping",
+              "host": ["{{baseUrl}}"],
+              "path": ["ping"]
+            },
+            "description": "Endpoint simple para verificar que el servidor está funcionando"
+          },
+          "response": []
+        },
+        {
+          "name": "Swagger - Documentación",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/swagger",
+              "host": ["{{baseUrl}}"],
+              "path": ["swagger"]
+            },
+            "description": "Interfaz web para explorar la documentación de la API"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Autenticación",
+      "item": [
+        {
+          "name": "Voluntarios",
+          "item": [
+            {
+              "name": "Login Voluntario",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Guardar el token en variable de entorno",
+                      "if (pm.response.code === 200) {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.environment.set(\"volunteerToken\", jsonData.token);",
+                      "    pm.environment.set(\"authToken\", jsonData.token);",
+                      "    console.log(\"Token de voluntario guardado exitosamente\");",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"voluntario_test\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/volunteers/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "volunteers", "login"]
+                },
+                "description": "Autentica a un voluntario y devuelve un token de sesión"
+              },
+              "response": []
+            },
+            {
+              "name": "Registro Voluntario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"voluntario_test\",\n  \"email\": \"voluntario@example.com\",\n  \"password\": \"password123\",\n  \"name\": \"Juan\",\n  \"lastname\": \"Pérez\",\n  \"age\": 25,\n  \"genre\": \"hombre\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/volunteers/register",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "volunteers", "register"]
+                },
+                "description": "Crea una nueva cuenta de voluntario en el sistema"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Organizadores",
+          "item": [
+            {
+              "name": "Login Organizador",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Guardar el token en variable de entorno",
+                      "if (pm.response.code === 200) {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.environment.set(\"organizerToken\", jsonData.token);",
+                      "    pm.environment.set(\"authToken\", jsonData.token);",
+                      "    console.log(\"Token de organizador guardado exitosamente\");",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"organizador_test\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/organizers/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "organizers", "login"]
+                },
+                "description": "Autentica a un organizador y devuelve un token de sesión"
+              },
+              "response": []
+            },
+            {
+              "name": "Registro Organizador",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"organizador_test\",\n  \"email\": \"organizador@example.com\",\n  \"contactEmail\": \"contacto@example.com\",\n  \"password\": \"password123\",\n  \"name\": \"Fundación Ejemplo\",\n  \"telephone\": \"+598 99 123 456\",\n  \"social\": {\n    \"instagram\": \"fundacion_ejemplo\",\n    \"facebook\": \"fundacion.ejemplo\",\n    \"linkedIn\": \"fundacion-ejemplo\",\n    \"personal\": \"https://www.fundacionejemplo.org\"\n  },\n  \"location\": {\n    \"country\": \"Uruguay\",\n    \"city\": \"Montevideo\",\n    \"address\": \"Av. 18 de Julio 1234\",\n    \"lat\": -34.9011,\n    \"lng\": -56.1645\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/organizers/register",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "organizers", "register"]
+                },
+                "description": "Crea una nueva cuenta de organizador en el sistema"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Actividades",
+      "item": [
+        {
+          "name": "Listar Actividades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities"],
+              "query": [
+                {
+                  "key": "categories",
+                  "value": "social",
+                  "description": "Filtrar por categorías (social, ambiental, educativo, cultural, salud, emergencia)",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "en curso",
+                  "description": "Filtrar por estado (inactiva, en curso)",
+                  "disabled": true
+                },
+                {
+                  "key": "location",
+                  "value": "Montevideo",
+                  "description": "Filtrar por ubicación",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Obtiene todas las actividades disponibles con filtros opcionales"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Actividad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar el ID de la actividad creada",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"activityId\", jsonData.insertedActivity._id);",
+                  "    console.log(\"ID de actividad guardado: \" + jsonData.insertedActivity._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Limpieza de Playa Pocitos\",\n  \"categories\": [\"ambiental\", \"social\"],\n  \"description\": \"Actividad de limpieza y cuidado del medio ambiente en la playa de Pocitos\",\n  \"status\": \"en curso\",\n  \"location\": {\n    \"country\": \"Uruguay\",\n    \"city\": \"Montevideo\",\n    \"address\": \"Rambla República del Perú\"\n  },\n  \"locationCoordinates\": {\n    \"type\": \"Point\",\n    \"coordinates\": [-56.1532, -34.9099]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities"]
+            },
+            "description": "Crea una nueva actividad de voluntariado (requiere autenticación de organizador)"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Actividad",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Limpieza de Playa Pocitos - Actualizado\",\n  \"categories\": [\"ambiental\", \"social\"],\n  \"description\": \"Actividad de limpieza y cuidado del medio ambiente en la playa de Pocitos. NUEVA INFORMACIÓN: Traer bolsas y guantes\",\n  \"status\": \"en curso\",\n  \"location\": {\n    \"country\": \"Uruguay\",\n    \"city\": \"Montevideo\",\n    \"address\": \"Rambla República del Perú\"\n  },\n  \"locationCoordinates\": {\n    \"type\": \"Point\",\n    \"coordinates\": [-56.1532, -34.9099]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities"]
+            },
+            "description": "Actualiza una actividad de voluntariado existente (requiere ser propietario)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Instancias de Actividades",
+      "item": [
+        {
+          "name": "Crear Instancia de Actividad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar el ID de la instancia creada",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"instanceId\", jsonData.insertedActivityInstance._id);",
+                  "    console.log(\"ID de instancia guardado: \" + jsonData.insertedActivityInstance._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2025-10-15T10:00:00.000Z\",\n  \"duration\": 180,\n  \"inscriptionsOpen\": true,\n  \"slots\": 25\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities/{{activityId}}/instances",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities", "{{activityId}}", "instances"]
+            },
+            "description": "Crea una nueva instancia de una actividad existente (requiere ser propietario)"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Instancia de Actividad",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2025-10-15T11:00:00.000Z\",\n  \"duration\": 240,\n  \"inscriptionsOpen\": true,\n  \"slots\": 30\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities/{{activityId}}/instances/{{instanceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities", "{{activityId}}", "instances", "{{instanceId}}"]
+            },
+            "description": "Actualiza una instancia de actividad existente (requiere ser propietario)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inscripciones",
+      "item": [
+        {
+          "name": "Inscribirse a Instancia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Guardar el ID de la inscripción creada",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"inscriptionId\", jsonData.inscription._id);",
+                  "    console.log(\"ID de inscripción guardado: \" + jsonData.inscription._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{volunteerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities/{{activityId}}/instances/{{instanceId}}/inscriptions",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities", "{{activityId}}", "instances", "{{instanceId}}", "inscriptions"]
+            },
+            "description": "Permite a un voluntario inscribirse a una instancia específica de actividad"
+          },
+          "response": []
+        },
+        {
+          "name": "Marcar Asistencia",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{organizerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assisted\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/activities/{{activityId}}/instances/{{instanceId}}/inscriptions/{{inscriptionId}}/attendance",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "activities", "{{activityId}}", "instances", "{{instanceId}}", "inscriptions", "{{inscriptionId}}", "attendance"]
+            },
+            "description": "Permite al organizador marcar si un voluntario asistió a una instancia (requiere ser propietario)"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Inscripción",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{volunteerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/v1/volunteers/inscriptions/{{inscriptionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "volunteers", "inscriptions", "{{inscriptionId}}"]
+            },
+            "description": "Permite a un voluntario cancelar su inscripción a una instancia de actividad"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4242",
+      "type": "string"
+    }
+  ]
+}

@@ -18,17 +18,37 @@ O utiliza el script ejecutable:
 
 ## Dependencias de Producción
 
+### @sentry/node (^10.19.0)
+
+- **Descripción**: SDK de Sentry para Node.js - Monitoreo y seguimiento de errores en producción
+- **Documentación**: https://docs.sentry.io/platforms/node/
+- **Uso en el proyecto**: Monitoreo de errores, tracking de performance y alertas en tiempo real
+- **Archivos relacionados**: `src/config/instrument.js`, `index.js`
+- **Variables de entorno requeridas**: `SENTRY_DSN`, `SERVER_NAME`, `ENVIRONMENT`
+
 ### bcrypt (^6.0.0)
 
 - **Descripción**: Biblioteca para hashing de contraseñas
 - **Documentación**: https://www.npmjs.com/package/bcrypt
 - **Uso en el proyecto**: Encriptación de contraseñas de usuarios
 
+### cors (^2.8.5)
+
+- **Descripción**: Middleware de Express para habilitar CORS (Cross-Origin Resource Sharing)
+- **Documentación**: https://www.npmjs.com/package/cors
+- **Uso en el proyecto**: Permite peticiones desde diferentes orígenes (frontend en diferentes dominios/puertos)
+
 ### express (^5.1.0)
 
 - **Descripción**: Framework web minimalista para Node.js
 - **Documentación**: https://expressjs.com/
 - **Uso en el proyecto**: Servidor web principal
+
+### express-rate-limit (^8.1.0)
+
+- **Descripción**: Middleware de rate limiting para Express
+- **Documentación**: https://www.npmjs.com/package/express-rate-limit
+- **Uso en el proyecto**: Protección contra ataques de fuerza bruta y control de tasa de peticiones por IP
 
 ### joi (^18.0.1)
 
@@ -42,7 +62,7 @@ O utiliza el script ejecutable:
 - **Documentación**: https://www.npmjs.com/package/jsonwebtoken
 - **Uso en el proyecto**: Autenticación y autorización
 
-### mongoose (^8.0.0)
+### mongoose (^8.18.1)
 
 - **Descripción**: Biblioteca de modelado de objetos para MongoDB
 - **Documentación**: https://mongoosejs.com/
@@ -61,6 +81,21 @@ O utiliza el script ejecutable:
 - **Uso en el proyecto**: Documentación interactiva de la API
 - **Archivos relacionados**: `swagger.json`
 
+### node-cache (^5.1.2)
+
+- **Descripción**: Sistema de caché en memoria simple y rápido para Node.js
+- **Documentación**: https://www.npmjs.com/package/node-cache
+- **Uso en el proyecto**: Adaptador de caché en memoria para desarrollo y aplicaciones de baja escala
+- **Archivos relacionados**: `src/4_services/cache/adapters/inMemory.adapter.js`
+
+### @upstash/redis (^1.35.4)
+
+- **Descripción**: Cliente de Redis serverless compatible con REST API de Upstash
+- **Documentación**: https://github.com/upstash/upstash-redis
+- **Uso en el proyecto**: Adaptador de caché distribuido para producción usando Redis serverless
+- **Archivos relacionados**: `src/4_services/cache/adapters/redis.adapter.js`
+- **Variables de entorno requeridas**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
+
 ## Dependencias de Desarrollo
 
 ### dotenv (^17.2.2)
@@ -77,7 +112,7 @@ O utiliza el script ejecutable:
 
 ## Última actualización
 
-- **Fecha**: 19/12/2024
+- **Fecha**: 09/10/2025
 - **Versión del proyecto**: 1.0.0
 
 ---

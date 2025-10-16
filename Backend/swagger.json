@@ -10,6 +10,10 @@
   },
   "servers": [
     {
+      "url": "https://ort-mobile-vercel.vercel.app",
+      "description": "Servidor de producción"
+    },
+    {
       "url": "http://localhost:3000",
       "description": "Servidor de desarrollo - Nico"
     },
@@ -34,6 +38,10 @@
     {
       "name": "Instancias de Actividades",
       "description": "Gestión de instancias específicas de actividades"
+    },
+    {
+      "name": "Inscripciones",
+      "description": "Gestión de inscripciones de voluntarios a actividades"
     },
     {
       "name": "Organizadores",
@@ -77,7 +85,7 @@
         }
       }
     },
-    "/auth/voluntario/iniciar_sesion": {
+    "/auth/volunteers/login": {
       "post": {
         "tags": ["Autenticación"],
         "summary": "Iniciar sesión como voluntario",
@@ -116,7 +124,7 @@
         }
       }
     },
-    "/auth/voluntario/registro": {
+    "/auth/volunteers/register": {
       "post": {
         "tags": ["Autenticación"],
         "summary": "Registrar nuevo voluntario",
@@ -155,7 +163,7 @@
         }
       }
     },
-    "/auth/organizador/iniciar_sesion": {
+    "/auth/organizers/login": {
       "post": {
         "tags": ["Autenticación"],
         "summary": "Iniciar sesión como organizador",
@@ -194,7 +202,7 @@
         }
       }
     },
-    "/auth/organizador/registro": {
+    "/auth/organizers/register": {
       "post": {
         "tags": ["Autenticación"],
         "summary": "Registrar nuevo organizador",
@@ -233,7 +241,7 @@
         }
       }
     },
-    "/v1/actividades": {
+    "/v1/activities": {
       "get": {
         "tags": ["Actividades"],
         "summary": "Obtener lista de actividades",
@@ -248,14 +256,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "social",
-                  "ambiental",
-                  "educativo",
-                  "cultural",
-                  "salud",
-                  "emergencia"
-                ]
+                "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
               }
             }
           },
@@ -266,13 +267,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "inactiva",
-                "programado",
-                "cerrado",
-                "en curso",
-                "finalizado"
-              ]
+              "enum": ["inactiva", "en curso"]
             }
           },
           {
@@ -349,11 +344,73 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Actividades"],
+        "summary": "Actualizar actividad",
+        "description": "Actualiza una actividad de voluntariado existente (requiere ser propietario)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityPatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Actividad actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos de la actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos para actualizar esta actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "/v1/actividades/{id}/instancias": {
+    "/v1/activities/{activityId}/instances": {
       "post": {
-        "tags": ["Actividades"],
+        "tags": ["Instancias de Actividades"],
         "summary": "Crear instancia de actividad",
         "description": "Crea una nueva instancia de una actividad existente (requiere ser propietario)",
         "security": [
@@ -363,7 +420,7 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "activityId",
             "in": "path",
             "required": true,
             "description": "ID de la actividad",
@@ -426,9 +483,93 @@
         }
       }
     },
-    "/v1/actividades/{activityId}/instancias/{instanceId}/inscriptions": {
+    "/v1/activities/{activityId}/instances/{instanceId}": {
+      "patch": {
+        "tags": ["Instancias de Actividades"],
+        "summary": "Actualizar instancia de actividad",
+        "description": "Actualiza una instancia de actividad existente (requiere ser propietario)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la instancia de actividad",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityInstancePatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Instancia actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityInstanceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos para actualizar esta instancia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/activities/{activityId}/instances/{instanceId}/inscriptions": {
       "post": {
-        "tags": ["Actividades"],
+        "tags": ["Inscripciones"],
         "summary": "Inscribirse a instancia de actividad",
         "description": "Permite a un voluntario inscribirse a una instancia específica de actividad",
         "security": [
@@ -462,7 +603,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/InscriptionResponse"
                 }
               }
             }
@@ -490,114 +631,160 @@
         }
       }
     },
-    "/v1/activity_instance": {
-      "get": {
-        "tags": ["Instancias de Actividades"],
-        "summary": "Obtener instancias de actividades",
-        "description": "Obtiene todas las instancias de actividades con filtros opcionales",
+    "/v1/activities/{activityId}/instances/{instanceId}/inscriptions/{inscriptionId}/attendance": {
+      "patch": {
+        "tags": ["Inscripciones"],
+        "summary": "Marcar asistencia de una inscripción",
+        "description": "Permite al organizador marcar si un voluntario asistió a una instancia (requiere ser propietario)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
-            "name": "location",
-            "in": "query",
-            "description": "Filtrar por ubicación",
-            "required": false,
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "status",
-            "in": "query",
-            "description": "Filtrar por estado",
-            "required": false,
+            "name": "instanceId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la instancia de actividad",
             "schema": {
-              "type": "string",
-              "enum": ["pending", "confirmed", "cancelled"]
+              "type": "string"
             }
           },
           {
-            "name": "minDate",
-            "in": "query",
-            "description": "Fecha mínima (ISO 8601)",
-            "required": false,
+            "name": "inscriptionId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la inscripción",
             "schema": {
-              "type": "string",
-              "format": "date-time"
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InscriptionAttendanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asistencia actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
             }
           },
-          {
-            "name": "maxDate",
-            "in": "query",
-            "description": "Fecha máxima (ISO 8601)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
+          "400": {
+            "description": "Error en los datos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             }
           },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Número de página para paginación",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             }
           },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Límite de resultados por página",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100
+          "403": {
+            "description": "No tienes permisos para actualizar esta inscripción",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
             }
-          },
+          }
+        }
+      }
+    },
+    "/v1/volunteers/inscriptions/{inscriptionId}": {
+      "delete": {
+        "tags": ["Inscripciones"],
+        "summary": "Cancelar inscripción",
+        "description": "Permite a un voluntario cancelar su inscripción a una instancia de actividad",
+        "security": [
           {
-            "name": "lat",
-            "in": "query",
-            "description": "Latitud para búsqueda geográfica",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
           {
-            "name": "lng",
-            "in": "query",
-            "description": "Longitud para búsqueda geográfica",
-            "required": false,
+            "name": "inscriptionId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la inscripción a cancelar",
             "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "radius",
-            "in": "query",
-            "description": "Radio de búsqueda en kilómetros",
-            "required": false,
-            "schema": {
-              "type": "number",
-              "minimum": 0
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Lista de instancias obtenida exitosamente",
+            "description": "Inscripción cancelada exitosamente",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActivityInstancesResponse"
+                  "$ref": "#/components/schemas/SuccessResponse"
                 }
               }
             }
           },
-          "204": {
-            "description": "No hay instancias para mostrar"
+          "400": {
+            "description": "Error al cancelar la inscripción",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos para cancelar esta inscripción",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -632,14 +819,7 @@
       },
       "VolunteerSignUpRequest": {
         "type": "object",
-        "required": [
-          "username",
-          "email",
-          "password",
-          "name",
-          "lastname",
-          "age"
-        ],
+        "required": ["username", "email", "password", "name", "lastname", "age"],
         "properties": {
           "username": {
             "type": "string",
@@ -848,14 +1028,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "social",
-                "ambiental",
-                "educativo",
-                "cultural",
-                "salud",
-                "emergencia"
-              ]
+              "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
             },
             "minItems": 1,
             "maxItems": 3,
@@ -868,18 +1041,12 @@
           "date": {
             "type": "string",
             "format": "date-time",
-            "description": "Fecha de la actividad (opcional)"
+            "description": "Fecha de la actividad (opcional, se actualiza automáticamente con las instancias)"
           },
           "status": {
             "type": "string",
-            "enum": [
-              "inactiva",
-              "programado",
-              "cerrado",
-              "en curso",
-              "finalizado"
-            ],
-            "description": "Estado de la actividad (opcional)"
+            "enum": ["inactiva", "en curso"],
+            "description": "Estado de la actividad (opcional, por defecto 'en curso')"
           },
           "location": {
             "type": "object",
@@ -926,18 +1093,12 @@
       },
       "ActivityInstanceRequest": {
         "type": "object",
-        "required": [
-          "startDate",
-          "duration",
-          "location",
-          "locationCoordinates",
-          "status"
-        ],
+        "required": ["date", "duration"],
         "properties": {
-          "startDate": {
+          "date": {
             "type": "string",
             "format": "date-time",
-            "description": "Fecha y hora de inicio de la instancia"
+            "description": "Fecha y hora de inicio de la instancia (debe ser actual o futura)"
           },
           "duration": {
             "type": "integer",
@@ -945,11 +1106,92 @@
             "maximum": 1440,
             "description": "Duración en minutos (1-1440)"
           },
-          "location": {
+          "inscriptionsOpen": {
+            "type": "boolean",
+            "default": true,
+            "description": "Indica si las inscripciones están abiertas (opcional, por defecto true)"
+          },
+          "slots": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true,
+            "description": "Número máximo de cupos disponibles (opcional, null = sin límite)"
+          }
+        }
+      },
+      "ActivityInstancePatchRequest": {
+        "type": "object",
+        "properties": {
+          "date": {
             "type": "string",
-            "minLength": 3,
-            "maxLength": 255,
-            "description": "Ubicación específica de la instancia"
+            "format": "date-time",
+            "description": "Fecha y hora de inicio de la instancia (debe ser actual o futura)"
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440,
+            "description": "Duración en minutos (1-1440)"
+          },
+          "inscriptionsOpen": {
+            "type": "boolean",
+            "description": "Indica si las inscripciones están abiertas"
+          },
+          "slots": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true,
+            "description": "Número máximo de cupos disponibles (null = sin límite)"
+          }
+        }
+      },
+      "ActivityPatchRequest": {
+        "type": "object",
+        "required": ["title", "categories", "location", "locationCoordinates"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Título de la actividad"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
+            },
+            "minItems": 1,
+            "maxItems": 3,
+            "description": "Categorías de la actividad (1-3 categorías)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción de la actividad (opcional)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["inactiva", "en curso"],
+            "description": "Estado de la actividad (opcional)"
+          },
+          "location": {
+            "type": "object",
+            "required": ["country", "city", "address"],
+            "properties": {
+              "country": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "País"
+              },
+              "city": {
+                "type": "string",
+                "maxLength": 25,
+                "description": "Ciudad"
+              },
+              "address": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Dirección"
+              }
+            }
           },
           "locationCoordinates": {
             "type": "object",
@@ -970,17 +1212,68 @@
                 "description": "Coordenadas [longitud, latitud]"
               }
             }
-          },
-          "status": {
+          }
+        }
+      },
+      "InscriptionAttendanceRequest": {
+        "type": "object",
+        "required": ["assisted"],
+        "properties": {
+          "assisted": {
+            "type": "boolean",
+            "description": "Indica si el voluntario asistió a la instancia"
+          }
+        }
+      },
+      "InscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
             "type": "string",
-            "enum": ["pending", "confirmed", "cancelled"],
-            "description": "Estado de la instancia"
+            "example": "Inscripción realizada exitosamente"
           },
-          "inscriptionsAmount": {
-            "type": "integer",
-            "minimum": 0,
-            "default": 0,
-            "description": "Cantidad de inscripciones (opcional, por defecto 0)"
+          "inscription": {
+            "$ref": "#/components/schemas/Inscription"
+          }
+        }
+      },
+      "Inscription": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "ID único de la inscripción"
+          },
+          "volunteer": {
+            "type": "string",
+            "description": "ID del voluntario"
+          },
+          "instance": {
+            "type": "string",
+            "description": "ID de la instancia de actividad"
+          },
+          "accepted": {
+            "type": "boolean",
+            "description": "Indica si la inscripción fue aceptada"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de la inscripción"
+          },
+          "assisted": {
+            "type": "boolean",
+            "description": "Indica si el voluntario asistió"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de creación"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de última actualización"
           }
         }
       },
@@ -1041,14 +1334,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "social",
-                "ambiental",
-                "educativo",
-                "cultural",
-                "salud",
-                "emergencia"
-              ]
+              "enum": ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"]
             },
             "description": "Categorías de la actividad"
           },
@@ -1063,32 +1349,15 @@
           },
           "status": {
             "type": "string",
-            "enum": [
-              "inactiva",
-              "programado",
-              "cerrado",
-              "en curso",
-              "finalizado"
-            ],
+            "enum": ["inactiva", "en curso"],
             "description": "Estado de la actividad"
           },
           "instances": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "description": "ID de la instancia"
-                },
-                "date": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "Fecha de la instancia"
-                }
-              }
+              "type": "string"
             },
-            "description": "Instancias de la actividad"
+            "description": "IDs de las instancias de la actividad"
           },
           "location": {
             "type": "object",
@@ -1153,24 +1422,27 @@
           "date": {
             "type": "string",
             "format": "date-time",
-            "description": "Fecha de la instancia"
+            "description": "Fecha de inicio de la instancia"
           },
           "duration": {
             "type": "integer",
-            "description": "Duración en minutos"
+            "description": "Duración en minutos (1-1440)"
           },
-          "status": {
-            "type": "string",
-            "enum": ["pending", "confirmed", "cancelled"],
-            "description": "Estado de la instancia"
+          "inscriptionsOpen": {
+            "type": "boolean",
+            "description": "Indica si las inscripciones están abiertas"
           },
-          "inscriptionsAmount": {
+          "slots": {
             "type": "integer",
-            "description": "Cantidad de inscripciones"
+            "nullable": true,
+            "description": "Número máximo de cupos disponibles (null = sin límite)"
           },
-          "quota": {
-            "type": "integer",
-            "description": "Cupo máximo de inscripciones"
+          "inscriptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs de las inscripciones a esta instancia"
           },
           "createdAt": {
             "type": "string",
