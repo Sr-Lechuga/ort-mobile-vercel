@@ -126,21 +126,30 @@ Backend/
 ├── api/
 │   ├── index.js          # Endpoint para Vercel (lazy loading)
 │   └── dev.js           # Desarrollo local
-├── src/
-│   ├── app/
-│   │   └── index.js     # Factory de la aplicación Express
-│   ├── repositories/
-│   │   ├── repositories.service.js    # Factory + Singleton
-│   │   ├── repositories.manager.js     # Manager de repositorios
-│   │   └── adapters/
-│   │       ├── index.js               # Factory de adaptadores
-│   │       └── mongoose/
-│   │           └── index.js           # Adaptador MongoDB
-│   ├── middlewares/
-│   │   └── index.js     # Setup modular de middlewares
-│   └── routes/
-│       └── index.js     # Setup modular de rutas
-└── index.js             # Compatibilidad hacia atrás
+└── src/
+    ├── app/
+    │   └── index.js     # Factory de la aplicación Express
+    ├── repositories/
+    │   ├── repositories.service.js    # Factory + Singleton
+    │   ├── repositories.manager.js     # Manager de repositorios
+    │   └── adapters/
+    │       ├── index.js               # Factory de adaptadores
+    │       └── mongoose/
+    │           └── index.js           # Adaptador MongoDB
+    ├── middlewares/
+    │   └── index.js     # Setup modular de middlewares
+    └── routes/
+        └── index.js     # Setup modular de rutas
+```
+
+### Comandos de Desarrollo
+
+```bash
+# Desarrollo local (sin lazy loading)
+npm run dev
+
+# Producción/Vercel (con lazy loading)
+npm start
 ```
 
 ## Última actualización
