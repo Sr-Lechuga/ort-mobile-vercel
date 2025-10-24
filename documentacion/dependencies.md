@@ -110,10 +110,44 @@ O utiliza el script ejecutable:
 - **Documentación**: https://www.npmjs.com/package/nodemon
 - **Uso en el proyecto**: Desarrollo con reinicio automático
 
+## Arquitectura Modular Implementada
+
+### Patrón Factory + Singleton
+
+- **Repository Service**: Implementación del patrón Factory para manejo de repositorios
+- **Lazy Loading**: Inicialización diferida de la aplicación para optimizar recursos
+- **Adapter Pattern**: Sistema de adaptadores para diferentes tipos de almacenamiento
+- **Modularización**: Separación de responsabilidades en módulos independientes
+
+### Estructura de Archivos Actualizada
+
+```
+Backend/
+├── api/
+│   ├── index.js          # Endpoint para Vercel (lazy loading)
+│   └── dev.js           # Desarrollo local
+├── src/
+│   ├── app/
+│   │   └── index.js     # Factory de la aplicación Express
+│   ├── repositories/
+│   │   ├── repositories.service.js    # Factory + Singleton
+│   │   ├── repositories.manager.js     # Manager de repositorios
+│   │   └── adapters/
+│   │       ├── index.js               # Factory de adaptadores
+│   │       └── mongoose/
+│   │           └── index.js           # Adaptador MongoDB
+│   ├── middlewares/
+│   │   └── index.js     # Setup modular de middlewares
+│   └── routes/
+│       └── index.js     # Setup modular de rutas
+└── index.js             # Compatibilidad hacia atrás
+```
+
 ## Última actualización
 
-- **Fecha**: 09/10/2025
-- **Versión del proyecto**: 1.0.0
+- **Fecha**: 16/10/2025
+- **Versión del proyecto**: 1.1.0
+- **Cambios**: Implementación de arquitectura modular con patrón Factory + Singleton
 
 ---
 
