@@ -1,8 +1,8 @@
 const connectDB = require("../../../config/mongodb");
-const Volunteer = require("../../../models/volunteer.model");
-const Organizer = require("../../../models/organizer.model");
-const Activity = require("../../../models/activity.model");
-const ActivityInstance = require("../../../models/activityInstance.model");
+const Volunteer = require("./models/volunteer.model");
+const Organizer = require("./models/organizer.model");
+const Activity = require("./models/activity.model");
+const ActivityInstance = require("./models/activityInstance.model");
 
 const createMongooseAdapter = () => {
   return new Promise(async (resolve, reject) => {

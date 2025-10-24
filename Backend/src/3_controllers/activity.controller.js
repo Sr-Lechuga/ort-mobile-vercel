@@ -1,6 +1,6 @@
-const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/activity.service");
-const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/activityInstances.service");
-const { updateInscriptionAttendance } = require("../4_services/inscription.service");
+const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/business/activity.service");
+const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
+const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {

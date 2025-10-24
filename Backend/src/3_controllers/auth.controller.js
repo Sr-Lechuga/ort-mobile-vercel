@@ -1,11 +1,5 @@
-const {
-  organizerLogin,
-  organizerSignUp,
-} = require("../4_services/organizer.service");
-const {
-  volunteerLogin,
-  volunteerSignUp,
-} = require("../4_services/volunteer.service");
+const { organizerLogin, organizerSignUp } = require("../4_services/business/organizer.service");
+const { volunteerLogin, volunteerSignUp } = require("../4_services/business/volunteer.service");
 
 // VOLUNTEERS
 // Nota: Elegimos mantener toda la lógica entre voluntarios y organizadores por separado a pesar de que se repita código
@@ -46,11 +40,9 @@ const postVolunteerSignUp = async (req, res, next) => {
     };
     await volunteerSignUp(newVolunteer);
 
-    res
-      .status(201)
-      .json({
-        message: "Voluntario registrado correctamente. Puede iniciar sesión",
-      });
+    res.status(201).json({
+      message: "Voluntario registrado correctamente. Puede iniciar sesión",
+    });
   } catch (err) {
     err.placeOfError = "Registro [SignUp] de Volunteer";
     next(err);
@@ -80,16 +72,7 @@ const postOrganizerLogin = async (req, res, next) => {
 };
 
 const postOrganizerSignUp = async (req, res, next) => {
-  const {
-    username,
-    email,
-    contactEmail,
-    password,
-    name,
-    telephone,
-    social,
-    location,
-  } = req.body;
+  const { username, email, contactEmail, password, name, telephone, social, location } = req.body;
   try {
     const newOrganizer = {
       username,
@@ -103,11 +86,9 @@ const postOrganizerSignUp = async (req, res, next) => {
     };
     await organizerSignUp(newOrganizer);
 
-    res
-      .status(201)
-      .json({
-        message: "Organizador registrado correctamente. Puede iniciar sesión",
-      });
+    res.status(201).json({
+      message: "Organizador registrado correctamente. Puede iniciar sesión",
+    });
   } catch (err) {
     err.placeOfError = "Registro [SignUp] de Organizer";
     next(err);

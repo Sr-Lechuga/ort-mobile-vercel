@@ -1,26 +1,14 @@
-const {
-  findActivities,
-  insertActivity,
-  findActivityById,
-  updateActivity,
-} = require("../5_repositories/activity.repository");
-const { createDate } = require("../utils/datesHandler");
-const { bufferElementLimit, bufferOffset } = require("./helpers/requestParameters.helper");
+const { findActivities, insertActivity, findActivityById, updateActivity } = require("../../5_repositories/adapters/mongoose/activity.repository");
+const { createDate } = require("../../utils/datesHandler");
+const { bufferElementLimit, bufferOffset } = require("../helpers/requestParameters.helper");
 
 const activitySelectById = async (id) => {
-  return await findActivityById(id)
-}
+  return await findActivityById(id);
+};
 
 const activitiesSelect = async (requestQuery) => {
   const filters = {};
-  const {
-    category,
-    location,
-    minDate,
-    maxDate,
-    page = 1,
-    limit = 10,
-  } = requestQuery;
+  const { category, location, minDate, maxDate, page = 1, limit = 10 } = requestQuery;
 
   // -------------------------------------------------------------------------------- Filters
   if (category) filters.category = category;
@@ -47,17 +35,17 @@ const activitiesSelect = async (requestQuery) => {
 
 const activityInsert = async (activityData) => {
   const newActivity = await insertActivity(activityData);
-  return newActivity
+  return newActivity;
 };
 
 const activityUpdate = async (activityId, activityData) => {
   const newData = await updateActivity(activityId, activityData);
-  return newData
+  return newData;
 };
 
 module.exports = {
   activitySelectById,
   activitiesSelect,
   activityInsert,
-  activityUpdate
+  activityUpdate,
 };

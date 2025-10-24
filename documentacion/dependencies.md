@@ -129,13 +129,24 @@ Backend/
 └── src/
     ├── app/
     │   └── index.js     # Factory de la aplicación Express
-    ├── repositories/
+    ├── 5_repositories/
     │   ├── repositories.service.js    # Factory + Singleton
     │   ├── repositories.manager.js     # Manager de repositorios
-    │   └── adapters/
-    │       ├── index.js               # Factory de adaptadores
-    │       └── mongoose/
-    │           └── index.js           # Adaptador MongoDB
+    │   ├── adapters/
+    │   │   ├── index.js               # Factory de adaptadores
+    │   │   └── mongoose/
+    │   │       ├── index.js           # Adaptador MongoDB
+    │   │       └── models/            # Modelos de Mongoose
+    │   │           ├── activity.model.js
+    │   │           ├── activityInstance.model.js
+    │   │           ├── inscription.model.js
+    │   │           ├── organizer.model.js
+    │   │           └── volunteer.model.js
+    │   ├── activity.repository.js     # Repositorio de actividades
+    │   ├── activityInstance.repository.js
+    │   ├── inscription.repository.js
+    │   ├── organizer.repository.js
+    │   └── volunteer.repository.js
     ├── middlewares/
     │   └── index.js     # Setup modular de middlewares
     └── routes/

@@ -2,8 +2,8 @@ require("dotenv").config();
 require("../config/instrument");
 const express = require("express");
 const Sentry = require("@sentry/node");
-const setupMiddlewares = require("../middlewares");
-const setupRoutes = require("../routes");
+const setupMiddlewares = require("../2_middlewares");
+const setupRoutes = require("../1_routes");
 const errorHandler = require("../2_middlewares/errorHandler.middleware");
 
 /**

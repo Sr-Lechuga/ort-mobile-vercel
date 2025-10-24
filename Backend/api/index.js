@@ -1,5 +1,5 @@
 const createApp = require("../src/app");
-const repositoryService = require("../src/repositories/repositories.service");
+const repositoryService = require("../src/5_repositories/repositories.service");
 
 // Para Vercel, necesitamos inicializar de forma síncrona en el primer request
 let appInstance = null;

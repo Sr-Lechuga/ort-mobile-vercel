@@ -1,4 +1,4 @@
-const Inscription = require("../models/inscription.model");
+const Inscription = require("./models/inscription.model");
 
 const findInscriptionById = async (id) => {
   const inscription = await Inscription.findById(id);

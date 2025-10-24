@@ -1,6 +1,6 @@
 require("dotenv").config();
 const createApp = require("../src/app");
-const repositoryService = require("../src/repositories/repositories.service");
+const repositoryService = require("../src/5_repositories/repositories.service");
 
 const startServer = async () => {
   try {

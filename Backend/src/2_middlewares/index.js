@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const rateLimiter = require("../config/rateLimiter");
-const errorHandler = require("../2_middlewares/errorHandler.middleware");
+const errorHandler = require("./errorHandler.middleware");
 
 const setupMiddlewares = (app) => {
   // Middlewares de configuración

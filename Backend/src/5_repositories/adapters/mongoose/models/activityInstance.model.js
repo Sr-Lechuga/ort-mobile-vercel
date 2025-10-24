@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ACTIVITY_STATUS } = require("../utils/constants");
+const { ACTIVITY_STATUS } = require("../../../../utils/constants");
 
 const activityInstanceSchema = new mongoose.Schema(
   {
