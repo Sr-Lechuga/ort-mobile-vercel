@@ -1,6 +1,15 @@
 const express = require("express");
 const verifySesion = require("../2_middlewares/verifySesion.middleware");
-const { getActivities, postActivity, postActivityInstance, postInstanceInscription, patchActivityInstance, patchInscriptionAttendance } = require("../3_controllers/activity.controller");
+const {
+  getActivities,
+  postActivity,
+  patchActivity,
+  deleteActivity,
+  postActivityInstance,
+  postInstanceInscription,
+  patchActivityInstance,
+  patchInscriptionAttendance,
+} = require("../3_controllers/activity.controller");
 const { activityPostRequestSchema, activityPatchRequestSchema } = require("../2_middlewares/request_schemas/acitivityRequest.schema");
 const { activityInstancePostRequestSchema, activityInstancePatchRequestSchema } = require("../2_middlewares/request_schemas/activityInstanceRequest.schema");
 const payloadValidator = require("../2_middlewares/payloadValidator.middleware");
@@ -18,7 +27,8 @@ activityRoute.use(verifySesion);
 
 //Activities
 activityRoute.post("/", payloadValidator(activityPostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivity);
-activityRoute.patch("/", payloadValidator(activityPatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivity);
+activityRoute.patch("/:activityId", payloadValidator(activityPatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivity);
+activityRoute.delete("/:activityId", verifyAccessLevel([USER_ORGANIZER]), deleteActivity);
 
 //Instances
 activityRoute.post("/:activityId/instances", payloadValidator(activityInstancePostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivityInstance);

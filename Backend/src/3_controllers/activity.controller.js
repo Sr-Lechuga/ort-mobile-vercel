@@ -1,4 +1,4 @@
-const { activitiesSelect, activityInsert, activitySelectById } = require("../4_services/business/activity.service");
+const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
@@ -30,7 +30,7 @@ const patchActivity = async (req, res, next) => {
     const { activityId } = req.params;
 
     // OWNERSHIP CHECK
-    const isOwner = checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
 
     if (isOwner) {
       const newActivityData = { ...req.body };
@@ -39,6 +39,26 @@ const patchActivity = async (req, res, next) => {
     }
   } catch (err) {
     err.placeOfError = "Error en editar (patch) actividad";
+    next(err);
+  }
+};
+
+const deleteActivity = async (req, res, next) => {
+  try {
+    const { activityId } = req.params;
+
+    // OWNERSHIP CHECK
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
+
+    if (isOwner) {
+      const deletedActivity = await activityLogicalDelete(activityId);
+      res.status(200).json({
+        message: "Actividad desactivada correctamente",
+        deletedActivity,
+      });
+    }
+  } catch (err) {
+    err.placeOfError = "Error en desactivar actividad";
     next(err);
   }
 };
@@ -132,6 +152,7 @@ module.exports = {
   getActivities,
   postActivity,
   patchActivity,
+  deleteActivity,
   postActivityInstance,
   patchActivityInstance,
   postInstanceInscription,
