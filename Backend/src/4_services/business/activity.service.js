@@ -43,9 +43,17 @@ const activityUpdate = async (activityId, activityData) => {
   return newData;
 };
 
+const activityLogicalDelete = async (activityId) => {
+  // Cambiar el estado de la actividad a "inactiva"
+  const activityData = { status: "inactiva" };
+  const deletedActivity = await updateActivity(activityId, activityData);
+  return deletedActivity;
+};
+
 module.exports = {
   activitySelectById,
   activitiesSelect,
   activityInsert,
   activityUpdate,
+  activityLogicalDelete,
 };
