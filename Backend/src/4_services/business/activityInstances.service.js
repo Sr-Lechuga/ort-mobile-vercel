@@ -27,8 +27,8 @@ const activityInstanceSelectById = async (id) => {
     activityInstance = await findActivityInstanceById(id);
 
     if (activityInstance) {
-      // Guardar en cache por 30 minutos o lo que este definido en el .env
-      await cacheService.set(cacheKey, activityInstance, CACHE_TTL.ACTIVITY_INSTANCE);
+      // Guardar en cache por el TTL configurado desde .env
+      await cacheService.set(cacheKey, activityInstance, process.env.CACHE_TTL_ACTIVITY_INSTANCE || CACHE_TTL.ACTIVITY_INSTANCE);
     }
   }
 

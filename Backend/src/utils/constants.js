@@ -1,7 +1,7 @@
 //-------------------------------------------------- Cache Constants ------------------------------------------------------------
 const DEFAULT_TTL = 60 * 60 * 24; // 24 hours
 
-// TTL específicos para diferentes tipos de cache
+// TTL específicos para diferentes tipos de cache - valores por defecto
 const CACHE_TTL = {
   ACTIVITIES_LIST: 60 * 60, // 1 hora - listas de actividades
   ACTIVITY_DETAIL: 60 * 60 * 2, // 2 horas - detalles de actividad individual

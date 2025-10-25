@@ -14,8 +14,8 @@ const activitySelectById = async (id) => {
     activity = await findActivityById(id);
 
     if (activity) {
-      // Guardar en cache por 2 horas (las actividades individuales cambian poco frecuentemente)
-      await cacheService.set(cacheKey, activity, CACHE_TTL.ACTIVITY_DETAIL);
+      // Guardar en cache por el TTL configurado desde .env
+      await cacheService.set(cacheKey, activity, process.env.CACHE_TTL_ACTIVITY_DETAIL || CACHE_TTL.ACTIVITY_DETAIL);
     }
   }
 
@@ -52,8 +52,8 @@ const activitiesSelect = async (requestQuery) => {
     // -------------------------------------------------------------------------------- Request
     activities = await findActivities(filters, pagination);
 
-    // Guardar en cache por 1 hora (las listas de actividades cambian moderadamente)
-    await cacheService.set(cacheKey, activities, CACHE_TTL.ACTIVITIES_LIST);
+    // Guardar en cache por el TTL configurado desde .env
+    await cacheService.set(cacheKey, activities, process.env.CACHE_TTL_ACTIVITIES_LIST || CACHE_TTL.ACTIVITIES_LIST);
   }
 
   return activities;
