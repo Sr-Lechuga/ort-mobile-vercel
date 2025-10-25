@@ -1,6 +1,6 @@
-const { insertActivityInstance, findActivityInstanceById, updateActivityInstance } = require("../5_repositories/activityInstance.repository");
-const { insertInscription } = require("../5_repositories/inscription.repository");
-const { updateActivityDate } = require("./helpers/activityUpdates.helper");
+const { insertActivityInstance, findActivityInstanceById, updateActivityInstance } = require("../../5_repositories/adapters/mongoose/activityInstance.repository");
+const { insertInscription } = require("../../5_repositories/adapters/mongoose/inscription.repository");
+const { updateActivityDate } = require("../helpers/activityUpdates.helper");
 
 const activityInstanceInsert = async (activityInstanceData) => {
   const newActivityInstance = await insertActivityInstance(activityInstanceData);

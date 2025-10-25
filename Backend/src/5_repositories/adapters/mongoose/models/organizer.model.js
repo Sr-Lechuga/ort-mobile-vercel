@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const organizerSchema = new mongoose.Schema(
   {
@@ -12,28 +12,28 @@ const organizerSchema = new mongoose.Schema(
       instagram: { type: String, maxLength: 25 },
       facebook: { type: String, maxLength: 25 },
       linkedIn: { type: String, maxLength: 25 },
-      personal: { type: String, maxLength: 120 }
+      personal: { type: String, maxLength: 120 },
     },
     location: {
       country: { type: String, required: true, maxLength: 25 },
       city: { type: String, required: true, maxLength: 25 },
       address: { type: String, required: true, maxLength: 255 },
       lat: { type: Number },
-      lng: { type: Number }
-    }
+      lng: { type: Number },
+    },
   },
   {
     timestamps: true,
-    collection: 'organizers',
+    collection: "organizers",
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.__v
-        delete ret.password
-      }
-    }
+        delete ret.__v;
+        delete ret.password;
+      },
+    },
   }
-)
+);
 
-const Organizer = mongoose.model('Organizer', organizerSchema)
+const Organizer = mongoose.model("Organizer", organizerSchema);
 
-module.exports = Organizer
+module.exports = Organizer;

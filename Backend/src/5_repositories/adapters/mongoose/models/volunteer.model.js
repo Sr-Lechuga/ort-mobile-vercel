@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const { VOLUNTEER_GENRE } = require("../utils/constants")
+const mongoose = require("mongoose");
+const { VOLUNTEER_GENRE } = require("../../../../utils/constants");
 
 const volunteerSchema = new mongoose.Schema(
   {
@@ -27,10 +27,10 @@ const volunteerSchema = new mongoose.Schema(
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Inscription",
-          required: true
-        }
+          required: true,
+        },
       ],
-      default: []
+      default: [],
     },
     registrationDate: { type: Date, required: true, default: Date.now },
   },
@@ -46,6 +46,6 @@ const volunteerSchema = new mongoose.Schema(
   }
 );
 
-const Volunteer = mongoose.model("Volunteer", volunteerSchema)
+const Volunteer = mongoose.model("Volunteer", volunteerSchema);
 
 module.exports = Volunteer;
