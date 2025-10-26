@@ -1,4 +1,3 @@
-const { organizerLogin, organizerSignUp } = require("../4_services/business/organizer.service");
 const { volunteerLogin, volunteerSignUp } = require("../4_services/business/volunteer.service");
 
 // VOLUNTEERS
