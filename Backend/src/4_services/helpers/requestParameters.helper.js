@@ -1,24 +1,27 @@
+const { DEFAULT_ELEMENT_LIMIT, DEFAULT_PAGE } = require("../../utils/constants");
+
 /**
  * Calcula el offset para paginación basándose en la página y límite
  * Aplica límites de seguridad al número de elementos por página
- * @param {number} page - Número de página (se ajusta a 1 si es <= 0)
+ * @param {number} page - Número de página (se ajusta a DEFAULT_PAGE si es <= 0)
  * @param {number} limit - Límite de elementos por página
  * @returns {number} - Offset calculado para la consulta
  */
 const bufferOffset = (page, limit) => {
   limit = bufferElementLimit(limit);
-  page = page <= 0 ? 1 : page;
+  page = page <= 0 ? (process.env.DEFAULT_PAGE ? parseInt(process.env.DEFAULT_PAGE) : DEFAULT_PAGE) : page;
   return (parseInt(page) - 1) * parseInt(limit);
 };
 
 /**
  * Aplica límites de seguridad al número de elementos por página
- * Establece un máximo de 20 elementos y mínimo de 1
+ * Establece un máximo configurable mediante DEFAULT_ELEMENT_LIMIT
  * @param {number} limit - Límite solicitado
- * @returns {number} - Límite ajustado (máximo 20, mínimo 1)
+ * @returns {number} - Límite ajustado (usa DEFAULT_ELEMENT_LIMIT si es inválido)
  */
 const bufferElementLimit = (limit) => {
-  return limit <= 0 || limit > 20 ? 20 : limit;
+  const maxLimit = process.env.DEFAULT_ELEMENT_LIMIT ? parseInt(process.env.DEFAULT_ELEMENT_LIMIT) : DEFAULT_ELEMENT_LIMIT;
+  return limit <= 0 || limit > maxLimit ? maxLimit : limit;
 };
 
 /**

@@ -133,13 +133,6 @@ const patchInscriptionAttendance = async (req, res, next) => {
       return;
     }
 
-    // // Instance Ownership check
-    // isOwner = await checkOwnership(res, activityInstanceSelectById, instanceId, "Instance de Actividad", req.session.id);
-    // if (!isOwner) {
-    //   //status is updated in checkOwnership
-    //   return;
-    // }
-
     const newData = await updateInscriptionAttendance(inscriptionId, instanceId, assisted);
     res.status(200).json({ newData });
   } catch (err) {
@@ -158,36 +151,3 @@ module.exports = {
   postInstanceInscription,
   patchInscriptionAttendance,
 };
-
-/*
-  const {
-    title,
-    categories,
-    description,
-    date,
-    status,
-    location,
-    locationCoordinates,
-  } = req.body;
-
-  try {
-    const newActivity = {
-      title,
-      categories,
-      description,
-      date,
-      status,
-      location,
-      locationCoordinates,
-    };
-
-    await activityInsert(newActivityInstance);
-
-    res.status(201).json({
-      message: "La actividad se creo satisfactoriamente",
-    });
-  } catch (err) {
-    err.placeOfError = "Error al crear una actividad";
-    next(err);
-  }
-*/

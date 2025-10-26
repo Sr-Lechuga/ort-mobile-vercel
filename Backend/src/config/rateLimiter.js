@@ -1,8 +1,9 @@
 const { rateLimit } = require("express-rate-limit");
+const { RATE_LIMIT_WINDOW_ATTEMPTS, RATE_LIMIT_WINDOW_MS } = require("../utils/constants");
 
 const rateLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: process.env.RATE_LIMIT_WINDOW_ATTEMPTS, // Limit each IP to 30 requests per `windowMs` ~1 minute
+  windowMs: process.env.RATE_LIMIT_WINDOW_MS ? parseInt(process.env.RATE_LIMIT_WINDOW_MS) : RATE_LIMIT_WINDOW_MS, // Tiempo de ventana en ms
+  max: process.env.RATE_LIMIT_WINDOW_ATTEMPTS ? parseInt(process.env.RATE_LIMIT_WINDOW_ATTEMPTS) : RATE_LIMIT_WINDOW_ATTEMPTS, // Límite de intentos por ventana
 });
 
 module.exports = rateLimiter;

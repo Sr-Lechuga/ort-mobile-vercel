@@ -15,7 +15,8 @@ const activitySelectById = async (id) => {
 
     if (activity) {
       // Guardar en cache por el TTL configurado desde .env
-      await cacheService.set(cacheKey, activity, process.env.CACHE_TTL_ACTIVITY_DETAIL || CACHE_TTL.ACTIVITY_DETAIL);
+      const TTL = process.env.CACHE_TTL_ACTIVITY_DETAIL ? parseInt(process.env.CACHE_TTL_ACTIVITY_DETAIL) : CACHE_TTL.ACTIVITY_DETAIL;
+      await cacheService.set(cacheKey, activity, TTL);
     }
   }
 
@@ -29,7 +30,7 @@ const activitiesSelect = async (requestQuery) => {
   if (!activities) {
     // Si no está en cache, ejecutar consulta original
     const filters = {};
-    const { category, location, minDate, maxDate, page = 1, limit = 10 } = requestQuery;
+    const { category, location, minDate, maxDate, page = process.env.DEFAULT_PAGE || DEFAULT_PAGE, limit = process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT } = requestQuery;
 
     // -------------------------------------------------------------------------------- Filters
     if (category) filters.category = category;
@@ -53,7 +54,8 @@ const activitiesSelect = async (requestQuery) => {
     activities = await findActivities(filters, pagination);
 
     // Guardar en cache por el TTL configurado desde .env
-    await cacheService.set(cacheKey, activities, process.env.CACHE_TTL_ACTIVITIES_LIST || CACHE_TTL.ACTIVITIES_LIST);
+    const TTL = process.env.CACHE_TTL_ACTIVITIES_LIST ? parseInt(process.env.CACHE_TTL_ACTIVITIES_LIST) : CACHE_TTL.ACTIVITIES_LIST;
+    await cacheService.set(cacheKey, activities, TTL);
   }
 
   return activities;
