@@ -10,6 +10,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
+      console.log(`Go to http://localhost:${PORT}/swagger to see the documentation`);
       console.log(`Database: ${process.env.STORAGE_TYPE || "mongoose"}`);
     });
   } catch (error) {
