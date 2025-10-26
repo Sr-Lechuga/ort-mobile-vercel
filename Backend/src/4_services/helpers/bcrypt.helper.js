@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
-
-const SALT_ROUNDS = 6;
+const { SALT_ROUNDS } = require("../../utils/constants");
 
 /**
  * Encripta una contraseña usando bcrypt con salt rounds configurados
@@ -8,7 +7,8 @@ const SALT_ROUNDS = 6;
  * @returns {Promise<string>} - Contraseña encriptada
  */
 const encryptPassword = async (password) => {
-  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+  const saltRounds = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : SALT_ROUNDS;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
   return hashedPassword;
 };
 

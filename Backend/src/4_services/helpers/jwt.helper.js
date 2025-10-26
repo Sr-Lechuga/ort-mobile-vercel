@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { JWT_EXPIRATION } = require("../../utils/constants");
 
 /**
  * Genera un token JWT firmado con los datos del usuario
@@ -9,7 +10,7 @@ const jwt = require("jsonwebtoken");
  */
 const signToken = (userData, userType) => {
   const payload = { userType, ...userData };
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "24h" });
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION || JWT_EXPIRATION });
 };
 
 /**
