@@ -28,7 +28,8 @@ const activityInstanceSelectById = async (id) => {
 
     if (activityInstance) {
       // Guardar en cache por el TTL configurado desde .env
-      await cacheService.set(cacheKey, activityInstance, process.env.CACHE_TTL_ACTIVITY_INSTANCE || CACHE_TTL.ACTIVITY_INSTANCE);
+      const TTL = process.env.CACHE_TTL_ACTIVITY_INSTANCE ? parseInt(process.env.CACHE_TTL_ACTIVITY_INSTANCE) : CACHE_TTL.ACTIVITY_INSTANCE;
+      await cacheService.set(cacheKey, activityInstance, TTL);
     }
   }
 
@@ -73,40 +74,3 @@ module.exports = {
   activityInstanceAddInscription,
   activityInstanceSelectById,
 };
-
-/*
-const activityInstancesSelect = async (parameters) => {
-  const filters = {};
-  const {
-    lat,
-    lng,
-    radius, //in meters
-    location,
-    status,
-    minDate,
-    maxDate,
-    page = 1,
-    limit = 20,
-  } = parameters;
-
-  const geoLocationFilter = geoLocationRadiusFilter(lat, lng, radius);
-  const elements = bufferElementLimit(limit);
-  const offset = bufferOffset(page, elements);
-  const pagination = { skip: offset, limit: elements };
-
-  if (status) filters.status = status;
-  if (location) filters.location = new RegExp(location, "i"); // 'i' = Case insensitive
-  if (minDate) {
-    const isValid = createDate(minDate);
-    if (isValid) filters.startDate = { $gte: isValid };
-  }
-  if (maxDate) {
-    const isValid = createDate(maxDate);
-    if (isValid) filters.startDate = { ...(filters.date || {}), $lte: isValid };
-  }
-  if (geoLocationFilter) filters.locationCoordinates = geoLocationFilter;
-
-  const activities = await findActivityInstances(filters, pagination);
-  return activities;
-};
-*/

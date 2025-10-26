@@ -30,8 +30,8 @@ const checkOwnership = async (res, docFindFn, docId, docModelName, docOwnerId) =
 
     // Verificar ownership
     isOwner = doc.owner.toString() === docOwnerId.toString();
-
-    await cacheService.set(cacheKey, isOwner, process.env.CACHE_TTL_OWNERSHIP_CHECK || CACHE_TTL.OWNERSHIP_CHECK);
+    const TTL = process.env.CACHE_TTL_OWNERSHIP_CHECK ? parseInt(process.env.CACHE_TTL_OWNERSHIP_CHECK) : CACHE_TTL.OWNERSHIP_CHECK;
+    await cacheService.set(cacheKey, isOwner, TTL);
   }
 
   // Si no es owner, enviar respuesta de error
