@@ -4,7 +4,11 @@
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js",
-    "dev": "nodemon api/dev.js"
+    "dev": "nodemon api/dev.js",
+    "seed": "node src/utils/seeds/all.seed.js",
+    "seed:badges": "node src/utils/seeds/badges.seed.js",
+    "seed:organizers": "node src/utils/seeds/organizers.seed.js",
+    "seed:volunteers": "node src/utils/seeds/volunteers.seed.js"
   },
   "keywords": [],
   "author": "",
