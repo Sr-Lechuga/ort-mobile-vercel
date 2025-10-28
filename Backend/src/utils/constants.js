@@ -34,6 +34,21 @@ const VOLUNTEER_GENRE = ["hombre", "mujer", "no especificado"];
 const ACTIVITY_CATEGORIES = ["social", "ambiental", "educativo", "cultural", "salud", "emergencia"];
 const ACTIVITY_STATUS = ["inactiva", "en curso"];
 
+//-------------------------------------------------- Badge Constants ------------------------------------------------------------
+const BADGE_THRESHOLDS = [5, 10, 20, 50]; // Niveles de badges basados en participaciones
+const BADGE_TYPES = {
+  PARTICIPATION: "participation", // Por cantidad de participaciones certificadas
+  HOURS: "hours", // Por horas acumuladas
+  COMMENTS: "comments", // Por cantidad de comentarios realizados
+};
+
+// Estrategias disponibles para calcular badges
+const BADGE_STRATEGIES = {
+  PARTICIPATION_COUNT: "participationCount", // Cuenta participaciones con assisted=true
+  HOURS_ACCUMULATED: "hoursAccumulated", // Suma horas de actividades asistidas
+  COMMENT_COUNT: "commentCount", // Cuenta comentarios realizados
+};
+
 module.exports = {
   DEFAULT_TTL,
   CACHE_TTL,
@@ -42,6 +57,8 @@ module.exports = {
   ACTIVITY_CATEGORIES,
   VOLUNTEER_GENRE,
   ACTIVITY_STATUS,
+  BADGE_TYPES,
+  BADGE_STRATEGIES,
   SALT_ROUNDS,
   JWT_EXPIRATION,
   DEFAULT_PAGE,
