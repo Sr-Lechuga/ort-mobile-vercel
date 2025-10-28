@@ -32,6 +32,16 @@ const volunteerSchema = new mongoose.Schema(
       ],
       default: [],
     },
+
+    // Badges obtenidos por el voluntario
+    badgesEarned: [
+      {
+        badgeId: { type: String, required: true },
+        obtainedAt: { type: Date, required: true, default: Date.now },
+        metadata: { type: mongoose.Schema.Types.Mixed }, // Datos adicionales al momento de obtención
+      },
+    ],
+
     registrationDate: { type: Date, required: true, default: Date.now },
   },
   {
