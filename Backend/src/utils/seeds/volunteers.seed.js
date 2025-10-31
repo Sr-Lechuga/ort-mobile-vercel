@@ -11,7 +11,7 @@ const volunteersData = [
   {
     username: "mrodriguez",
     email: "mrodriguez@gmail.com",
-    password: "$2a$06$k.QzHkxm8F1XlkqvGZvxWe3V9Yq2GqJqXR2Q9Z9KQzQzKzQXZQzKz", // Maria.123 hasheado
+    password: "$2b$06$L5gMQkCDBggdTLuTenPV7u5Z7hVbWV30L.6CT9EsAQUnGE30pz4Fa", // Maria.123 hasheado
     name: "Maria",
     lastname: "Rodriguez",
     age: 25,
@@ -20,7 +20,7 @@ const volunteersData = [
   {
     username: "cpereira",
     email: "cpereira@gmail.com",
-    password: "$2a$06$k.QzHkxm8F1XlkqvGZvxWe3V9Yq2GqJqXR2Q9Z9KQzQzKzQXZQzKz", // Carlos.123 hasheado
+    password: "$2b$06$2TdXPOhBOp2TBuKhLBFQquj67OFnOZpo60Wyfht2WhKpkreG6V1Va", // Carlos.123 hasheado
     name: "Carlos",
     lastname: "Pereira",
     age: 68,
@@ -29,7 +29,7 @@ const volunteersData = [
   {
     username: "scabrera",
     email: "scabrera@gmail.com",
-    password: "$2a$06$k.QzHkxm8F1XlkqvGZvxWe3V9Yq2GqJqXR2Q9Z9KQzQzKzQXZQzKz", // Sofia.123 hasheado
+    password: "$2b$06$lL8LVjErTLME5RtjcfLIbuavwTC8IKgz3uArwSpmGYqQ6dy5cBSum", // Sofia.123 hasheado
     name: "Sofia",
     lastname: "Cabrera",
     age: 34,

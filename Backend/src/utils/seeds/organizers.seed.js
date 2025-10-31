@@ -12,7 +12,7 @@ const organizersData = [
     username: "ccbarriosur",
     email: "ccbarriosur@gmail.com",
     contactEmail: "ccbarriosur@gmail.com",
-    password: "$2a$06$k.QzHkxm8F1XlkqvGZvxWe3V9Yq2GqJqXR2Q9Z9KQzQzKzQXZQzKz", // ccbarriosur123 hasheado (deberías hashearlo real)
+    password: "$2b$06$f.LV12f9mjAjuRyxB4dDCuvYsvakEAbjZ0GCuOTNlpedoF0U1tL4a", // ccbarriosur123 hasheado (deberías hashearlo real)
     name: "Centro Cultural Barrio Sur",
     telephone: "59899123456",
     social: {
@@ -34,7 +34,7 @@ const organizersData = [
     name: "Centro Raices Verdes",
     email: "crv@gmail.com",
     contactEmail: "crv@gmail.com",
-    password: "$2a$06$k.QzHkxm8F1XlkqvGZvxWe3V9Yq2GqJqXR2Q9Z9KQzQzKzQXZQzKz", // crv123 hasheado
+    password: "$2b$06$rF62exLani0UUNBkA0fVm.1K3aVs/5VmeWi4.EIgGCZnOiEAY5gz2", // crv123 hasheado
     telephone: "59899123456",
     social: {
       instagram: "@crv",
