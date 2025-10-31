@@ -1,17 +1,17 @@
-const Activity = require("../models/activity.model");
+const Activity = require("./models/activity.model");
 
 const findActivityById = async (id) => {
   return await Activity.findById(id).populate("instances");
-}
+};
 
 const insertActivity = async (activityData) => {
   const newActivity = await Activity.create(activityData);
-  return newActivity
+  return newActivity;
 };
 
 const updateActivity = async (id, activityData) => {
   const newData = await Activity.findByIdAndUpdate(id, activityData);
-  return newData
+  return newData;
 };
 
 const findActivities = async (filters, pagination) => {
@@ -24,5 +24,5 @@ module.exports = {
   findActivityById,
   findActivities,
   insertActivity,
-  updateActivity
+  updateActivity,
 };

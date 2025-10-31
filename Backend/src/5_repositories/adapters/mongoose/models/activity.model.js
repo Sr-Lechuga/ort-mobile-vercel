@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require("../utils/constants");
+const { ACTIVITY_CATEGORIES, ACTIVITY_STATUS } = require("../../../../utils/constants");
 //TODO: Es posible que neceite un cambio en este modelo por las instances
 
 /*

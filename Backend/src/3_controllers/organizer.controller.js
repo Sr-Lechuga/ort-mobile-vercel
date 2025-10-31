@@ -1,18 +1,17 @@
-const { activityInsert } = require("../4_services/activity.service")
+const { activityInsert } = require("../4_services/business/activity.service");
 
 const postActivityByOrganizer = async (req, res) => {
   try {
-    const { id } = req.session
-    const newActivity = { owner: id, ...req.body }
-    const insertedActivity = await activityInsert(newActivity)
-    res.status(201).json({ insertedActivity })
+    const { id } = req.session;
+    const newActivity = { owner: id, ...req.body };
+    const insertedActivity = await activityInsert(newActivity);
+    res.status(201).json({ insertedActivity });
+  } catch (err) {
+    err.placeOfError = "Error en insertar actividad";
+    next(err);
   }
-  catch (err) {
-    console.log('ERROR EN INSERTAR ACTIVITY: ', err)
-    res.status(500).json({ message: 'Algo no salió correctamente' })
-  }
-}
+};
 
 module.exports = {
-  postActivityByOrganizer
-}
+  postActivityByOrganizer,
+};

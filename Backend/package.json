@@ -1,13 +1,17 @@
 {
   "name": "obligatorio_ort",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "debug": "node --inspect index.js",
-    "debug:dev": "nodemon --inspect index.js",
-    "debug:break": "node --inspect-brk index.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/dev.js",
+    "debug": "node --inspect api/index.js",
+    "debug:dev": "nodemon --inspect api/index.js",
+    "debug:break": "node --inspect-brk api/index.js",
+    "seed": "node src/utils/seeds/all.seed.js",
+    "seed:badges": "node src/utils/seeds/badges.seed.js",
+    "seed:organizers": "node src/utils/seeds/organizers.seed.js",
+    "seed:volunteers": "node src/utils/seeds/volunteers.seed.js"
   },
   "keywords": [],
   "author": "",

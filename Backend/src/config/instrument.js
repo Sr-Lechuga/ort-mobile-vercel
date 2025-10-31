@@ -12,7 +12,7 @@ if (process.env.SENTRY_DSN) {
     dsn: process.env.SENTRY_DSN,
     tracesSampleRate: 1.0,
     serverName: process.env.SERVER_NAME || "ORT_Movile_Backend",
-    environment: process.env.ENVIRONMENT || "development",
+    environment: process.env.NODE_ENVIRONMENT || "development",
   });
   console.log("✅ Sentry inicializado correctamente");
 }
