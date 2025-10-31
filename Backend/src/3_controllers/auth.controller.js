@@ -1,4 +1,5 @@
 const { volunteerLogin, volunteerSignUp } = require("../4_services/business/volunteer.service");
+const { organizerLogin, organizerSignUp } = require("../4_services/business/organizer.service");
 
 // VOLUNTEERS
 // Nota: Elegimos mantener toda la lógica entre voluntarios y organizadores por separado a pesar de que se repita código

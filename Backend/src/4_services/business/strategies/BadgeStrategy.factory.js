@@ -1,4 +1,4 @@
-const { BADGE_STRATEGIES } = require("../../../../utils/constants");
+const { BADGE_STRATEGIES } = require("../../../utils/constants");
 const ParticipationCountStrategy = require("./ParticipationCount.strategy");
 const HoursAccumulatedStrategy = require("./HoursAccumulated.strategy");
 const CommentCountStrategy = require("./CommentCount.strategy");

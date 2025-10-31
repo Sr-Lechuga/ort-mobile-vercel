@@ -1,4 +1,4 @@
-const { findInscriptionById, updateInscriptionAttendance } = require("../../5_repositories/adapters/mongoose/inscription.repository");
+const { findInscriptionById, inscriptionAttendanceUpdate } = require("../../5_repositories/adapters/mongoose/inscription.repository");
 const badgeService = require("./badge.service");
 
 /**
@@ -26,7 +26,7 @@ const updateInscriptionAttendance = async (inscriptionId, instanceId, assisted) 
   }
 
   // Actualizar la asistencia
-  const updatedInscription = await updateInscriptionAttendance(inscriptionId, assisted);
+  const updatedInscription = await inscriptionAttendanceUpdate(inscriptionId, assisted);
 
   // Si se está marcando asistencia (assisted = true), verificar si corresponde otorgar badges
   if (assisted) {

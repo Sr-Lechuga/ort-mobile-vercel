@@ -36,7 +36,7 @@ const checkOwnership = async (res, docFindFn, docId, docModelName, docOwnerId) =
 
   // Si no es owner, enviar respuesta de error
   if (!isOwner) {
-    res.status(409).json({ message: `El recurso ${docModelName} no te pertenece` });
+    res.status(403).json({ message: `No tienes permisos para acceder al recurso ${docModelName}` });
     return false;
   }
 

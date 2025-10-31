@@ -32,7 +32,7 @@ activityRoute.delete("/:activityId", verifyAccessLevel([USER_ORGANIZER]), delete
 
 //Instances
 activityRoute.post("/:activityId/instances", payloadValidator(activityInstancePostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivityInstance);
-activityRoute.patch("/:activityId/instances/instanceId", payloadValidator(activityInstancePatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivityInstance);
+activityRoute.patch("/:activityId/instances/:instanceId", payloadValidator(activityInstancePatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivityInstance);
 
 // Volunteer Inscription
 activityRoute.post("/:activityId/instances/:instanceId/inscriptions", verifyAccessLevel([USER_VOLUNTEER]), postInstanceInscription);

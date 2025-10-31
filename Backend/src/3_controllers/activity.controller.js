@@ -1,4 +1,4 @@
-const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete } = require("../4_services/business/activity.service");
+const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
@@ -34,8 +34,8 @@ const patchActivity = async (req, res, next) => {
 
     if (isOwner) {
       const newActivityData = { ...req.body };
-      const newData = await activityInsert(activityId, newActivityData);
-      res.status(201).json({ newData });
+      const newData = await activityUpdate(activityId, newActivityData);
+      res.status(200).json({ insertedActivity: newData });
     }
   } catch (err) {
     err.placeOfError = "Error en editar (patch) actividad";
@@ -86,15 +86,15 @@ const patchActivityInstance = async (req, res, next) => {
     const { activityId, instanceId } = req.params;
 
     // OWNERSHIP CHECK
-    const isOwner = await checkOwnership(res, activitySelectById, instanceId, "Instance de Actividad", req.session.id);
+    const isOwner = await checkOwnership(res, activityInstanceSelectById, instanceId, "Instance de Actividad", req.session.id);
 
     if (isOwner) {
       const newActivityInstanceData = { ...req.body };
       const newData = await activityInstanceUpdate(instanceId, newActivityInstanceData, activityId);
-      res.status(201).json({ newData });
+      res.status(200).json({ insertedActivityInstance: newData });
     }
   } catch (err) {
-    err.placeOfError = "Error en insertar instancia de actividad";
+    err.placeOfError = "Error en actualizar instancia de actividad";
     next(err);
   }
 };
@@ -109,8 +109,8 @@ const postInstanceInscription = async (req, res, next) => {
     }
 
     const newInscription = await activityInstanceAddInscription(instanceId, volunteerId);
-    res.status(200).json({
-      message: "Inscripción realizada correctamente",
+    res.status(201).json({
+      message: "Inscripción realizada exitosamente",
       inscription: newInscription,
     });
   } catch (err) {
@@ -126,15 +126,12 @@ const patchInscriptionAttendance = async (req, res, next) => {
     const { assisted } = req.body;
 
     // Activity Ownership check
-    let isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
-    if (!isOwner) {
-      res.status(401).json({ message: "No tienes permisos para actualizar la asistencia de esta inscripción" });
-      //status is updated in checkOwnership
-      return;
-    }
+    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
 
-    const newData = await updateInscriptionAttendance(inscriptionId, instanceId, assisted);
-    res.status(200).json({ newData });
+    if (isOwner) {
+      await updateInscriptionAttendance(inscriptionId, instanceId, assisted);
+      res.status(200).json({ message: "Asistencia actualizada exitosamente" });
+    }
   } catch (err) {
     err.placeOfError = "Error en actualizar asistencia de inscripción";
     next(err);

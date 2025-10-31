@@ -1,6 +1,6 @@
 const { findActiveBadges } = require("../../5_repositories/adapters/mongoose/badge.repository");
 const { findVolunteerById, updateVolunteer, findVolunteerByIdWithBadges } = require("../../5_repositories/adapters/mongoose/volunteer.repository");
-const BadgeStrategyFactory = require("./strategies/BadgeStrategyFactory");
+const BadgeStrategyFactory = require("./strategies/BadgeStrategy.factory");
 
 /**
  * Servicio para la gestión de badges

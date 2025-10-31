@@ -344,7 +344,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/v1/activities/{activityId}": {
       "patch": {
         "tags": ["Actividades"],
         "summary": "Actualizar actividad",
@@ -352,6 +354,17 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad a actualizar",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -397,6 +410,69 @@
           },
           "403": {
             "description": "No tienes permisos para actualizar esta actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Actividades"],
+        "summary": "Desactivar actividad",
+        "description": "Desactiva una actividad de voluntariado (requiere ser propietario)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad a desactivar",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actividad desactivada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error al desactivar la actividad",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos para desactivar esta actividad",
             "content": {
               "application/json": {
                 "schema": {
@@ -470,7 +546,7 @@
               }
             }
           },
-          "409": {
+          "403": {
             "description": "No tienes permisos para crear instancias de esta actividad",
             "content": {
               "application/json": {
@@ -1013,6 +1089,19 @@
           "message": {
             "type": "string",
             "description": "Mensaje de éxito"
+          }
+        }
+      },
+      "ActivityDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Mensaje de éxito",
+            "example": "Actividad desactivada correctamente"
+          },
+          "deletedActivity": {
+            "$ref": "#/components/schemas/Activity"
           }
         }
       },
