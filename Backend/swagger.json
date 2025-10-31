@@ -802,7 +802,7 @@
     },
     "/v1/volunteers/inscriptions/{inscriptionId}": {
       "delete": {
-        "tags": ["Inscripciones"],
+        "tags": ["Voluntarios"],
         "summary": "Cancelar inscripción",
         "description": "Permite a un voluntario cancelar su inscripción a una instancia de actividad",
         "security": [
