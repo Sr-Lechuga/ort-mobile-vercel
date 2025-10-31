@@ -1,5 +1,5 @@
-const createRedisAdapter = require("./redis.adapter");
-const createInMemoryAdapter = require("./inMemory.adapter");
+const { createRedisAdapter } = require("./redis.adapter");
+const { createInMemoryAdapter } = require("./inMemory.adapter");
 
 const createCacheAdapter = (type = "in-memory") => {
   switch (type.toLowerCase()) {
