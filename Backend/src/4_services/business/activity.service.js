@@ -3,7 +3,7 @@ const { createDate } = require("../../utils/datesHandler");
 const { bufferElementLimit, bufferOffset } = require("../helpers/requestParameters.helper");
 const cacheService = require("../cache/cache.service");
 const { generateActivitiesCacheKey, generateActivityCacheKey, generateCachePattern } = require("../helpers/cacheKey.helper");
-const { CACHE_TTL } = require("../../utils/constants");
+const { CACHE_TTL, DEFAULT_PAGE, DEFAULT_ELEMENT_LIMIT } = require("../../utils/constants");
 
 const activitySelectById = async (id) => {
   const cacheKey = generateActivityCacheKey(id);
@@ -30,7 +30,7 @@ const activitiesSelect = async (requestQuery) => {
   if (!activities) {
     // Si no está en cache, ejecutar consulta original
     const filters = {};
-    const { category, location, minDate, maxDate, page = process.env.DEFAULT_PAGE || DEFAULT_PAGE, limit = process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT } = requestQuery;
+    const { category, location, minDate, maxDate, page, limit } = requestQuery;
 
     // -------------------------------------------------------------------------------- Filters
     if (category) filters.category = category;
@@ -46,8 +46,8 @@ const activitiesSelect = async (requestQuery) => {
     }
 
     // -------------------------------------------------------------------------------- Pagination
-    let elements = bufferElementLimit(limit);
-    let offset = bufferOffset(page, limit);
+    let elements = bufferElementLimit(limit || process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT);
+    let offset = bufferOffset(page || process.env.DEFAULT_PAGE || DEFAULT_PAGE, limit || process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT);
     const pagination = { skip: offset, limit: elements };
 
     // -------------------------------------------------------------------------------- Request

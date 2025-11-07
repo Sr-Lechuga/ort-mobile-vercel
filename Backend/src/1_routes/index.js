@@ -11,9 +11,9 @@ const setupRoutes = (app) => {
   app.use("/auth", authRoute);
 
   // Middleware de autenticación
-  app.use(verifySessionMiddleware);
+  //app.use(verifySessionMiddleware);
 
-  // Rutas privadas
+  // Rutas
   app.use("/v1/activities", activityRoute);
   app.use("/v1/organizers", organizerRoute);
   app.use("/v1/volunteers", volunteerRoute);
