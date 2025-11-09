@@ -32,7 +32,6 @@ const volunteerSchema = new mongoose.Schema(
       ],
       default: [],
     },
-
     // Badges obtenidos por el voluntario
     badgesEarned: [
       {
