@@ -44,6 +44,10 @@
       "description": "Gestión de inscripciones de voluntarios a actividades"
     },
     {
+      "name": "Comentarios",
+      "description": "Gestión de comentarios sobre actividades e instancias"
+    },
+    {
       "name": "Organizadores",
       "description": "Gestión de organizadores"
     },
@@ -707,6 +711,90 @@
         }
       }
     },
+    "/v1/activities/{activityId}/instances/{instanceId}/comments": {
+      "post": {
+        "tags": ["Comentarios"],
+        "summary": "Crear comentario sobre una instancia de actividad",
+        "description": "Permite a un voluntario calificar y comentar una actividad a la que asistió",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad relacionada",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la instancia de actividad asistida",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comentario creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la creación del comentario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos para comentar esta instancia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/activities/{activityId}/instances/{instanceId}/inscriptions/{inscriptionId}/attendance": {
       "patch": {
         "tags": ["Inscripciones"],
@@ -1323,6 +1411,81 @@
           },
           "inscription": {
             "$ref": "#/components/schemas/Inscription"
+          }
+        }
+      },
+      "CommentCreateRequest": {
+        "type": "object",
+        "required": ["comment", "rating"],
+        "properties": {
+          "comment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Texto del comentario realizado por el voluntario"
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Calificación otorgada a la actividad (1 a 5)"
+          }
+        }
+      },
+      "CommentResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Comentario registrado con éxito"
+          },
+          "comment": {
+            "$ref": "#/components/schemas/Comment"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "ID único del comentario"
+          },
+          "volunteer": {
+            "type": "string",
+            "description": "ID del voluntario que realizó el comentario"
+          },
+          "activity": {
+            "type": "string",
+            "description": "ID de la actividad comentada"
+          },
+          "instance": {
+            "type": "string",
+            "description": "ID de la instancia asociada al comentario"
+          },
+          "inscription": {
+            "type": "string",
+            "description": "ID de la inscripción que habilitó el comentario"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Contenido del comentario"
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Calificación otorgada"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de creación del comentario"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha de última actualización del comentario"
           }
         }
       },
