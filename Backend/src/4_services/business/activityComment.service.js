@@ -1,6 +1,9 @@
 const { findActivityInstanceById } = require("../../5_repositories/adapters/mongoose/activityInstance.repository");
 const { findInscriptionByVolunteerAndInstance } = require("../../5_repositories/adapters/mongoose/inscription.repository");
-const { insertComment, findCommentByVolunteerAndInstance } = require("../../5_repositories/adapters/mongoose/comment.repository");
+const {
+  insertActivityComment,
+  findActivityCommentByVolunteerAndInstance,
+} = require("../../5_repositories/adapters/mongoose/activityComment.repository");
 const badgeService = require("./badge.service");
 
 const createActivityInstanceComment = async (volunteerId, activityId, instanceId, commentPayload) => {
@@ -24,7 +27,7 @@ const createActivityInstanceComment = async (volunteerId, activityId, instanceId
     throw new Error("ERROR 015, Solo puedes comentar actividades a las que asististe");
   }
 
-  const existingComment = await findCommentByVolunteerAndInstance(volunteerId, instanceId);
+  const existingComment = await findActivityCommentByVolunteerAndInstance(volunteerId, instanceId);
   if (existingComment) {
     throw new Error("ERROR 016, Ya registraste un comentario para esta instancia");
   }
@@ -36,9 +39,10 @@ const createActivityInstanceComment = async (volunteerId, activityId, instanceId
     inscription: inscription._id,
     comment: commentPayload.comment,
     rating: commentPayload.rating,
+    anonymous: commentPayload.anonymous ?? false,
   };
 
-  const createdComment = await insertComment(newCommentData);
+  const createdComment = await insertActivityComment(newCommentData);
 
   try {
     await badgeService.checkAndAwardBadges(volunteerId);
@@ -52,3 +56,4 @@ const createActivityInstanceComment = async (volunteerId, activityId, instanceId
 module.exports = {
   createActivityInstanceComment,
 };
+

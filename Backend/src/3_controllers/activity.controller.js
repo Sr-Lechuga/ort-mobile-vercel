@@ -1,7 +1,7 @@
 const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
-const { createActivityInstanceComment } = require("../4_services/business/comment.service");
+const { createActivityInstanceComment } = require("../4_services/business/activityComment.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {

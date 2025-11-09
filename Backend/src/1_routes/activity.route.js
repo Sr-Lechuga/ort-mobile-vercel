@@ -17,7 +17,7 @@ const payloadValidator = require("../2_middlewares/payloadValidator.middleware")
 const { USER_ORGANIZER, USER_VOLUNTEER } = require("../utils/constants");
 const verifyAccessLevel = require("../2_middlewares/verifyAccessLevel.middleware");
 const { inscriptionAttendanceSchema } = require("../2_middlewares/request_schemas/inscriptionAttendance.schema");
-const { commentCreateSchema } = require("../2_middlewares/request_schemas/commentRequest.schema");
+const { activityCommentCreateSchema } = require("../2_middlewares/request_schemas/activityCommentRequest.schema");
 
 const activityRoute = express.Router();
 
@@ -38,7 +38,12 @@ activityRoute.patch("/:activityId/instances/:instanceId", payloadValidator(activ
 
 // Volunteer Inscription
 activityRoute.post("/:activityId/instances/:instanceId/inscriptions", verifyAccessLevel([USER_VOLUNTEER]), postInstanceInscription);
-activityRoute.post("/:activityId/instances/:instanceId/comments", payloadValidator(commentCreateSchema), verifyAccessLevel([USER_VOLUNTEER]), postActivityInstanceComment);
+activityRoute.post(
+  "/:activityId/instances/:instanceId/comments",
+  payloadValidator(activityCommentCreateSchema),
+  verifyAccessLevel([USER_VOLUNTEER]),
+  postActivityInstanceComment
+);
 
 // Organizer Inscription Attendance Validation
 activityRoute.patch(

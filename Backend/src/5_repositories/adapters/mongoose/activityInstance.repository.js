@@ -10,6 +10,11 @@ const findActivityInstanceById = async (id) => {
   return await ActivityInstance.findById(id);
 };
 
+const findActivityInstanceByIdsAndOwner = async (ids, ownerId) => {
+  if (!ids || !ids.length) return null;
+  return await ActivityInstance.findOne({ _id: { $in: ids }, owner: ownerId });
+};
+
 const insertActivityInstance = async (activityInstanceData) => {
   const newActivityInstance = await ActivityInstance.create(activityInstanceData);
   return newActivityInstance;
@@ -25,4 +30,5 @@ module.exports = {
   findActivityInstanceById,
   insertActivityInstance,
   updateActivityInstance,
+  findActivityInstanceByIdsAndOwner,
 };
