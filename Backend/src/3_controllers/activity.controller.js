@@ -1,6 +1,7 @@
 const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
+const { createActivityInstanceComment } = require("../4_services/business/comment.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
@@ -119,6 +120,27 @@ const postInstanceInscription = async (req, res, next) => {
   }
 };
 
+const postActivityInstanceComment = async (req, res, next) => {
+  try {
+    const volunteerId = req.session.id;
+    const { activityId, instanceId } = req.params;
+    const { comment, rating } = req.body;
+
+    const createdComment = await createActivityInstanceComment(volunteerId, activityId, instanceId, {
+      comment,
+      rating,
+    });
+
+    res.status(201).json({
+      message: "Comentario registrado con éxito",
+      comment: createdComment,
+    });
+  } catch (err) {
+    err.placeOfError = "Error en crear comentario de instancia";
+    next(err);
+  }
+};
+
 ///:activityId/instances/:instanceId/inscriptions/:inscriptionId/attendance"
 const patchInscriptionAttendance = async (req, res, next) => {
   try {
@@ -147,4 +169,5 @@ module.exports = {
   patchActivityInstance,
   postInstanceInscription,
   patchInscriptionAttendance,
+  postActivityInstanceComment,
 };
