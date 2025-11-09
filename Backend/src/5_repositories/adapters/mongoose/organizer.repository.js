@@ -5,11 +5,16 @@ const findOrganizerByUsername = async (username) => {
   return organizer;
 };
 
+const findOrganizerById = async (id) => {
+  return await Organizer.findById(id);
+};
+
 const insertOrganizer = async (organizerData) => {
   await Organizer.create(organizerData);
 };
 
 module.exports = {
   findOrganizerByUsername,
+  findOrganizerById,
   insertOrganizer,
 };

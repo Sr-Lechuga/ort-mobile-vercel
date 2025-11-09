@@ -5,6 +5,14 @@ const findInscriptionById = async (id) => {
   return inscription;
 };
 
+const findAssistedInstanceIdsByVolunteer = async (volunteerId) => {
+  return await Inscription.find({
+    volunteer: volunteerId,
+    assisted: true,
+    accepted: true,
+  }).distinct("instance");
+};
+
 const findInscriptionByVolunteerAndInstance = async (volunteerId, instanceId) => {
   return await Inscription.findOne({ volunteer: volunteerId, instance: instanceId });
 };
@@ -29,4 +37,5 @@ module.exports = {
   findInscriptionById,
   inscriptionAttendanceUpdate,
   findInscriptionByVolunteerAndInstance,
+  findAssistedInstanceIdsByVolunteer,
 };
