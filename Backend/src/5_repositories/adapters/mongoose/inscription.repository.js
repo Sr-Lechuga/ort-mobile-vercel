@@ -5,6 +5,10 @@ const findInscriptionById = async (id) => {
   return inscription;
 };
 
+const findInscriptionByVolunteerAndInstance = async (volunteerId, instanceId) => {
+  return await Inscription.findOne({ volunteer: volunteerId, instance: instanceId });
+};
+
 const insertInscription = async (inscriptionData) => {
   const newInscription = await Inscription.create(inscriptionData);
   return newInscription;
@@ -24,4 +28,5 @@ module.exports = {
   deleteInscriptionById,
   findInscriptionById,
   inscriptionAttendanceUpdate,
+  findInscriptionByVolunteerAndInstance,
 };
