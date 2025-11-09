@@ -3,6 +3,8 @@ const { findInscriptionByVolunteerAndInstance } = require("../../5_repositories/
 const {
   insertActivityComment,
   findActivityCommentByVolunteerAndInstance,
+  findActivityCommentsByActivity,
+  getActivityCommentsStats,
 } = require("../../5_repositories/adapters/mongoose/activityComment.repository");
 const badgeService = require("./badge.service");
 
@@ -53,7 +55,19 @@ const createActivityInstanceComment = async (volunteerId, activityId, instanceId
   return createdComment;
 };
 
-module.exports = {
-  createActivityInstanceComment,
+const getActivityCommentsSummary = async (activityId) => {
+  const comments = await findActivityCommentsByActivity(activityId);
+  const stats = await getActivityCommentsStats(activityId);
+
+  return {
+    activityId,
+    totalComments: stats.totalComments,
+    averageRating: Number(stats.averageRating?.toFixed?.(2) ?? 0),
+    comments,
+  };
 };
 
+module.exports = {
+  createActivityInstanceComment,
+  getActivityCommentsSummary,
+};

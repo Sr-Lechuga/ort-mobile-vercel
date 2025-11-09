@@ -1,5 +1,10 @@
 const { findOrganizerById } = require("../../5_repositories/adapters/mongoose/organizer.repository");
-const { findOrganizerCommentByVolunteerAndOrganizer, insertOrganizerComment } = require("../../5_repositories/adapters/mongoose/organizerComment.repository");
+const {
+  findOrganizerCommentByVolunteerAndOrganizer,
+  insertOrganizerComment,
+  findOrganizerCommentsByOrganizer,
+  getOrganizerCommentsStats,
+} = require("../../5_repositories/adapters/mongoose/organizerComment.repository");
 const { findInscriptionByVolunteerAndInstance, findAssistedInstanceIdsByVolunteer } = require("../../5_repositories/adapters/mongoose/inscription.repository");
 const { findActivityInstanceByIdsAndOwner } = require("../../5_repositories/adapters/mongoose/activityInstance.repository");
 const badgeService = require("./badge.service");
@@ -51,6 +56,19 @@ const createOrganizerComment = async (volunteerId, organizerId, commentPayload) 
   return createdComment;
 };
 
+const getOrganizerCommentsSummary = async (organizerId) => {
+  const comments = await findOrganizerCommentsByOrganizer(organizerId);
+  const stats = await getOrganizerCommentsStats(organizerId);
+
+  return {
+    organizerId,
+    totalComments: stats.totalComments,
+    averageRating: Number(stats.averageRating?.toFixed?.(2) ?? 0),
+    comments,
+  };
+};
+
 module.exports = {
   createOrganizerComment,
+  getOrganizerCommentsSummary,
 };

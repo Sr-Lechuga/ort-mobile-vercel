@@ -711,6 +711,46 @@
         }
       }
     },
+    "/v1/activities/{activityId}/comments": {
+      "get": {
+        "tags": ["Comentarios"],
+        "summary": "Listar comentarios de una actividad",
+        "description": "Obtiene los comentarios registrados y el promedio de calificaciones para una actividad",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "description": "ID de la actividad",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de comentarios obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityCommentsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error al obtener los comentarios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
     "/v1/activities/{activityId}/instances/{instanceId}/comments": {
       "post": {
         "tags": ["Comentarios"],
@@ -796,6 +836,44 @@
       }
     },
     "/v1/organizers/{organizerId}/comments": {
+      "get": {
+        "tags": ["Comentarios"],
+        "summary": "Listar comentarios de un centro",
+        "description": "Obtiene los comentarios registrados y el promedio de calificaciones para un centro",
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "description": "ID del centro (organizador)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado de comentarios obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizerCommentsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error al obtener los comentarios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        ]
+      },
       "post": {
         "tags": ["Comentarios"],
         "summary": "Crear comentario sobre un centro",
@@ -1542,6 +1620,62 @@
           },
           "comment": {
             "$ref": "#/components/schemas/Comment"
+          }
+        }
+      },
+      "ActivityCommentsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Comentarios obtenidos correctamente"
+          },
+          "activityId": {
+            "type": "string",
+            "description": "ID de la actividad consultada"
+          },
+          "totalComments": {
+            "type": "integer",
+            "description": "Cantidad total de comentarios registrados"
+          },
+          "averageRating": {
+            "type": "number",
+            "format": "double",
+            "description": "Promedio de calificaciones (0-5)"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        }
+      },
+      "OrganizerCommentsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Comentarios obtenidos correctamente"
+          },
+          "organizerId": {
+            "type": "string",
+            "description": "ID del centro consultado"
+          },
+          "totalComments": {
+            "type": "integer",
+            "description": "Cantidad total de comentarios registrados"
+          },
+          "averageRating": {
+            "type": "number",
+            "format": "double",
+            "description": "Promedio de calificaciones (0-5)"
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Comment"
+            }
           }
         }
       },

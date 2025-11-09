@@ -1,7 +1,7 @@
 const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
-const { createActivityInstanceComment } = require("../4_services/business/activityComment.service");
+const { createActivityInstanceComment, getActivityCommentsSummary } = require("../4_services/business/activityComment.service");
 const { checkOwnership } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
@@ -141,6 +141,21 @@ const postActivityInstanceComment = async (req, res, next) => {
   }
 };
 
+const getActivityComments = async (req, res, next) => {
+  try {
+    const { activityId } = req.params;
+    const summary = await getActivityCommentsSummary(activityId);
+
+    res.status(200).json({
+      message: "Comentarios obtenidos correctamente",
+      ...summary,
+    });
+  } catch (err) {
+    err.placeOfError = "Error en obtener comentarios de actividad";
+    next(err);
+  }
+};
+
 ///:activityId/instances/:instanceId/inscriptions/:inscriptionId/attendance"
 const patchInscriptionAttendance = async (req, res, next) => {
   try {
@@ -170,4 +185,5 @@ module.exports = {
   postInstanceInscription,
   patchInscriptionAttendance,
   postActivityInstanceComment,
+  getActivityComments,
 };

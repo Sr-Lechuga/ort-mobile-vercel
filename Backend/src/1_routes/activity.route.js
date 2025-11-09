@@ -10,6 +10,7 @@ const {
   patchActivityInstance,
   patchInscriptionAttendance,
   postActivityInstanceComment,
+  getActivityComments,
 } = require("../3_controllers/activity.controller");
 const { activityPostRequestSchema, activityPatchRequestSchema } = require("../2_middlewares/request_schemas/acitivityRequest.schema");
 const { activityInstancePostRequestSchema, activityInstancePatchRequestSchema } = require("../2_middlewares/request_schemas/activityInstanceRequest.schema");
@@ -23,6 +24,7 @@ const activityRoute = express.Router();
 
 // Public
 activityRoute.get("/", getActivities);
+activityRoute.get("/:activityId/comments", getActivityComments);
 
 // Private
 activityRoute.use(verifySesion);
@@ -38,12 +40,7 @@ activityRoute.patch("/:activityId/instances/:instanceId", payloadValidator(activ
 
 // Volunteer Inscription
 activityRoute.post("/:activityId/instances/:instanceId/inscriptions", verifyAccessLevel([USER_VOLUNTEER]), postInstanceInscription);
-activityRoute.post(
-  "/:activityId/instances/:instanceId/comments",
-  payloadValidator(activityCommentCreateSchema),
-  verifyAccessLevel([USER_VOLUNTEER]),
-  postActivityInstanceComment
-);
+activityRoute.post("/:activityId/instances/:instanceId/comments", payloadValidator(activityCommentCreateSchema), verifyAccessLevel([USER_VOLUNTEER]), postActivityInstanceComment);
 
 // Organizer Inscription Attendance Validation
 activityRoute.patch(

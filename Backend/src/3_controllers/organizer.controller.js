@@ -1,5 +1,5 @@
 const { activityInsert } = require("../4_services/business/activity.service");
-const { createOrganizerComment } = require("../4_services/business/organizerComment.service");
+const { createOrganizerComment, getOrganizerCommentsSummary } = require("../4_services/business/organizerComment.service");
 
 const postActivityByOrganizer = async (req, res, next) => {
   try {
@@ -31,7 +31,23 @@ const postOrganizerComment = async (req, res, next) => {
   }
 };
 
+const getOrganizerComments = async (req, res, next) => {
+  try {
+    const { organizerId } = req.params;
+    const summary = await getOrganizerCommentsSummary(organizerId);
+
+    res.status(200).json({
+      message: "Comentarios obtenidos correctamente",
+      ...summary,
+    });
+  } catch (err) {
+    err.placeOfError = "Error en obtener comentarios de organizador";
+    next(err);
+  }
+};
+
 module.exports = {
   postActivityByOrganizer,
   postOrganizerComment,
+  getOrganizerComments,
 };
