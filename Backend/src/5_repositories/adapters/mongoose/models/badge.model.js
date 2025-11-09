@@ -60,8 +60,7 @@ const badgeSchema = new mongoose.Schema(
     strategyConfig: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
-      // Ejemplo: { hoursRequired: 10 } para badges de horas
-      // Ejemplo: { countRequired: 5 } para badges de participación
+      // Ejemplo: { threshold: 10 } para badges de horas, participaciones o comentarios
     },
 
     // Si el badge está activo en el sistema

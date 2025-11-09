@@ -1,9 +1,8 @@
 const BaseBadgeStrategy = require("./BaseBadge.strategy");
+const { countCommentsByVolunteer } = require("../../../5_repositories/adapters/mongoose/comment.repository");
 
 /**
  * Estrategia para calcular badges basados en cantidad de comentarios realizados
- * Actualmente retorna 0 porque los comentarios no están implementados
- * Esta estrategia está preparada para cuando se implemente la funcionalidad de comentarios
  */
 class CommentCountStrategy extends BaseBadgeStrategy {
   /**
@@ -12,11 +11,7 @@ class CommentCountStrategy extends BaseBadgeStrategy {
    * @returns {Promise<number>} - Cantidad de comentarios realizados
    */
   async calculateValue(volunteerId) {
-    // TODO: Implementar cuando se agregue la funcionalidad de comentarios
-    // const Comment = require("../../../5_repositories/adapters/mongoose/models/comment.model");
-    // return await Comment.countDocuments({ volunteer: volunteerId });
-
-    return 0; // Placeholder hasta que se implementen los comentarios
+    return await countCommentsByVolunteer(volunteerId);
   }
 
   /**

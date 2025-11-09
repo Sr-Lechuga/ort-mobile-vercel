@@ -41,9 +41,14 @@ class BadgeService {
         const currentValue = await strategy.calculateValue(volunteerId);
 
         // Verificar si cumple el umbral definido en la configuración
-        const threshold = badge.strategyConfig?.threshold || badge.strategyConfig?.countRequired || badge.strategyConfig?.hoursRequired;
+        const threshold = badge.strategyConfig?.threshold;
 
-        if (threshold !== undefined && currentValue >= threshold) {
+        if (threshold === undefined || threshold === null) {
+          console.warn(`Badge ${badge.badgeId} no tiene configurado un threshold válido, se omite la evaluación.`);
+          continue;
+        }
+
+        if (currentValue >= threshold) {
           // Otorgar el badge
           await this.awardBadge(volunteerId, badge.badgeId, {
             currentValue,

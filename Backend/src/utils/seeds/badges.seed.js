@@ -98,7 +98,7 @@ const badgesToInsert = [
     priority: 3,
   },
 
-  // Badges de Comentarios (preparado para futuro)
+  // Badges de Comentarios
   {
     badgeId: "comment_1",
     type: BADGE_TYPES.COMMENTS,
@@ -108,8 +108,56 @@ const badgesToInsert = [
     imageUrl: "/images/badges/comment_1.png",
     strategy: BADGE_STRATEGIES.COMMENT_COUNT,
     strategyConfig: { threshold: 1 },
-    active: false, // Inactivo hasta que se implemente la funcionalidad
+    active: true,
     priority: 1,
+  },
+  {
+    badgeId: "comment_10",
+    type: BADGE_TYPES.COMMENTS,
+    level: 10,
+    title: "Cronista Solidario",
+    description: "Registra 10 comentarios en actividades asistidas",
+    imageUrl: "/images/badges/comment_10.png",
+    strategy: BADGE_STRATEGIES.COMMENT_COUNT,
+    strategyConfig: { threshold: 10 },
+    active: true,
+    priority: 2,
+  },
+  {
+    badgeId: "comment_50",
+    type: BADGE_TYPES.COMMENTS,
+    level: 50,
+    title: "Referente de Opinión",
+    description: "Comparte 50 comentarios para mejorar experiencias",
+    imageUrl: "/images/badges/comment_50.png",
+    strategy: BADGE_STRATEGIES.COMMENT_COUNT,
+    strategyConfig: { threshold: 50 },
+    active: true,
+    priority: 3,
+  },
+  {
+    badgeId: "comment_100",
+    type: BADGE_TYPES.COMMENTS,
+    level: 100,
+    title: "Mentor Comunitario",
+    description: "Aporta 100 comentarios que inspiran a otros",
+    imageUrl: "/images/badges/comment_100.png",
+    strategy: BADGE_STRATEGIES.COMMENT_COUNT,
+    strategyConfig: { threshold: 100 },
+    active: true,
+    priority: 4,
+  },
+  {
+    badgeId: "comment_1000",
+    type: BADGE_TYPES.COMMENTS,
+    level: 1000,
+    title: "Voz Legendaria",
+    description: "Alcanza 1000 comentarios y conviértete en referente",
+    imageUrl: "/images/badges/comment_1000.png",
+    strategy: BADGE_STRATEGIES.COMMENT_COUNT,
+    strategyConfig: { threshold: 1000 },
+    active: true,
+    priority: 5,
   },
 ];
 
