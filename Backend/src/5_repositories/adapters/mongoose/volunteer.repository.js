@@ -19,10 +19,13 @@ const updateVolunteer = async (id, volunteerData) => {
 };
 
 const findVolunteerByIdWithBadges = async (id) => {
-  return await Volunteer.findById(id).populate({
-    path: "badgesEarned.badgeId",
-    model: "Badge",
-  });
+  return await Volunteer.findById(id)
+    .select(["username", "badgesEarned", "registrationDate"])
+    .populate({
+      path: "badgesEarned.badgeId",
+      model: "Badge",
+      select: ["badgeId", "title", "description", "imageUrl", "type", "level"],
+    });
 };
 
 module.exports = {

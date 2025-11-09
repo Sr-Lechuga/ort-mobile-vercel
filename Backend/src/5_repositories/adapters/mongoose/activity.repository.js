@@ -1,4 +1,5 @@
 const Activity = require("./models/activity.model");
+const { ACTIVITY_STATUS } = require("../../../utils/constants");
 
 const findActivityById = async (id) => {
   return await Activity.findById(id).populate("instances");
@@ -20,9 +21,14 @@ const findActivities = async (filters, pagination) => {
   return results;
 };
 
+const findActiveActivitiesByOwner = async (ownerId) => {
+  return await Activity.find({ owner: ownerId, status: ACTIVITY_STATUS[1] }).select(["title", "categories", "date", "location", "status"]);
+};
+
 module.exports = {
   findActivityById,
   findActivities,
   insertActivity,
   updateActivity,
+  findActiveActivitiesByOwner,
 };
