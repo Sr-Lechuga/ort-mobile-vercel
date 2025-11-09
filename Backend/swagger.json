@@ -795,6 +795,81 @@
         }
       }
     },
+    "/v1/organizers/{organizerId}/comments": {
+      "post": {
+        "tags": ["Comentarios"],
+        "summary": "Crear comentario sobre un centro",
+        "description": "Permite a un voluntario calificar y comentar un centro en el que haya participado",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "description": "ID del centro (organizador)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrganizerCommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comentario creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la creación del comentario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "No tienes permisos o participación válida para comentar este centro",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/activities/{activityId}/instances/{instanceId}/inscriptions/{inscriptionId}/attendance": {
       "patch": {
         "tags": ["Inscripciones"],
@@ -1429,6 +1504,32 @@
             "minimum": 1,
             "maximum": 5,
             "description": "Calificación otorgada a la actividad (1 a 5)"
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Indica si el comentario será mostrado sin el nombre del voluntario"
+          }
+        }
+      },
+      "OrganizerCommentRequest": {
+        "type": "object",
+        "required": ["comment", "rating"],
+        "properties": {
+          "comment": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Texto del comentario realizado sobre el centro"
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Calificación otorgada al centro (1 a 5)"
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Indica si el comentario será mostrado sin el nombre del voluntario"
           }
         }
       },
@@ -1455,6 +1556,10 @@
             "type": "string",
             "description": "ID del voluntario que realizó el comentario"
           },
+          "organizer": {
+            "type": "string",
+            "description": "ID del centro comentado (si aplica)"
+          },
           "activity": {
             "type": "string",
             "description": "ID de la actividad comentada"
@@ -1466,6 +1571,10 @@
           "inscription": {
             "type": "string",
             "description": "ID de la inscripción que habilitó el comentario"
+          },
+          "anonymous": {
+            "type": "boolean",
+            "description": "Indica si el comentario se registra de forma anónima"
           },
           "comment": {
             "type": "string",
