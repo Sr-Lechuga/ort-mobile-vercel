@@ -1,4 +1,4 @@
-const { deleteInscriptionService, getVolunteerPublicProfile } = require("../4_services/business/volunteer.service");
+const { deleteInscriptionService, getVolunteerPublicProfile: getVolunteerPublicProfileService } = require("../4_services/business/volunteer.service");
 
 const deleteInscription = async (req, res, next) => {
   try {
@@ -14,10 +14,10 @@ const deleteInscription = async (req, res, next) => {
   }
 };
 
-const getVolunteerPublicProfileController = async (req, res, next) => {
+const getVolunteerPublicProfile = async (req, res, next) => {
   try {
     const { volunteerId } = req.params;
-    const profile = await getVolunteerPublicProfile(volunteerId);
+    const profile = await getVolunteerPublicProfileService(volunteerId);
 
     if (!profile) {
       return res.status(404).json({
@@ -37,5 +37,5 @@ const getVolunteerPublicProfileController = async (req, res, next) => {
 
 module.exports = {
   deleteInscription,
-  getVolunteerPublicProfileController,
+  getVolunteerPublicProfile,
 };

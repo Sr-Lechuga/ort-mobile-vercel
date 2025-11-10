@@ -1,5 +1,5 @@
 const { activityInsert } = require("../4_services/business/activity.service");
-const { getOrganizerPublicProfile } = require("../4_services/business/organizer.service");
+const { getOrganizerPublicProfile: getOrganizerPublicProfileService } = require("../4_services/business/organizer.service");
 const { createOrganizerComment, getOrganizerCommentsSummary } = require("../4_services/business/organizerComment.service");
 
 const postActivityByOrganizer = async (req, res, next) => {
@@ -47,10 +47,10 @@ const getOrganizerComments = async (req, res, next) => {
   }
 };
 
-const getOrganizerPublicProfileController = async (req, res, next) => {
+const getOrganizerPublicProfile = async (req, res, next) => {
   try {
     const { organizerId } = req.params;
-    const profile = await getOrganizerPublicProfile(organizerId);
+    const profile = await getOrganizerPublicProfileService(organizerId);
 
     if (!profile) {
       return res.status(404).json({
@@ -72,5 +72,5 @@ module.exports = {
   postActivityByOrganizer,
   postOrganizerComment,
   getOrganizerComments,
-  getOrganizerPublicProfileController,
+  getOrganizerPublicProfile,
 };
