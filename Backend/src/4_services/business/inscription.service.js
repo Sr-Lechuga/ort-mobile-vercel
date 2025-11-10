@@ -1,4 +1,6 @@
 const { findInscriptionById, inscriptionAttendanceUpdate } = require("../../5_repositories/adapters/mongoose/inscription.repository");
+const cacheService = require("../cache/cache.service");
+const { generateVolunteerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const badgeService = require("./badge.service");
 
 /**
@@ -27,6 +29,7 @@ const updateInscriptionAttendance = async (inscriptionId, instanceId, assisted) 
 
   // Actualizar la asistencia
   const updatedInscription = await inscriptionAttendanceUpdate(inscriptionId, assisted);
+  await cacheService.delete(generateVolunteerPublicProfileCacheKey(String(inscription.volunteer)));
 
   // Si se está marcando asistencia (assisted = true), verificar si corresponde otorgar badges
   if (assisted) {

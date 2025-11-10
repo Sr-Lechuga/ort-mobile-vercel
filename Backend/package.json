@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node api/index.js",
     "dev": "nodemon api/dev.js",
+    "debug": "node --inspect api/index.js",
+    "debug:dev": "nodemon --inspect api/index.js",
+    "debug:break": "node --inspect-brk api/index.js",
     "seed": "node src/utils/seeds/all.seed.js",
     "seed:badges": "node src/utils/seeds/badges.seed.js",
     "seed:organizers": "node src/utils/seeds/organizers.seed.js",

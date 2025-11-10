@@ -4,12 +4,13 @@ const payloadValidator = require("../2_middlewares/payloadValidator.middleware")
 const verifyAccessLevel = require("../2_middlewares/verifyAccessLevel.middleware");
 const { USER_VOLUNTEER } = require("../utils/constants");
 const { organizerCommentCreateSchema } = require("../2_middlewares/request_schemas/organizerCommentRequest.schema");
-const { postOrganizerComment, getOrganizerComments } = require("../3_controllers/organizer.controller");
+const { postOrganizerComment, getOrganizerComments, getOrganizerPublicProfile } = require("../3_controllers/organizer.controller");
 
 const organizerRoute = express.Router();
 
 // Public
 organizerRoute.get("/:organizerId/comments", getOrganizerComments);
+organizerRoute.get("/:organizerId/public-profile", getOrganizerPublicProfile);
 
 // Private
 organizerRoute.use(verifySesion);

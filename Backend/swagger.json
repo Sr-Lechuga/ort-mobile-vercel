@@ -748,7 +748,7 @@
               }
             }
           }
-        ]
+        }
       }
     },
     "/v1/activities/{activityId}/instances/{instanceId}/comments": {
@@ -835,6 +835,46 @@
         }
       }
     },
+    "/v1/organizers/{organizerId}/public-profile": {
+      "get": {
+        "tags": ["Organizadores"],
+        "summary": "Obtener perfil público de un centro",
+        "description": "Devuelve la información pública de un centro organizador, incluyendo datos de contacto, áreas de enfoque y actividades activas.",
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "description": "ID del centro (organizador)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil público obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizerPublicProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Organizador no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/organizers/{organizerId}/comments": {
       "get": {
         "tags": ["Comentarios"],
@@ -872,7 +912,7 @@
               }
             }
           }
-        ]
+        }
       },
       "post": {
         "tags": ["Comentarios"],
@@ -1030,6 +1070,46 @@
           },
           "403": {
             "description": "No tienes permisos para actualizar esta inscripción",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/volunteers/{volunteerId}/public-profile": {
+      "get": {
+        "tags": ["Voluntarios"],
+        "summary": "Obtener perfil público de un voluntario",
+        "description": "Devuelve el perfil público de un voluntario con su pseudónimo, badges obtenidos y actividades en las que participó.",
+        "parameters": [
+          {
+            "name": "volunteerId",
+            "in": "path",
+            "required": true,
+            "description": "ID del voluntario",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil público obtenido correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VolunteerPublicProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Voluntario no encontrado",
             "content": {
               "application/json": {
                 "schema": {
@@ -1675,6 +1755,292 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Comment"
+            }
+          }
+        }
+      },
+      "VolunteerPublicBadge": {
+        "type": "object",
+        "properties": {
+          "badgeId": {
+            "type": "string",
+            "description": "Identificador único del badge"
+          },
+          "title": {
+            "type": "string",
+            "description": "Título del badge",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Descripción del badge",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "URL de la imagen asociada al badge",
+            "nullable": true
+          },
+          "obtainedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha en la que se obtuvo el badge"
+          },
+          "type": {
+            "type": "string",
+            "description": "Tipo de badge",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "description": "Nivel del badge",
+            "nullable": true
+          }
+        }
+      },
+      "VolunteerPublicActivity": {
+        "type": "object",
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "description": "ID de la instancia de actividad en la que participó"
+          },
+          "activityId": {
+            "type": "string",
+            "description": "ID de la actividad asociada",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Título de la actividad",
+            "nullable": true
+          },
+          "categories": {
+            "type": "array",
+            "description": "Categorías de la actividad",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha en la que se realizó la actividad"
+          },
+          "location": {
+            "type": "object",
+            "description": "Ubicación declarada para la actividad",
+            "nullable": true,
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "País",
+                "nullable": true
+              },
+              "city": {
+                "type": "string",
+                "description": "Ciudad",
+                "nullable": true
+              },
+              "address": {
+                "type": "string",
+                "description": "Dirección",
+                "nullable": true
+              }
+            }
+          }
+        }
+      },
+      "VolunteerPublicProfileResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Perfil público del voluntario obtenido con éxito"
+          },
+          "volunteer": {
+            "type": "object",
+            "properties": {
+              "volunteerId": {
+                "type": "string",
+                "description": "ID del voluntario"
+              },
+              "username": {
+                "type": "string",
+                "description": "Nombre de usuario visible públicamente"
+              },
+              "badges": {
+                "type": "array",
+                "description": "Listado de badges obtenidos por el voluntario",
+                "items": {
+                  "$ref": "#/components/schemas/VolunteerPublicBadge"
+                }
+              },
+              "activities": {
+                "type": "array",
+                "description": "Listado de actividades en las que participó",
+                "items": {
+                  "$ref": "#/components/schemas/VolunteerPublicActivity"
+                }
+              },
+              "registrationDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Fecha de registro del voluntario"
+              },
+              "totalActivities": {
+                "type": "integer",
+                "description": "Cantidad total de actividades realizadas"
+              }
+            }
+          }
+        }
+      },
+      "OrganizerActiveActivity": {
+        "type": "object",
+        "properties": {
+          "activityId": {
+            "type": "string",
+            "description": "ID de la actividad"
+          },
+          "title": {
+            "type": "string",
+            "description": "Título de la actividad"
+          },
+          "categories": {
+            "type": "array",
+            "description": "Categorías declaradas por el centro",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha estimada o próxima para la actividad"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string",
+                "description": "País donde se desarrolla la actividad"
+              },
+              "city": {
+                "type": "string",
+                "description": "Ciudad donde se desarrolla la actividad"
+              },
+              "address": {
+                "type": "string",
+                "description": "Dirección declarada para la actividad"
+              }
+            }
+          }
+        }
+      },
+      "OrganizerPublicProfileResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Perfil público del organizador obtenido con éxito"
+          },
+          "organizer": {
+            "type": "object",
+            "properties": {
+              "organizerId": {
+                "type": "string",
+                "description": "ID del centro"
+              },
+              "name": {
+                "type": "string",
+                "description": "Nombre oficial del centro"
+              },
+              "username": {
+                "type": "string",
+                "description": "Nombre público o identificador del centro"
+              },
+              "contact": {
+                "type": "object",
+                "description": "Información de contacto visible para los voluntarios",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Correo de contacto del centro",
+                    "nullable": true
+                  },
+                  "telephone": {
+                    "type": "string",
+                    "description": "Teléfono de contacto",
+                    "nullable": true
+                  },
+                  "social": {
+                    "type": "object",
+                    "description": "Redes sociales y enlaces compartidos por el centro",
+                    "properties": {
+                      "instagram": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "facebook": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "linkedIn": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "personal": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    }
+                  }
+                }
+              },
+              "location": {
+                "type": "object",
+                "description": "Ubicación principal del centro",
+                "properties": {
+                  "country": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "lat": {
+                    "type": "number",
+                    "nullable": true
+                  },
+                  "lng": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                }
+              },
+              "focusAreas": {
+                "type": "array",
+                "description": "Áreas de enfoque derivadas de sus actividades activas",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "activeActivities": {
+                "type": "array",
+                "description": "Listado de actividades activas del centro",
+                "items": {
+                  "$ref": "#/components/schemas/OrganizerActiveActivity"
+                }
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Fecha de última actualización del registro del centro"
+              }
             }
           }
         }

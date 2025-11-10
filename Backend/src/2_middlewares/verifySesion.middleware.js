@@ -9,7 +9,8 @@ const { verifyToken } = require("../4_services/helpers/jwt.helper");
  * @param {import("express").NextFunction} next - Función para continuar con la cadena de middlewares
  */
 const verifySesion = async (req, res, next) => {
-  const token = req.headers["authorization"];
+  // In case the token comes with the "Bearer " prefix, we need to remove it
+  const token = req.headers["authorization"]?.replace("Bearer ", "");
   const decodedUserData = verifyToken(token);
 
   if (!token || !decodedUserData) {

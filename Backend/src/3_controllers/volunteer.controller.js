@@ -1,4 +1,4 @@
-const { deleteInscriptionService } = require("../4_services/business/volunteer.service");
+const { deleteInscriptionService, getVolunteerPublicProfile: getVolunteerPublicProfileService } = require("../4_services/business/volunteer.service");
 
 const deleteInscription = async (req, res, next) => {
   try {
@@ -14,6 +14,28 @@ const deleteInscription = async (req, res, next) => {
   }
 };
 
+const getVolunteerPublicProfile = async (req, res, next) => {
+  try {
+    const { volunteerId } = req.params;
+    const profile = await getVolunteerPublicProfileService(volunteerId);
+
+    if (!profile) {
+      return res.status(404).json({
+        message: "Voluntario no encontrado",
+      });
+    }
+
+    res.status(200).json({
+      message: "Perfil público del voluntario obtenido con éxito",
+      volunteer: profile,
+    });
+  } catch (err) {
+    err.placeOfError = "Error en obtener perfil público de voluntario";
+    next(err);
+  }
+};
+
 module.exports = {
   deleteInscription,
+  getVolunteerPublicProfile,
 };

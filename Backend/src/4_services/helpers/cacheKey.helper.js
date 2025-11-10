@@ -70,6 +70,24 @@ const generateOwnershipCacheKey = (resourceType, resourceId, userId) => {
 };
 
 /**
+ * Genera una clave de cache para perfiles públicos de voluntarios
+ * @param {string} volunteerId - ID del voluntario
+ * @returns {string} - Clave de cache con formato "volunteer_public_profile:volunteerId"
+ */
+const generateVolunteerPublicProfileCacheKey = (volunteerId) => {
+  return `volunteer_public_profile:${volunteerId}`;
+};
+
+/**
+ * Genera una clave de cache para perfiles públicos de organizadores
+ * @param {string} organizerId - ID del organizador
+ * @returns {string} - Clave de cache con formato "organizer_public_profile:organizerId"
+ */
+const generateOrganizerPublicProfileCacheKey = (organizerId) => {
+  return `organizer_public_profile:${organizerId}`;
+};
+
+/**
  * Genera patrón de claves para invalidación masiva
  * @param {string} prefix - Prefijo de las claves a invalidar
  * @returns {string} - Patrón de claves con formato "prefix:*"
@@ -83,5 +101,7 @@ module.exports = {
   generateActivityCacheKey,
   generateActivityInstanceCacheKey,
   generateOwnershipCacheKey,
+  generateVolunteerPublicProfileCacheKey,
+  generateOrganizerPublicProfileCacheKey,
   generateCachePattern,
 };

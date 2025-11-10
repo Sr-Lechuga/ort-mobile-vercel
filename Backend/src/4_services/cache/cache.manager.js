@@ -26,6 +26,8 @@ class CacheManager {
         console.log(`[Cache Manager] Cache miss for key: ${key}`);
       }
       return null;
+    } else {
+      console.log(`[Cache Manager] Cache hit for key: ${key}`);
     }
     try {
       const parsedValue = JSON.parse(value);

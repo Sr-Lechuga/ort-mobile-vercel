@@ -15,6 +15,16 @@ const findActivityInstanceByIdsAndOwner = async (ids, ownerId) => {
   return await ActivityInstance.findOne({ _id: { $in: ids }, owner: ownerId });
 };
 
+const findActivityInstancesWithActivityByIds = async (ids) => {
+  if (!ids || !ids.length) return [];
+  return await ActivityInstance.find({ _id: { $in: ids } })
+    .populate({
+      path: "activity",
+      select: ["title", "categories", "location"],
+    })
+    .select(["activity", "date"]);
+};
+
 const insertActivityInstance = async (activityInstanceData) => {
   const newActivityInstance = await ActivityInstance.create(activityInstanceData);
   return newActivityInstance;
@@ -31,4 +41,5 @@ module.exports = {
   insertActivityInstance,
   updateActivityInstance,
   findActivityInstanceByIdsAndOwner,
+  findActivityInstancesWithActivityByIds,
 };

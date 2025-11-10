@@ -2,7 +2,7 @@ const { findActivities, insertActivity, findActivityById, updateActivity } = req
 const { createDate } = require("../../utils/datesHandler");
 const { bufferElementLimit, bufferOffset } = require("../helpers/requestParameters.helper");
 const cacheService = require("../cache/cache.service");
-const { generateActivitiesCacheKey, generateActivityCacheKey, generateCachePattern } = require("../helpers/cacheKey.helper");
+const { generateActivitiesCacheKey, generateActivityCacheKey, generateCachePattern, generateOrganizerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const { CACHE_TTL, DEFAULT_PAGE, DEFAULT_ELEMENT_LIMIT } = require("../../utils/constants");
 
 const activitySelectById = async (id) => {
@@ -68,6 +68,10 @@ const activityInsert = async (activityData) => {
   const activitiesPattern = generateCachePattern("activities");
   await cacheService.deleteMultiple([activitiesPattern]);
 
+  if (newActivity?.owner) {
+    await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(newActivity.owner)));
+  }
+
   return newActivity;
 };
 
@@ -79,6 +83,10 @@ const activityUpdate = async (activityId, activityData) => {
   const activitiesPattern = generateCachePattern("activities");
 
   await cacheService.deleteMultiple([activityCacheKey, activitiesPattern]);
+
+  if (newData?.owner) {
+    await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(newData.owner)));
+  }
 
   return newData;
 };
@@ -93,6 +101,10 @@ const activityLogicalDelete = async (activityId) => {
   const activitiesPattern = generateCachePattern("activities");
 
   await cacheService.deleteMultiple([activityCacheKey, activitiesPattern]);
+
+  if (deletedActivity?.owner) {
+    await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(deletedActivity.owner)));
+  }
 
   return deletedActivity;
 };
