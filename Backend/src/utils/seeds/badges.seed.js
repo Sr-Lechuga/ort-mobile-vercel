@@ -12,6 +12,18 @@ const { BADGE_TYPES, BADGE_STRATEGIES } = require("../constants");
 const badgesToInsert = [
   // Badges de Participación
   {
+    badgeId: "participation_1",
+    type: BADGE_TYPES.PARTICIPATION,
+    level: 1,
+    title: "Primer Paso Solidario",
+    description: "Completa tu primera actividad verificada",
+    imageUrl: "/images/badges/participation_1.png",
+    strategy: BADGE_STRATEGIES.PARTICIPATION_COUNT,
+    strategyConfig: { threshold: 1 },
+    active: true,
+    priority: 0,
+  },
+  {
     badgeId: "participation_5",
     type: BADGE_TYPES.PARTICIPATION,
     level: 5,

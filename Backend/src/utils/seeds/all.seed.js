@@ -143,49 +143,58 @@ const seedActivityInstances = async () => {
       return;
     }
 
-    // Configuración de instancias para cada actividad
-    const instancesData = [
-      // Para la primera actividad (Arte Urbano)
-      {
-        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // En 7 días
-        duration: 180, // 3 horas en minutos
-        inscriptionsOpen: true,
-        slots: 20,
-      },
-      {
-        date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // En 14 días
-        duration: 180,
-        inscriptionsOpen: true,
-        slots: 20,
-      },
-      // Para la segunda actividad (Cine Debate)
-      {
-        date: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000), // En 8 días
-        duration: 120, // 2 horas
-        inscriptionsOpen: true,
-        slots: 50,
-      },
-      {
-        date: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000), // En 22 días
-        duration: 120,
-        inscriptionsOpen: true,
-        slots: 50,
-      },
-      // Para la tercera actividad (Mercado Solidario)
-      {
-        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // En 5 días
-        duration: 240, // 4 horas
-        inscriptionsOpen: true,
-        slots: 100,
-      },
+    // Configuración de instancias agrupadas por actividad en el orden recuperado
+    const instancesByActivity = [
+      [
+        // Para la primera actividad (Arte Urbano)
+        {
+          date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // En 7 días
+          duration: 180, // 3 horas en minutos
+          inscriptionsOpen: true,
+          slots: 20,
+        },
+        {
+          date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // En 14 días
+          duration: 180,
+          inscriptionsOpen: true,
+          slots: 20,
+        },
+      ],
+      [
+        // Para la segunda actividad (Cine Debate)
+        {
+          date: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000), // En 8 días
+          duration: 120, // 2 horas
+          inscriptionsOpen: true,
+          slots: 50,
+        },
+        {
+          date: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000), // En 22 días
+          duration: 120,
+          inscriptionsOpen: true,
+          slots: 50,
+        },
+      ],
+      [
+        // Para la tercera actividad (Mercado Solidario)
+        {
+          date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // En 5 días
+          duration: 240, // 4 horas
+          inscriptionsOpen: true,
+          slots: 100,
+        },
+      ],
     ];
 
     let created = 0;
-    const instanceIndex = [0, 1, 2, 2, 3, 3, 4]; // Asigna instancias a actividades
 
-    for (let i = 0; i < activities.length && i < instancesData.length; i++) {
+    for (let i = 0; i < activities.length && i < instancesByActivity.length; i++) {
       const activity = activities[i];
-      const instanceData = instancesData[i];
+      const instancesConfig = instancesByActivity[i];
+
+      if (!instancesConfig || instancesConfig.length === 0) {
+        continue;
+      }
 
       // Verificar si ya tiene instancias
       if (activity.instances && activity.instances.length > 0) {
@@ -193,19 +202,23 @@ const seedActivityInstances = async () => {
         continue;
       }
 
-      // Crear la instancia
-      const instance = await ActivityInstance.create({
-        owner: activity.owner,
-        activity: activity._id,
-        ...instanceData,
+      const createdInstancesIds = [];
+
+      for (const instanceData of instancesConfig) {
+        const instance = await ActivityInstance.create({
+          owner: activity.owner,
+          activity: activity._id,
+          ...instanceData,
+        });
+
+        createdInstancesIds.push(instance._id);
+        console.log(`✅ Instancia creada para "${activity.title}" (${new Date(instanceData.date).toLocaleDateString()})`);
+        created++;
+      }
+
+      await Activity.findByIdAndUpdate(activity._id, {
+        $push: { instances: { $each: createdInstancesIds } },
       });
-
-      // Asociar la instancia con la actividad
-      activity.instances.push(instance._id);
-      await activity.save();
-
-      console.log(`✅ Instancia creada para "${activity.title}" (${new Date(instanceData.date).toLocaleDateString()})`);
-      created++;
     }
 
     console.log(`✅ ${created} instancias creadas en total`);
@@ -248,7 +261,7 @@ const seedInscriptions = async () => {
         volunteer: volunteers[0]._id,
         instance: instances[0]._id,
         accepted: true,
-        assisted: true,
+        assisted: false,
       },
       {
         volunteer: volunteers[0]._id,
@@ -260,13 +273,13 @@ const seedInscriptions = async () => {
         volunteer: volunteers[1]._id,
         instance: instances[0]._id,
         accepted: true,
-        assisted: true,
+        assisted: false,
       },
       {
         volunteer: volunteers[2]._id,
         instance: instances[1]._id,
-        accepted: true,
-        assisted: true,
+        accepted: false,
+        assisted: false,
       },
     ];
 
