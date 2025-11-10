@@ -1,0 +1,9 @@
+{
+  "watch": ["src", "index.js"],
+  "ext": "js,json",
+  "ignore": ["node_modules", "PRUEBAS_REST"],
+  "delay": 1000,
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
