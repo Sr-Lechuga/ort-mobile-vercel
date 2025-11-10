@@ -1,5 +1,7 @@
 const { findActiveBadges } = require("../../5_repositories/adapters/mongoose/badge.repository");
 const { findVolunteerById, updateVolunteer, findVolunteerByIdWithBadges } = require("../../5_repositories/adapters/mongoose/volunteer.repository");
+const cacheService = require("../cache/cache.service");
+const { generateVolunteerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const BadgeStrategyFactory = require("./strategies/BadgeStrategy.factory");
 
 /**
@@ -89,6 +91,7 @@ class BadgeService {
       await updateVolunteer(volunteerId, {
         $push: { badgesEarned: badgeToAdd },
       });
+      await cacheService.delete(generateVolunteerPublicProfileCacheKey(volunteerId));
     } catch (error) {
       error.placeOfError = "Error en awardBadge";
       throw error;

@@ -1,4 +1,6 @@
-const { USER_ORGANIZER } = require("../../utils/constants");
+const { USER_ORGANIZER, CACHE_TTL } = require("../../utils/constants");
+const cacheService = require("../cache/cache.service");
+const { generateOrganizerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const { findActiveActivitiesByOwner } = require("../../5_repositories/adapters/mongoose/activity.repository");
 const { findOrganizerById } = require("../../5_repositories/adapters/mongoose/organizer.repository");
 const { userLogin, userInsert } = require("../helpers/userAuth.helper");
@@ -13,6 +15,13 @@ const organizerSignUp = async (volunteerData) => {
 };
 
 const getOrganizerPublicProfile = async (organizerId) => {
+  const cacheKey = generateOrganizerPublicProfileCacheKey(organizerId);
+  const cachedProfile = await cacheService.get(cacheKey);
+
+  if (cachedProfile) {
+    return cachedProfile;
+  }
+
   const organizerDocument = await findOrganizerById(organizerId);
 
   if (!organizerDocument) {
@@ -34,7 +43,7 @@ const getOrganizerPublicProfile = async (organizerId) => {
     ),
   ];
 
-  return {
+  const profile = {
     organizerId: organizer._id,
     name: organizer.name,
     username: organizer.username,
@@ -57,6 +66,12 @@ const getOrganizerPublicProfile = async (organizerId) => {
     }),
     updatedAt: organizer.updatedAt,
   };
+
+  const ttlEnv = parseInt(process.env.CACHE_TTL_ORGANIZER_PUBLIC_PROFILE, 10);
+  const ttl = Number.isNaN(ttlEnv) ? CACHE_TTL.USER_DATA : ttlEnv;
+  await cacheService.set(cacheKey, profile, ttl);
+
+  return profile;
 };
 
 module.exports = {

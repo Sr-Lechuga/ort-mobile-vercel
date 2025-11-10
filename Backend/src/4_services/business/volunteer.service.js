@@ -1,7 +1,9 @@
 const { findInscriptionById, deleteInscriptionById, findAssistedInstanceIdsByVolunteer } = require("../../5_repositories/adapters/mongoose/inscription.repository");
 const { findActivityInstancesWithActivityByIds } = require("../../5_repositories/adapters/mongoose/activityInstance.repository");
 const { findVolunteerByIdWithBadges } = require("../../5_repositories/adapters/mongoose/volunteer.repository");
-const { USER_VOLUNTEER } = require("../../utils/constants");
+const { USER_VOLUNTEER, CACHE_TTL } = require("../../utils/constants");
+const cacheService = require("../cache/cache.service");
+const { generateVolunteerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const { userLogin, userInsert } = require("../helpers/userAuth.helper");
 
 const volunteerLogin = async (username, password) => {
@@ -20,9 +22,17 @@ const deleteInscriptionService = async (volunteerId, inscriptionId) => {
   if (inscription.volunteer != volunteerId) throw new Error("ERROR 011, La inscripción no te pertenece");
 
   await deleteInscriptionById(inscriptionId);
+  await cacheService.delete(generateVolunteerPublicProfileCacheKey(String(volunteerId)));
 };
 
 const getVolunteerPublicProfile = async (volunteerId) => {
+  const cacheKey = generateVolunteerPublicProfileCacheKey(volunteerId);
+  const cachedProfile = await cacheService.get(cacheKey);
+
+  if (cachedProfile) {
+    return cachedProfile;
+  }
+
   const volunteerDocument = await findVolunteerByIdWithBadges(volunteerId);
 
   if (!volunteerDocument) {
@@ -68,7 +78,7 @@ const getVolunteerPublicProfile = async (volunteerId) => {
     };
   });
 
-  return {
+  const profile = {
     volunteerId: volunteer._id,
     pseudonym: volunteer.username,
     badges,
@@ -76,6 +86,12 @@ const getVolunteerPublicProfile = async (volunteerId) => {
     registrationDate: volunteer.registrationDate,
     totalActivities: activities.length,
   };
+
+  const ttlEnv = parseInt(process.env.CACHE_TTL_VOLUNTEER_PUBLIC_PROFILE, 10);
+  const ttl = Number.isNaN(ttlEnv) ? CACHE_TTL.USER_DATA : ttlEnv;
+  await cacheService.set(cacheKey, profile, ttl);
+
+  return profile;
 };
 
 module.exports = {
