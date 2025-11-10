@@ -748,7 +748,7 @@
               }
             }
           }
-        ]
+        }
       }
     },
     "/v1/activities/{activityId}/instances/{instanceId}/comments": {
@@ -912,7 +912,7 @@
               }
             }
           }
-        ]
+        }
       },
       "post": {
         "tags": ["Comentarios"],
