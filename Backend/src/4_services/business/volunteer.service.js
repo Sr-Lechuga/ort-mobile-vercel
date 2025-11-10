@@ -80,7 +80,7 @@ const getVolunteerPublicProfile = async (volunteerId) => {
 
   const profile = {
     volunteerId: volunteer._id,
-    pseudonym: volunteer.username,
+    username: volunteer.username,
     badges,
     activities,
     registrationDate: volunteer.registrationDate,

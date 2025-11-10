@@ -1865,9 +1865,9 @@
                 "type": "string",
                 "description": "ID del voluntario"
               },
-              "pseudonym": {
+              "username": {
                 "type": "string",
-                "description": "Pseudónimo público (username)"
+                "description": "Nombre de usuario visible públicamente"
               },
               "badges": {
                 "type": "array",
