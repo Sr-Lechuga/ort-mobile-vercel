@@ -17,6 +17,7 @@ const updateActivity = async (id, activityData) => {
 
 const findActivities = async (filters, pagination) => {
   const { skip, limit } = pagination;
+  console.log(filters);
   const results = await Activity.find(filters).skip(skip).limit(limit).populate("instances");
   return results;
 };
