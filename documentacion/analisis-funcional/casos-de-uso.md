@@ -107,9 +107,9 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 **Código:** UC-04
 
-**Requerimientos relacionados:** RF-03, RF-16, RF-19, RF-20
+**Requerimientos relacionados:** RF-03, RF-16, RF-19
 
-**Descripción:** Centro crea actividad con datos generales: título, descripción, categorías, imágenes, idioma, cupo y estado.
+**Descripción:** Centro crea actividad con datos generales: título, descripción, categorías, imágenes, cupo y estado.
 
 **Pre-condiciones:** Centro autenticado.
 
@@ -118,7 +118,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 **Secuencia normal:**
 
 1. Centro selecciona "Crear actividad".
-2. Completa campos: nombre, descripción, categorías, imágenes (opcional), idioma, cupo, inscripcion_abierta, estado.
+2. Completa campos: nombre, descripción, categorías, imágenes (opcional), cupo, inscripcion_abierta, estado.
 3. Envía formulario.
 4. Sistema valida categorías y crea la actividad.
 5. Actividad aparece en listados públicos.
@@ -375,9 +375,9 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 **Código:** UC-12
 
-**Requerimientos relacionados:** RF-16, RF-18, RF-19, RF-20
+**Requerimientos relacionados:** RF-16, RF-18, RF-19
 
-**Descripción:** Buscar actividades aplicando filtros por categoría, idioma, fecha y estado.
+**Descripción:** Buscar actividades aplicando filtros por categoría, fecha y estado.
 
 **Pre-condiciones:** Usuario (autenticado o visitante).
 
@@ -385,7 +385,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 **Secuencia normal:**
 
-1. Usuario abre buscador y selecciona filtros.
+1. Usuario abre buscador y selecciona filtros disponibles.
 2. Ejecuta búsqueda.
 3. Sistema consulta índices y devuelve lista ordenada y paginada.
 
@@ -568,9 +568,9 @@ _Fin del documento._
 
 **Código:** UC-12
 
-**Requerimientos relacionados:** RF-16, RF-18, RF-19, RF-20
+**Requerimientos relacionados:** RF-16, RF-18, RF-19
 
-**Descripción:** Permitir al usuario (autenticado o no) buscar actividades aplicando filtros por categoría(s), idioma, fecha, estado y paginación.
+**Descripción:** Permitir al usuario (autenticado o no) buscar actividades aplicando filtros por categoría(s), fecha, estado y paginación.
 
 **Pre-condiciones:** Al menos una actividad existiendo; índices actualizados para búsqueda.
 
@@ -578,7 +578,7 @@ _Fin del documento._
 
 **Secuencia normal:**
 
-1. Usuario abre el buscador y selecciona filtros: categorías, idioma, rango de fechas, estado, ordenamiento.
+1. Usuario abre el buscador y selecciona filtros: categorías, rango de fechas, estado, ordenamiento.
 2. Usuario ejecuta búsqueda.
 3. Sistema valida filtros y consulta índices/colecciones.
 4. Sistema devuelve resultados paginados con resumen de cada actividad y enlaces a detalle.
@@ -592,7 +592,7 @@ _Fin del documento._
 - S1: Índices no disponibles o desactualizados → sistema devuelve resultados pero marca posible desincronización y sugiere reintentar más tarde.
 - S2: Consulta demasiado amplia → sistema sugiere aplicar filtros adicionales para mejorar relevancia.
 
-**Atributos:** paginación (limit, offset/nextCursor), facetas por categoría e idioma, caché para resultados frecuentes.
+**Atributos:** paginación (limit, offset/nextCursor), facetas por categoría, caché para resultados frecuentes.
 
 ---
 

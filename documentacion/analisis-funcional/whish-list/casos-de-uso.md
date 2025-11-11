@@ -1,6 +1,6 @@
 # Casos de Uso - Funcionalidades fuera del MVP
 
-Casos de uso detallados para las funcionalidades RF-06, RF-15, RF-17, RF-19 y RF-21 a RF-24.
+Casos de uso detallados para las funcionalidades RF-06, RF-15, RF-19, RF-20 y RF-21 a RF-24.
 
 ---
 
@@ -35,35 +35,36 @@ Casos de uso detallados para las funcionalidades RF-06, RF-15, RF-17, RF-19 y RF
 
 ---
 
-## UC-13 — Buscar Actividades por Cercanía (geoubicación)
+## UC-26 — Gestionar Idiomas de Actividad
 
-**Código:** UC-13
+**Código:** UC-26
 
-**Requerimientos relacionados:** RF-17, RF-16
+**Requerimientos relacionados:** RF-20
 
-**Descripción:** Mostrar actividades ordenadas por distancia a coordenadas del voluntario (o dirección ingresada).
+**Descripción:** Permitir que los centros seleccionen un idioma principal y opcionales secundarios al crear o editar una actividad. El sistema valida contra un catálogo maestro y propaga los metadatos para búsquedas y comunicaciones segmentadas.
 
-**Pre-condiciones:** Usuario autoriza ubicación o ingresa dirección/coords.
+**Pre-condiciones:** Centro autenticado; catálogo de idiomas disponible (ISO 639); actividad existente o flujo de creación en curso.
 
-**Post-condiciones:** Lista ordenada por proximidad con distancias estimadas.
+**Post-condiciones:** Actividad actualizada con etiquetas de idioma normalizadas; historial de cambios registrado y validación de integridad en búsquedas y notificaciones.
 
 **Secuencia normal:**
 
-1. Usuario autoriza compartir ubicación o ingresa dirección.
-2. Selecciona filtro "cercanía".
-3. Sistema obtiene coords y realiza consulta geoespacial.
-4. Devuelve lista con distancia y ordenada por proximidad.
+1. Centro accede al formulario de creación o edición de actividad.
+2. Selecciona idioma principal desde el catálogo y, opcionalmente, idiomas secundarios.
+3. Sistema valida selección (evitar duplicados, requerir al menos uno).
+4. Sistema guarda la actividad con metadatos de idioma, actualiza índices de búsqueda y reglas de segmentación.
 
 **Secuencias alternativas — Actor:**
 
-- A1: Prefiere no compartir ubicación → ingresa manualmente una ubicación.
+- A1: Centro no encuentra idioma → solicita agregarlo vía soporte o formulario de solicitud.
+- A2: Centro decide remover idiomas secundarios → el sistema recalcula segmentación aplicable.
 
 **Secuencias alternativas — Sistema:**
 
-- S1: Servicio de geocoding falla → pedir ingreso manual de coords o reintento.
-- S2: No hay actividades cercanas → sugerir ampliar radio.
+- S1: Catálogo de idiomas no disponible → sistema muestra mensaje y bloquea guardado hasta restablecer catálogo.
+- S2: Inconsistencias con actividades existentes → marca la actividad para verificación manual y registra incidencia.
 
-**Atributos:** radio por defecto, opciones de orden (más cercano, más reciente).
+**Atributos:** Idioma principal obligatorio, hasta N idiomas secundarios configurables, códigos ISO 639-1 o 639-3, auditoría de cambios y fecha de última actualización.
 
 ---
 
