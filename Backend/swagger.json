@@ -282,6 +282,51 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "minDate",
+            "in": "query",
+            "description": "Filtrar por fecha mínima (ISO 8601)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-11-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "maxDate",
+            "in": "query",
+            "description": "Filtrar por fecha máxima (ISO 8601)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-12-31T23:59:59Z"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página (empieza en 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de elementos por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
           }
         ],
         "responses": {

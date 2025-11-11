@@ -2,6 +2,7 @@ const { findActivities, insertActivity, findActivityById, updateActivity } = req
 const { createDate } = require("../../utils/datesHandler");
 const { bufferElementLimit, bufferOffset } = require("../helpers/requestParameters.helper");
 const cacheService = require("../cache/cache.service");
+const { stringCategoriesToArray } = require("../helpers/activity.helper");
 const { generateActivitiesCacheKey, generateActivityCacheKey, generateCachePattern, generateOrganizerPublicProfileCacheKey } = require("../helpers/cacheKey.helper");
 const { CACHE_TTL, DEFAULT_PAGE, DEFAULT_ELEMENT_LIMIT } = require("../../utils/constants");
 
@@ -29,21 +30,47 @@ const activitiesSelect = async (requestQuery) => {
 
   if (!activities) {
     // Si no está en cache, ejecutar consulta original
-    const filters = {};
-    const { category, location, minDate, maxDate, page, limit } = requestQuery;
+    const filterConditions = [];
+    const { category, categories, status, location, minDate, maxDate, page, limit } = requestQuery;
+    const categoriesInput = categories ?? category;
 
-    // -------------------------------------------------------------------------------- Filters
-    if (category) filters.category = category;
-    if (location) filters.location = new RegExp(location, "i"); // 'i' = Case insensitive
+    // -------------------------------------------------------------------------------- Filtros principales
+    if (categoriesInput) {
+      const categoriesArray = stringCategoriesToArray(categoriesInput);
+
+      if (categoriesArray.length) {
+        filterConditions.push({ categories: { $in: categoriesArray } });
+      }
+    }
+
+    if (status) {
+      filterConditions.push({ status });
+    }
+
+    if (location) {
+      const locationRegex = new RegExp(location, "i");
+      filterConditions.push({
+        $or: [{ "location.country": locationRegex }, { "location.city": locationRegex }, { "location.address": locationRegex }],
+      });
+    }
+
+    // -------------------------------------------------------------------------------- Filtros por fecha (campo date)
+    const dateFilter = {};
 
     if (minDate) {
       const isValid = createDate(minDate);
-      if (isValid) filters.date = { $gte: isValid };
+      if (isValid) dateFilter.$gte = isValid;
     }
     if (maxDate) {
       const isValid = createDate(maxDate);
-      if (isValid) filters.date = { ...(filters.date || {}), $lte: isValid };
+      if (isValid) dateFilter.$lte = isValid;
     }
+
+    if (Object.keys(dateFilter).length) {
+      filterConditions.push({ date: dateFilter });
+    }
+
+    const filters = filterConditions.length ? { $and: filterConditions } : {};
 
     // -------------------------------------------------------------------------------- Pagination
     let elements = bufferElementLimit(limit || process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT);

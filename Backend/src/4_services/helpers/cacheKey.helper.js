@@ -2,6 +2,7 @@
  * Helper para generar claves de cache consistentes
  * Asegura que consultas equivalentes generen la misma clave
  */
+const { stringCategoriesToArray } = require("./activity.helper");
 
 /**
  * Genera una clave de cache consistente para consultas de actividades
@@ -11,12 +12,15 @@
  */
 const generateActivitiesCacheKey = (requestQuery) => {
   // Normalizar y ordenar los parámetros para consistencia
+  const rawCategory = requestQuery.categories ?? requestQuery.category;
+  const categoryValues = stringCategoriesToArray(rawCategory);
   const normalizedQuery = {
     // Parámetros de filtro (ordenados alfabéticamente)
-    category: requestQuery.category || null,
+    category: categoryValues.length ? categoryValues.join(",") : null,
     location: requestQuery.location || null,
     maxDate: requestQuery.maxDate || null,
     minDate: requestQuery.minDate || null,
+    status: requestQuery.status || null,
 
     // Parámetros de paginación (ordenados alfabéticamente)
     limit: parseInt(requestQuery.limit) || 10,
