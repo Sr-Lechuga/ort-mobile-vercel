@@ -18,9 +18,12 @@ const generateActivitiesCacheKey = (requestQuery) => {
     // Parámetros de filtro (ordenados alfabéticamente)
     category: categoryValues.length ? categoryValues.join(",") : null,
     location: requestQuery.location || null,
+    maxDistance: requestQuery.maxDistance ?? null,
     maxDate: requestQuery.maxDate || null,
     minDate: requestQuery.minDate || null,
     status: requestQuery.status || null,
+    userLatitude: requestQuery.userLatitude ?? null,
+    userLongitude: requestQuery.userLongitude ?? null,
 
     // Parámetros de paginación (ordenados alfabéticamente)
     limit: parseInt(requestQuery.limit) || 10,
