@@ -143,7 +143,7 @@ const activitiesSelect = async (requestQuery) => {
     // -------------------------------------------------------------------------------- Pagination
     let elements = bufferElementLimit(limit || process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT);
     let offset = bufferOffset(page || process.env.DEFAULT_PAGE || DEFAULT_PAGE, limit || process.env.DEFAULT_ELEMENT_LIMIT || DEFAULT_ELEMENT_LIMIT);
-    const pagination = { skip: offset, limit: elements };
+    const pagination = { skip: parseInt(offset), limit: parseInt(elements) };
 
     // -------------------------------------------------------------------------------- Request
     activities = await findActivities(filters, pagination, geoOptions);
