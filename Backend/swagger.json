@@ -249,7 +249,7 @@
       "get": {
         "tags": ["Actividades"],
         "summary": "Obtener lista de actividades",
-        "description": "Obtiene todas las actividades disponibles con filtros opcionales",
+        "description": "Obtiene todas las actividades disponibles con filtros opcionales. Soporta búsqueda geográfica mediante userLatitude y userLongitude para encontrar actividades cercanas a una ubicación específica.",
         "parameters": [
           {
             "name": "categories",
@@ -326,6 +326,45 @@
               "minimum": 1,
               "maximum": 100,
               "default": 10
+            }
+          },
+          {
+            "name": "userLatitude",
+            "in": "query",
+            "description": "Latitud actual del usuario para búsqueda geográfica (debe enviarse junto con userLongitude)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "minimum": -90,
+              "maximum": 90,
+              "example": -34.906944
+            }
+          },
+          {
+            "name": "userLongitude",
+            "in": "query",
+            "description": "Longitud actual del usuario para búsqueda geográfica (debe enviarse junto con userLatitude)",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "minimum": -180,
+              "maximum": 180,
+              "example": -56.191389
+            }
+          },
+          {
+            "name": "maxDistance",
+            "in": "query",
+            "description": "Distancia máxima en kilómetros para búsqueda geográfica (1-100 km). Requiere userLatitude y userLongitude",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "minimum": 1,
+              "maximum": 100,
+              "example": 10
             }
           }
         ],
