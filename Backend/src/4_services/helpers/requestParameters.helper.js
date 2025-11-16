@@ -8,9 +8,10 @@ const { DEFAULT_ELEMENT_LIMIT, DEFAULT_PAGE } = require("../../utils/constants")
  * @returns {number} - Offset calculado para la consulta
  */
 const bufferOffset = (page, limit) => {
-  limit = bufferElementLimit(limit);
+  limit = parseInt(bufferElementLimit(limit));
   page = page <= 0 ? (process.env.DEFAULT_PAGE ? parseInt(process.env.DEFAULT_PAGE) : DEFAULT_PAGE) : page;
-  return (parseInt(page) - 1) * parseInt(limit);
+  page = parseInt(page);
+  return (page - 1) * limit;
 };
 
 /**
