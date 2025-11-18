@@ -235,43 +235,6 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-25 — Desinscribirse de Instancia
-
-**Código:** UC-25
-
-**Requerimientos relacionados:** RF-25, RF-05, RF-14
-
-**Descripción:** Permitir que un voluntario cancele su inscripción en una instancia de actividad antes de que comience, liberando el cupo para otros voluntarios.
-
-**Pre-condiciones:** Voluntario autenticado; inscrito en la instancia; instancia no ha comenzado aún.
-
-**Post-condiciones:** Inscripción cancelada; cupo liberado; notificación enviada al centro; voluntario removido de la lista de inscriptos.
-
-**Secuencia normal:**
-
-1. Voluntario accede a sus inscripciones activas.
-2. Selecciona la instancia de la cual desea desinscribirse.
-3. Confirma la cancelación de la inscripción.
-4. Sistema valida que la instancia no haya comenzado.
-5. Sistema actualiza el estado de la inscripción a "cancelada".
-6. Sistema decrementa el contador de inscriptos de la instancia.
-7. Sistema notifica al centro sobre la desinscripción.
-8. Si hay lista de espera, se notifica al siguiente voluntario en espera.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Voluntario cancela la operación → no se realiza la desinscripción.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: La instancia ya comenzó → rechaza la desinscripción y muestra mensaje explicativo.
-- S2: La inscripción ya está cancelada → muestra estado actual.
-- S3: Error al actualizar la base de datos → muestra error y permite reintento.
-
-**Atributos/Validaciones:** validar que la instancia no haya comenzado, actualizar contadores, notificaciones automáticas, liberación de cupo.
-
----
-
 ## UC-09 — Publicar Comentario y Rating
 
 **Código:** UC-09
@@ -345,197 +308,6 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 **Requerimientos relacionados:** RF-08
 
-**Descripción:** Sistema otorga badges automáticamente cuando el voluntario alcanza condiciones definidas (p.ej. 5,10,20 participaciones).
-
-**Pre-condiciones:** Historial de asistencias actualizado; reglas de badges definidas en catálogo.
-
-**Post-condiciones:** Badge añadido al `voluntario.badges` con `fecha_obtencion`; notificación enviada.
-
-**Secuencia normal:**
-
-1. Ocurre evento que actualiza historial (ej: UC-08).
-2. Sistema evalúa reglas de badges para el voluntario.
-3. Si cumple condición nueva, sistema añade badge al subdocumento `badges` del voluntario con fecha.
-4. Notifica al voluntario.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Ninguna (proceso automático), voluntario recibe notificación.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Voluntario ya tiene badge → no duplicar.
-- S2: Inconsistencia de conteo → marcar para job de reconciliación.
-
-**Atributos:** regla única por nivel, fecha de obtención, imagen/ícono.
-
----
-
-## UC-12 — Buscar Actividades por Categoría / Filtros
-
-**Código:** UC-12
-
-**Requerimientos relacionados:** RF-16, RF-18, RF-19
-
-**Descripción:** Buscar actividades aplicando filtros por categoría, fecha y estado.
-
-**Pre-condiciones:** Usuario (autenticado o visitante).
-
-**Post-condiciones:** Lista paginada de actividades que cumplen filtros.
-
-**Secuencia normal:**
-
-1. Usuario abre buscador y selecciona filtros disponibles.
-2. Ejecuta búsqueda.
-3. Sistema consulta índices y devuelve lista ordenada y paginada.
-
-**Secuencias alternativas — Actor:**
-
-- A1: No aplica filtros → sistema devuelve actividades recientes o populares.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Índices desactualizados → resultados pueden estar desfasados, mostrar nota.
-- S2: Error en consulta → mostrar mensaje.
-
-**Atributos:** paginación, orden por relevancia o fecha.
-
----
-
-## UC-15 — Ver Perfil Público de Voluntario
-
-**Código:** UC-15
-
-**Requerimientos relacionados:** RF-09, RF-13, RF-08
-
-**Descripción:** Mostrar perfil público con pseudónimo, badges, resumen de historial y métricas públicas (sin datos sensibles).
-
-**Pre-condiciones:** Perfil existente.
-
-**Post-condiciones:** Página de perfil mostrada al solicitante.
-
-**Secuencia normal:**
-
-1. Usuario solicita perfil por username o link.
-2. Sistema recupera datos públicos: username, badges, conteo de participaciones, reseñas públicas.
-3. Muestra UI con posibilidad de contactar según políticas de privacidad.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Propietario del perfil aplicó restricciones de privacidad → limitar campos mostrados.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Perfil inactivo/eliminado → mostrar mensaje "perfil no disponible".
-
-**Atributos:** indicadores públicos, respetar anonimato en comentarios.
-
----
-
-## UC-16 — Gestionar Categorías (Admin/Backoffice)
-
-**Código:** UC-16
-
-**Requerimientos relacionados:** RF-18
-
-**Descripción:** Admin/Backoffice crea, edita o elimina categorías globales y gestiona su integridad.
-
-**Pre-condiciones:** Usuario con rol admin.
-
-**Post-condiciones:** Catálogo de categorías actualizado; índices de búsqueda ajustados.
-
-**Secuencia normal:**
-
-1. Admin entra al módulo de categorías.
-2. Crea/edita/elimina categoría.
-3. Sistema valida unicidad y aplica cambios.
-4. Actualiza índices y notifica a centros si aplica.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Admin elige reasignar actividades de una categoría a otra antes de eliminar.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Intento de eliminar categoría en uso → impedir o forzar reasignación.
-
-**Atributos:** slug único, metadatos (ícono, descripción corta).
-
----
-
-## UC-18 — Recomendación de Actividades Personalizadas
-
-**Código:** UC-18
-
-**Requerimientos relacionados:** RF-15 (sugerido), RF-12, RF-16, RF-17
-
-**Descripción:** Motor que sugiere actividades según intereses, historial y proximidad.
-
-**Pre-condiciones:** Usuario autenticado; tiene intereses o historial al menos parcial.
-
-**Post-condiciones:** Lista personalizada de actividades mostrada.
-
-**Secuencia normal:**
-
-1. Usuario abre sección "Recomendaciones".
-2. Sistema recupera intereses, historial y ubicación.
-3. Aplica algoritmo con pesos (intereses + proximidad + recentness).
-4. Muestra listado ordenado por puntaje.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Usuario afina preferencias para mejorar recomendaciones.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Pocos datos del usuario → mostrar actividades populares y pedir completar intereses.
-- S2: Job de cálculo deshabilitado → mostrar mensaje y fallback.
-
-**Atributos:** algoritmo configurable, logs de razones de recomendación (transparencia opcional).
-
----
-
-## UC-19 — Exportar Historial de Participación (PDF)
-
-**Código:** UC-19
-
-**Requerimientos relacionados:** RF-23 (sugerido), RF-13
-
-**Descripción:** Voluntario descarga su historial certificado de participaciones y badges en PDF.
-
-**Pre-condiciones:** Voluntario autenticado; tiene historial.
-
-**Post-condiciones:** PDF generado y descargable o enviado por email.
-
-**Secuencia normal:**
-
-1. Usuario solicita exportar historial (opción: rango de fechas).
-2. Sistema compila historial y badges certificados.
-3. Genera PDF y lo presenta para descarga o envía por email.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Selecciona filtro por fechas o tipo de actividades.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: Generación pesada → encolar job y notificar cuando esté listo.
-- S2: Error en generación → indicar fallo y permitir reintento.
-
-**Atributos:** formato predeterminado, logo del centro o plantilla personalizable.
-
----
-
-_Fin del documento._
-
----
-
-## UC-11 — Asignación Automática de Badges
-
-**Código:** UC-11
-
-**Requerimientos relacionados:** RF-08
-
 **Descripción:** Sistema otorga badges automáticamente cuando el voluntario alcanza condiciones definidas (p.ej. 5,10,20 participaciones). Estas reglas están almacenadas en un catálogo de badges y el proceso debe evitar duplicados y registrar la fecha de obtención.
 
 **Pre-condiciones:** Historial de asistencias actualizado; catálogo de badges definido en el sistema.
@@ -560,7 +332,7 @@ _Fin del documento._
 - S2: Inconsistencia detectada (por ejemplo conteo no coincide) → marca para job de reconciliación y envía alerta al backoffice.
 - S3: Error al persistir badge (DB) → encola la operación para reintento y notifica al equipo de soporte.
 
-**Atributos/Validaciones:** unicidad por `badge_id` en el array `voluntario.badges`, fecha obligatoria de obtención, referencia a `Badge`.
+**Atributos/Validaciones:** unicidad por `badge_id` en el array `voluntario.badges`, fecha obligatoria de obtención, referencia a `Badge`, regla única por nivel, imagen/ícono.
 
 ---
 
@@ -591,8 +363,9 @@ _Fin del documento._
 
 - S1: Índices no disponibles o desactualizados → sistema devuelve resultados pero marca posible desincronización y sugiere reintentar más tarde.
 - S2: Consulta demasiado amplia → sistema sugiere aplicar filtros adicionales para mejorar relevancia.
+- S3: Error en consulta → mostrar mensaje.
 
-**Atributos:** paginación (limit, offset/nextCursor), facetas por categoría, caché para resultados frecuentes.
+**Atributos:** paginación (limit, offset/nextCursor), facetas por categoría, caché para resultados frecuentes, orden por relevancia o fecha.
 
 ---
 
@@ -686,7 +459,7 @@ _Fin del documento._
 
 - S1: Perfil no existe o fue eliminado → mostrar mensaje "Perfil no disponible".
 
-**Atributos:** indicadores de verificación opcional (p.ej. email verificado), URL amigable (slug), métricas públicas (horas voluntariado totales, número de actividades).
+**Atributos:** indicadores de verificación opcional (p.ej. email verificado), URL amigable (slug), métricas públicas (horas voluntariado totales, número de actividades), respetar anonimato en comentarios.
 
 ---
 
@@ -700,7 +473,7 @@ _Fin del documento._
 
 **Pre-condiciones:** Usuario con rol admin; existencia de categorías.
 
-**Post-condiciones:** Catálogo actualizado; cambios registrados en logs y, si aplica, notificaciones a centros cuando una categoría clave cambia.
+**Post-condiciones:** Catálogo actualizado; cambios registrados en logs y, si aplica, notificaciones a centros cuando una categoría clave cambia; índices de búsqueda ajustados.
 
 **Secuencia normal:**
 
@@ -718,7 +491,7 @@ _Fin del documento._
 - S1: Intento de eliminar categoría en uso → bloquear y pedir acción de reasignación.
 - S2: Error en actualización de índices → marcar para job de reindexación.
 
-**Atributos:** slug único, activo/disabled flag, icono/imagen y descripción breve.
+**Atributos:** slug único, activo/disabled flag, icono/imagen y descripción breve, metadatos (ícono, descripción corta).
 
 ---
 
@@ -782,7 +555,7 @@ _Fin del documento._
 - S1: Datos insuficientes → fallback a actividades populares o sugerir completar perfil.
 - S2: Servicio de scoring fuera de servicio → mostrar mensaje y fallback.
 
-**Atributos:** scores, trazabilidad de la razón de recomendación, latencia aceptable, logs para ajuste del modelo.
+**Atributos:** scores, trazabilidad de la razón de recomendación, latencia aceptable, logs para ajuste del modelo, algoritmo configurable.
 
 ---
 
@@ -814,8 +587,45 @@ _Fin del documento._
 - S1: Proceso pesado → encolar job y notificar al usuario cuando esté listo.
 - S2: Error en generación → registrar error y permitir reintentar.
 
-**Atributos:** plantilla del PDF, formato (A4/Letter), inclusión opcional de firmas/estampillas digitales si se requiere certificación.
+**Atributos:** plantilla del PDF, formato (A4/Letter), inclusión opcional de firmas/estampillas digitales si se requiere certificación, logo del centro o plantilla personalizable.
 
 ---
 
-_Fin del complemento de casos de uso (UC-11 a UC-19)._
+## UC-25 — Desinscribirse de Instancia
+
+**Código:** UC-25
+
+**Requerimientos relacionados:** RF-25, RF-05, RF-14
+
+**Descripción:** Permitir que un voluntario cancele su inscripción en una instancia de actividad antes de que comience, liberando el cupo para otros voluntarios.
+
+**Pre-condiciones:** Voluntario autenticado; inscrito en la instancia; instancia no ha comenzado aún.
+
+**Post-condiciones:** Inscripción cancelada; cupo liberado; notificación enviada al centro; voluntario removido de la lista de inscriptos.
+
+**Secuencia normal:**
+
+1. Voluntario accede a sus inscripciones activas.
+2. Selecciona la instancia de la cual desea desinscribirse.
+3. Confirma la cancelación de la inscripción.
+4. Sistema valida que la instancia no haya comenzado.
+5. Sistema actualiza el estado de la inscripción a "cancelada".
+6. Sistema decrementa el contador de inscriptos de la instancia.
+7. Sistema notifica al centro sobre la desinscripción.
+8. Si hay lista de espera, se notifica al siguiente voluntario en espera.
+
+**Secuencias alternativas — Actor:**
+
+- A1: Voluntario cancela la operación → no se realiza la desinscripción.
+
+**Secuencias alternativas — Sistema:**
+
+- S1: La instancia ya comenzó → rechaza la desinscripción y muestra mensaje explicativo.
+- S2: La inscripción ya está cancelada → muestra estado actual.
+- S3: Error al actualizar la base de datos → muestra error y permite reintento.
+
+**Atributos/Validaciones:** validar que la instancia no haya comenzado, actualizar contadores, notificaciones automáticas, liberación de cupo.
+
+---
+
+_Fin del documento._
