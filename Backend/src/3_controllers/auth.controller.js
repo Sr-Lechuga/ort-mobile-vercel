@@ -17,6 +17,7 @@ const postVolunteerLogin = async (req, res, next) => {
     res.status(200).json({
       message: "Inicio de sesión correcta",
       token: sesionToken,
+      username
     });
   } catch (err) {
     err.placeOfError = "Inicio de sesión de Volunteer";
@@ -64,6 +65,7 @@ const postOrganizerLogin = async (req, res, next) => {
     res.status(200).json({
       message: "Inicio de sesión correcta",
       token: sesionToken,
+      username
     });
   } catch (err) {
     err.placeOfError = "Inicio de sesión de Organizer";
