@@ -91,8 +91,8 @@ const activitySelectById = async (id) => {
   return activity;
 };
 
-const activitiesSelectByUsername = async (username) => {
-  return await findActivitiesByUsername(username);
+const activitiesSelectByUsername = async (username, page) => {
+  return await findActivitiesByUsername(username, page);
 };
 
 const activitiesSelect = async (requestQuery) => {

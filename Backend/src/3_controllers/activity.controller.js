@@ -17,9 +17,11 @@ const getActivities = async (req, res, next) => {
 const getActivitiesByUsername = async (req, res, next) => {
   try {
     const { username } = req.params
-    if (!username) return getActivities(req, res, next)
+    const { page } = req.query
 
-    const activities = await activitiesSelectByUsername(username);
+    const pageNum = page ? Number(page) : 1
+
+    const activities = await activitiesSelectByUsername(username, pageNum);
     res.status(200).json({ activities });
   } catch (err) {
     err.placeOfError = "Error en obtener actividades por username";

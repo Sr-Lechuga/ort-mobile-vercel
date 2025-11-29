@@ -6,11 +6,16 @@ const findActivityById = async (id) => {
   return await Activity.findById(id).populate("instances").populate("owner");;
 };
 
-const findActivitiesByUsername = async (username) => {
+const findActivitiesByUsername = async (username, page = 1) => {
   const organizer = await Organizer.findOne({ username });
   if (!organizer) return [];
 
+  const pageSize = 10;
+  const skip = (page - 1) * pageSize;
+
   return await Activity.find({ owner: organizer._id })
+    .skip(skip)
+    .limit(pageSize)
     .populate("instances")
     .populate("owner");
 };
