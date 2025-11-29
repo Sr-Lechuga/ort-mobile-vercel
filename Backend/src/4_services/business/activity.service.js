@@ -1,4 +1,4 @@
-const { findActivities, insertActivity, findActivityById, updateActivity } = require("../../5_repositories/adapters/mongoose/activity.repository");
+const { findActivities, insertActivity, findActivityById, updateActivity, findActivitiesByUsername } = require("../../5_repositories/adapters/mongoose/activity.repository");
 const { createDate } = require("../../utils/datesHandler");
 const { bufferElementLimit, bufferOffset } = require("../helpers/requestParameters.helper");
 const cacheService = require("../cache/cache.service");
@@ -89,6 +89,10 @@ const activitySelectById = async (id) => {
   }
 
   return activity;
+};
+
+const activitiesSelectByUsername = async (username) => {
+  return await findActivitiesByUsername(username);
 };
 
 const activitiesSelect = async (requestQuery) => {
@@ -210,4 +214,5 @@ module.exports = {
   activityInsert,
   activityUpdate,
   activityLogicalDelete,
+  activitiesSelectByUsername
 };

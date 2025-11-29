@@ -1,8 +1,18 @@
 const Activity = require("./models/activity.model");
 const { ACTIVITY_STATUS } = require("../../../utils/constants");
+const Organizer = require("./models/organizer.model");
 
 const findActivityById = async (id) => {
-  return await Activity.findById(id).populate("instances");
+  return await Activity.findById(id).populate("instances").populate("owner");;
+};
+
+const findActivitiesByUsername = async (username) => {
+  const organizer = await Organizer.findOne({ username });
+  if (!organizer) return [];
+
+  return await Activity.find({ owner: organizer._id })
+    .populate("instances")
+    .populate("owner");
 };
 
 const insertActivity = async (activityData) => {
@@ -69,7 +79,7 @@ const findActivities = async (filters, pagination, geoOptions = null) => {
     return results;
   }
 
-  const results = await Activity.find(filters).skip(skip).limit(limit).populate("instances");
+  const results = await Activity.find(filters).skip(skip).limit(limit).populate("instances").populate("owner");;
   return results;
 };
 
@@ -83,4 +93,5 @@ module.exports = {
   insertActivity,
   updateActivity,
   findActiveActivitiesByOwner,
+  findActivitiesByUsername
 };

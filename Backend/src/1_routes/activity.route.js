@@ -11,6 +11,7 @@ const {
   patchInscriptionAttendance,
   postActivityInstanceComment,
   getActivityComments,
+  getActivitiesByUsername,
 } = require("../3_controllers/activity.controller");
 const { activityPostRequestSchema, activityPatchRequestSchema } = require("../2_middlewares/request_schemas/acitivityRequest.schema");
 const { activityInstancePostRequestSchema, activityInstancePatchRequestSchema } = require("../2_middlewares/request_schemas/activityInstanceRequest.schema");
@@ -25,6 +26,7 @@ const activityRoute = express.Router();
 // Public
 activityRoute.get("/", getActivities);
 activityRoute.get("/:activityId/comments", getActivityComments);
+activityRoute.get("/:username", getActivitiesByUsername)
 
 // Private
 activityRoute.use(verifySesion);

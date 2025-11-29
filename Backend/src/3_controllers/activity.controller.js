@@ -1,4 +1,4 @@
-const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate } = require("../4_services/business/activity.service");
+const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDelete, activityUpdate, activitiesSelectByUsername } = require("../4_services/business/activity.service");
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
 const { createActivityInstanceComment, getActivityCommentsSummary } = require("../4_services/business/activityComment.service");
@@ -10,6 +10,19 @@ const getActivities = async (req, res, next) => {
     res.status(200).json({ activities });
   } catch (err) {
     err.placeOfError = "Error en obtener actividades";
+    next(err);
+  }
+};
+
+const getActivitiesByUsername = async (req, res, next) => {
+  try {
+    const { username } = req.params
+    if (!username) return getActivities(req, res, next)
+
+    const activities = await activitiesSelectByUsername(username);
+    res.status(200).json({ activities });
+  } catch (err) {
+    err.placeOfError = "Error en obtener actividades por username";
     next(err);
   }
 };
@@ -186,4 +199,5 @@ module.exports = {
   patchInscriptionAttendance,
   postActivityInstanceComment,
   getActivityComments,
+  getActivitiesByUsername
 };
