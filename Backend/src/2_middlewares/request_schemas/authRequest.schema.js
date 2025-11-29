@@ -158,7 +158,7 @@ const organizerSignUpRequestSchema = joi.object({
       lat: joi.number(),
       lng: joi.number(),
     })
-    .required()
+    //.required()
     .messages({
       "any.required": "Faltan datos requeridos en Localización",
       "object.base": "Formato de Localización incorrecto",
