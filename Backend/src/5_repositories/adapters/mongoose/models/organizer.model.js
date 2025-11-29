@@ -14,13 +14,13 @@ const organizerSchema = new mongoose.Schema(
       linkedIn: { type: String, maxLength: 25 },
       personal: { type: String, maxLength: 120 },
     },
-    location: {
+    /*location: {
       country: { type: String, required: true, maxLength: 25 },
       city: { type: String, required: true, maxLength: 25 },
       address: { type: String, required: true, maxLength: 255 },
       lat: { type: Number },
       lng: { type: Number },
-    },
+    },*/
   },
   {
     timestamps: true,

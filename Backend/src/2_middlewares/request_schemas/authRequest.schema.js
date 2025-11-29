@@ -141,7 +141,7 @@ const organizerSignUpRequestSchema = joi.object({
       "string.max": "El link personal puede contener hasta 120 caracteres",
     }),
   }),
-  location: joi
+  /*location: joi
     .object({
       country: joi.string().max(25).required().messages({
         "any.required": "El Nombre de país es requerido",
@@ -159,7 +159,7 @@ const organizerSignUpRequestSchema = joi.object({
       lng: joi.number(),
     })
   //.required()
-  /*     .messages({
+       .messages({
         "any.required": "Faltan datos requeridos en Localización",
         "object.base": "Formato de Localización incorrecto",
       }), */
