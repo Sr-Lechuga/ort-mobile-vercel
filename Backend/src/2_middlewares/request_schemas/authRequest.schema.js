@@ -121,7 +121,8 @@ const organizerSignUpRequestSchema = joi.object({
     "string.min": "El Nombre debe contener al menos 3 caracteres",
     "string.max": "El Nombre puede contener hasta 30 caracteres",
   }),
-  telephone: joi.string().max(25).messages({
+  telephone: joi.string().max(25).required().messages({
+    "any.required": "El Telefono es requerido",
     "string.max": "El Teléfono puede contener hasta 25 caracteres",
   }),
   social: joi.object({

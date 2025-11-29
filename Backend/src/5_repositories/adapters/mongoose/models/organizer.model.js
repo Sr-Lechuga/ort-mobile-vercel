@@ -7,7 +7,7 @@ const organizerSchema = new mongoose.Schema(
     contactEmail: { type: String, unique: true, match: /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/, maxLength: 70 },
     password: { type: String, required: true, minLength: 6 },
     name: { type: String, required: true, minLength: 2, maxLength: 50 },
-    telephone: { type: String, maxLength: 25 },
+    telephone: { type: String, required: true, maxLength: 25 },
     social: {
       instagram: { type: String, maxLength: 25 },
       facebook: { type: String, maxLength: 25 },
