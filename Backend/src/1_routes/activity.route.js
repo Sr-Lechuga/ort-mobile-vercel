@@ -32,9 +32,7 @@ activityRoute.get("/:username", getActivitiesByUsername)
 activityRoute.use(verifySesion);
 
 //Activities
-
-//payloadValidator(activityPostRequestSchema),
-activityRoute.post("/", verifyAccessLevel([USER_ORGANIZER]), postActivity);
+activityRoute.post("/", payloadValidator(activityPostRequestSchema), verifyAccessLevel([USER_ORGANIZER]), postActivity);
 activityRoute.patch("/:activityId", payloadValidator(activityPatchRequestSchema), verifyAccessLevel([USER_ORGANIZER]), patchActivity);
 activityRoute.delete("/:activityId", verifyAccessLevel([USER_ORGANIZER]), deleteActivity);
 
