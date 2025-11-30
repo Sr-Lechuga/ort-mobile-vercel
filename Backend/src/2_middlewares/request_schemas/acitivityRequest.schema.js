@@ -61,24 +61,24 @@ const activityPostRequestSchema = joi.object({
       "object.base": "La ubicación debe ser un objeto",
       "any.required": "La ubicación es requerida",
     }),
-  locationCoordinates: joi
-    .object({
-      type: joi.string().valid("Point").required().messages({
-        "any.only": 'El tipo de coordenadas debe ser "Point"',
-        "any.required": "El tipo de coordenadas es requerido",
-      }),
-      coordinates: joi.array().items(joi.number()).length(2).required()
-        .messages({
-          "array.base": "Las coordenadas deben ser un array",
-          "array.length": "Las coordenadas deben ser [longitud, latitud]",
-          "any.required": "Las coordenadas son requeridas",
+  /*   locationCoordinates: joi
+      .object({
+        type: joi.string().valid("Point").required().messages({
+          "any.only": 'El tipo de coordenadas debe ser "Point"',
+          "any.required": "El tipo de coordenadas es requerido",
         }),
-    })
-    .required()
-    .messages({
-      "object.base": "Las coordenadas de ubicación deben ser un objeto",
-      "any.required": "Las coordenadas de ubicación son requeridas",
-    }),
+        coordinates: joi.array().items(joi.number()).length(2).required()
+          .messages({
+            "array.base": "Las coordenadas deben ser un array",
+            "array.length": "Las coordenadas deben ser [longitud, latitud]",
+            "any.required": "Las coordenadas son requeridas",
+          }),
+      })
+      .required()
+      .messages({
+        "object.base": "Las coordenadas de ubicación deben ser un objeto",
+        "any.required": "Las coordenadas de ubicación son requeridas",
+      }), */
 });
 
 const activityPatchRequestSchema = joi.object({
@@ -132,23 +132,23 @@ const activityPatchRequestSchema = joi.object({
       "object.base": "La ubicación debe ser un objeto",
       "any.required": "La ubicación es requerida",
     }),
-  locationCoordinates: joi.object({
-    type: joi.string().valid("Point").required().messages({
-      "any.only": 'El tipo de coordenadas debe ser "Point"',
-      "any.required": "El tipo de coordenadas es requerido",
-    }),
-    coordinates: joi.array().items(joi.number()).length(2).required()
-      .messages({
-        "array.base": "Las coordenadas deben ser un array",
-        "array.length": "Las coordenadas deben ser [longitud, latitud]",
-        "any.required": "Las coordenadas son requeridas",
+  /*   locationCoordinates: joi.object({
+      type: joi.string().valid("Point").required().messages({
+        "any.only": 'El tipo de coordenadas debe ser "Point"',
+        "any.required": "El tipo de coordenadas es requerido",
       }),
-  })
-    .required()
-    .messages({
-      "object.base": "Las coordenadas de ubicación deben ser un objeto",
-      "any.required": "Las coordenadas de ubicación son requeridas",
-    }),
+      coordinates: joi.array().items(joi.number()).length(2).required()
+        .messages({
+          "array.base": "Las coordenadas deben ser un array",
+          "array.length": "Las coordenadas deben ser [longitud, latitud]",
+          "any.required": "Las coordenadas son requeridas",
+        }),
+    })
+      .required()
+      .messages({
+        "object.base": "Las coordenadas de ubicación deben ser un objeto",
+        "any.required": "Las coordenadas de ubicación son requeridas",
+      }), */
 });
 
 module.exports = {

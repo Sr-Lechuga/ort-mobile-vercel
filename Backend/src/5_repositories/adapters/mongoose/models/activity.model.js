@@ -41,7 +41,7 @@ const activitySchema = new mongoose.Schema(
       city: { type: String, required: true, maxLength: 25 },
       address: { type: String, required: true, maxLength: 255 },
     },
-    locationCoordinates: {
+    /* locationCoordinates: {
       type: {
         type: String,
         enum: ["Point"],
@@ -57,7 +57,7 @@ const activitySchema = new mongoose.Schema(
           message: "Las coordenadas deben ser [longitud, latitud]",
         },
       },
-    },
+    }, */
   },
   {
     // Options
