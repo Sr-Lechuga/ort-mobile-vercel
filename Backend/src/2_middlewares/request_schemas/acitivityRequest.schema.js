@@ -34,11 +34,11 @@ const activityPostRequestSchema = joi.object({
       "date.format":
         "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
     }), */
-  status: joi.string().valid(...ACTIVITY_STATUS)
-    .messages({
-      "any.only": "El estado ingresado no es correcto",
-      "string.base": "El estado debe ser un texto",
-    }),
+  /*   status: joi.string().valid(...ACTIVITY_STATUS)
+      .messages({
+        "any.only": "El estado ingresado no es correcto",
+        "string.base": "El estado debe ser un texto",
+      }), */
   location: joi.object({
     country: joi.string().max(25).required().messages({
       "string.base": "El país debe ser un texto",

@@ -32,7 +32,9 @@ const getActivitiesByUsername = async (req, res, next) => {
 const postActivity = async (req, res, next) => {
   try {
     const { id } = req.session;
-    const newActivity = { owner: id, ...req.body };
+    const { title, categories, description, location } = req.body
+
+    const newActivity = { owner: id, title, categories, description, location };
     const insertedActivity = await activityInsert(newActivity);
     res.status(201).json({ insertedActivity });
   } catch (err) {
