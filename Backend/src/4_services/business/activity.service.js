@@ -163,14 +163,14 @@ const activitiesSelect = async (requestQuery) => {
 const activityInsert = async (activityData) => {
   const newActivity = await insertActivity(activityData);
 
-  // Invalidar cache de listas de actividades cuando se crea una nueva
-  const activitiesPattern = generateCachePattern("activities");
-  await cacheService.deleteMultiple([activitiesPattern]);
-
-  if (newActivity?.owner) {
-    await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(newActivity.owner)));
-  }
-
+  /*   // Invalidar cache de listas de actividades cuando se crea una nueva
+    const activitiesPattern = generateCachePattern("activities");
+    await cacheService.deleteMultiple([activitiesPattern]);
+  
+    if (newActivity?.owner) {
+      await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(newActivity.owner)));
+    }
+   */
   return newActivity;
 };
 
