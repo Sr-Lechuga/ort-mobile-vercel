@@ -96,6 +96,37 @@ const activitiesSelectByUsername = async (username, page) => {
 };
 
 const activitiesSelect = async (requestQuery) => {
+  const { searchText, minDate, maxDate, page } = requestQuery
+  const categories = Array.isArray(requestQuery.category)
+    ? requestQuery.category
+    : requestQuery.category
+      ? [requestQuery.category]
+      : []
+
+
+  const filter = {}
+
+  if (searchText) {
+    filter.$or = [
+      { title: { $regex: searchText, $options: "i" } },
+      { description: { $regex: searchText, $options: "i" } }
+    ]
+  }
+
+  if (categories.length > 0) {
+    filter.categories = { $in: categories }
+  }
+
+  if (minDate || maxDate) {
+    filter.date = {}
+    if (minDate) filter.date.$gte = new Date(minDate)
+    if (maxDate) filter.date.$lte = new Date(maxDate)
+  }
+
+  return await findActivities(filter, page)
+}
+
+/*const activitiesSelect = async (requestQuery) => {
   const { sanitizedQuery, geoOptions } = sanitizeGeoQueryParams(requestQuery);
   const cacheKey = generateActivitiesCacheKey(sanitizedQuery);
   let activities = await cacheService.get(cacheKey);
@@ -158,19 +189,22 @@ const activitiesSelect = async (requestQuery) => {
   }
 
   return activities;
-};
+};*/
+
 
 const activityInsert = async (activityData) => {
   const newActivity = await insertActivity(activityData);
 
-  /*   // Invalidar cache de listas de actividades cuando se crea una nueva
+  /*   
+    // Invalidar cache de listas de actividades cuando se crea una nueva
     const activitiesPattern = generateCachePattern("activities");
     await cacheService.deleteMultiple([activitiesPattern]);
   
     if (newActivity?.owner) {
       await cacheService.delete(generateOrganizerPublicProfileCacheKey(String(newActivity.owner)));
     }
-   */
+  */
+
   return newActivity;
 };
 

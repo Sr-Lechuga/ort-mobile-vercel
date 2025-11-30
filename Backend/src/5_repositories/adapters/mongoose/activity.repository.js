@@ -30,7 +30,19 @@ const updateActivity = async (id, activityData) => {
   return newData;
 };
 
-const findActivities = async (filters, pagination, geoOptions = null) => {
+const findActivities = async (filter, page) => {
+  const limit = 10
+  const skip = page ? (Number(page) - 1) * limit : 0
+
+  return await Activity
+    .find(filter)
+    .skip(skip)
+    .limit(limit)
+    .populate("instances")
+    .populate("owner");
+}
+
+/*const findActivities = async (filters, pagination, geoOptions = null) => {
   const { skip, limit } = pagination;
 
   if (geoOptions?.coordinates) {
@@ -86,7 +98,7 @@ const findActivities = async (filters, pagination, geoOptions = null) => {
 
   const results = await Activity.find(filters).skip(skip).limit(limit).populate("instances").populate("owner");;
   return results;
-};
+};*/
 
 const findActiveActivitiesByOwner = async (ownerId) => {
   return await Activity.find({ owner: ownerId, status: ACTIVITY_STATUS[1] }).select(["title", "categories", "date", "location", "status"]);
