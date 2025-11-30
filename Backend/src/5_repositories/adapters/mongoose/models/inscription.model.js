@@ -4,7 +4,7 @@ const inscriptionSchema = mongoose.Schema(
   {
     volunteer: { type: mongoose.Schema.Types.ObjectId, ref: "Volunteer", required: true },
     instance: { type: mongoose.Schema.Types.ObjectId, ref: "ActivityInstance", required: true },
-    accepted: { type: Boolean, required: true, default: false },
+    accepted: { type: Boolean, required: true, default: true },
     date: { type: Date, required: true, default: Date.now },
     assisted: { type: Boolean, required: true, default: false },
   },
