@@ -28,12 +28,12 @@ const activityPostRequestSchema = joi.object({
     }),
   description: joi.string()
     .messages({ "string.base": "La descripción debe ser un texto" }),
-  date: joi.date().iso().messages({
-    "date.base":
-      "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
-    "date.format":
-      "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
-  }),
+  /*   date: joi.date().iso().messages({
+      "date.base":
+        "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
+      "date.format":
+        "La fecha ingresada no contiene el formato ISO correcto: YYYY-MM-DD o con hora YYYY-MM-DDTHH:mm:ss",
+    }), */
   status: joi.string().valid(...ACTIVITY_STATUS)
     .messages({
       "any.only": "El estado ingresado no es correcto",
