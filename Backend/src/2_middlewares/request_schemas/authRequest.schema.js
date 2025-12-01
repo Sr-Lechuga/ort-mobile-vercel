@@ -101,14 +101,14 @@ const organizerSignUpRequestSchema = joi.object({
       "string.max": "El Email puede contener hasta 70 caracteres",
       "string.pattern.base": "Formato de Email incorrecto",
     }),
-  contactEmail: joi
-    .string()
-    .pattern(/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/)
-    .max(70)
-    .messages({
-      "string.max": "El Email de Contacto puede contener hasta 70 caracteres",
-      "string.pattern.base": "Formato de Email de Contacto incorrecto",
-    }),
+  /*   contactEmail: joi
+      .string()
+      .pattern(/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/)
+      .max(70)
+      .messages({
+        "string.max": "El Email de Contacto puede contener hasta 70 caracteres",
+        "string.pattern.base": "Formato de Email de Contacto incorrecto",
+      }), */
   password: joi.string().min(6).max(30).required().messages({
     "any.required": "La Contraseña es requerida",
     "string.empty": "La Contraseña es requerida",

@@ -4,7 +4,7 @@ const organizerSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true, minLength: 3, maxLength: 30 },
     email: { type: String, required: true, unique: true, match: /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/, maxLength: 70 },
-    contactEmail: { type: String, unique: true, match: /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/, maxLength: 70 },
+    /* contactEmail: { type: String, unique: true, match: /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/, maxLength: 70 }, */
     password: { type: String, required: true, minLength: 6 },
     name: { type: String, required: true, minLength: 2, maxLength: 50 },
     telephone: { type: String, required: true, maxLength: 25 },
