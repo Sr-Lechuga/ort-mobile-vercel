@@ -20,7 +20,7 @@ const volunteerSchema = new mongoose.Schema(
     password: { type: String, required: true, minLength: 6 },
     name: { type: String, required: true, minLength: 3, maxLength: 30 },
     lastname: { type: String, required: true, minLength: 3, maxLength: 30 },
-    age: { type: Number, requird: true, min: 18, max: 110 },
+    age: { type: Number, min: 18, max: 110 },
     genre: { type: String, enum: [...VOLUNTEER_GENRE] },
     inscriptions: {
       type: [

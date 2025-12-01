@@ -52,7 +52,7 @@ const volunteerSignUpRequestSchema = joi.object({
     "string.min": "El Apellido debe contener al menos 3 caracteres",
     "string.max": "El Apellido puede contener hasta 30 caracteres",
   }),
-  age: joi.number().min(18).max(110).required().messages({
+  age: joi.number().min(18).max(110).messages({
     "any.required": "La Edad es requerida",
     "number.base": "La Edad no es válida",
     "number.min": "Se debe ser mayor de edad para registrarse",
