@@ -9,7 +9,7 @@ const DEFAULT_SORT_BY = "createdAt";
 //-------------------------------------------------- Security Constants ------------------------------------------------------------
 const SALT_ROUNDS = 6;
 const JWT_EXPIRATION = "24h";
-const RATE_LIMIT_WINDOW_ATTEMPTS = 30;
+const RATE_LIMIT_WINDOW_ATTEMPTS = 1000;
 const RATE_LIMIT_WINDOW_MS = 1 * 60 * 1000;
 
 //-------------------------------------------------- Cache Constants ------------------------------------------------------------
