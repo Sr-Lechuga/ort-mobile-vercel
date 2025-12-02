@@ -263,4 +263,37 @@ Casos de uso detallados para las funcionalidades RF-06, RF-15, RF-19, RF-20 y RF
 
 ---
 
+## UC-10 — Editar / Eliminar Comentario
+
+**Código:** UC-10
+
+**Requerimientos relacionados:** RF-11
+
+**Descripción:** Voluntario puede editar o eliminar su propio comentario.
+
+**Pre-condiciones:** Usuario autenticado; comentario existe y pertenece al usuario.
+
+**Post-condiciones:** Comentario actualizado o eliminado; snapshots y ratings recalculados.
+
+**Secuencia normal:**
+
+1. Usuario selecciona su comentario.
+2. Edita texto o rating (o elige eliminar).
+3. Envía.
+4. Sistema valida autoría y aplica cambios.
+5. Actualiza snapshot y rating promedio.
+
+**Secuencias alternativas — Actor:**
+
+- A1: Cancela edición → no se aplica cambio.
+
+**Secuencias alternativas — Sistema:**
+
+- S1: No es autor → rechaza operación.
+- S2: Error al sincronizar snapshot → marcar para reconciliación.
+
+**Atributos:** historial de edición (timestamp), posibilidad de restaurar versión previa (opcional).
+
+---
+
 _Fin de los casos de uso para casos de uso fuera de MVP._

@@ -39,7 +39,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-02 — Registro / Alta de Centro
+## UC-02 — Registro de Organzador
 
 **Código:** UC-02
 
@@ -72,7 +72,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-03 — Login / Autenticación
+## UC-03 — Login de Voluntarios y Centros
 
 **Código:** UC-03
 
@@ -97,7 +97,8 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 **Secuencias alternativas — Sistema:**
 
-- S1: Credenciales inválidas → muestra error. Tras N intentos fallidos, aplicar bloqueo temporal.
+- S1: Credenciales inválidas → muestra error.
+- S2(🦄): Tras N intentos fallidos → aplicar bloqueo temporal.
 
 **Atributos:** expiración de token, refresco de token si aplica.
 
@@ -136,7 +137,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-05 — Crear Instancia / Programar Evento puntual
+## UC-05 — Crear Instancia Evento puntual
 
 **Código:** UC-05
 
@@ -203,7 +204,7 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 
 ---
 
-## UC-08 — Certificar Asistencia / Marcar asistencia
+## UC-08 — Certificar Asistencia
 
 **Código:** UC-08
 
@@ -266,39 +267,6 @@ Documento con casos de uso individuales derivados de los requerimientos funciona
 - S2: Fallo DB → mostrar error y permitir reintento.
 
 **Atributos:** longitud mínima/máxima del texto, rating entre 1 y 5.
-
----
-
-## UC-10 — Editar / Eliminar Comentario
-
-**Código:** UC-10
-
-**Requerimientos relacionados:** RF-11
-
-**Descripción:** Voluntario puede editar o eliminar su propio comentario.
-
-**Pre-condiciones:** Usuario autenticado; comentario existe y pertenece al usuario.
-
-**Post-condiciones:** Comentario actualizado o eliminado; snapshots y ratings recalculados.
-
-**Secuencia normal:**
-
-1. Usuario selecciona su comentario.
-2. Edita texto o rating (o elige eliminar).
-3. Envía.
-4. Sistema valida autoría y aplica cambios.
-5. Actualiza snapshot y rating promedio.
-
-**Secuencias alternativas — Actor:**
-
-- A1: Cancela edición → no se aplica cambio.
-
-**Secuencias alternativas — Sistema:**
-
-- S1: No es autor → rechaza operación.
-- S2: Error al sincronizar snapshot → marcar para reconciliación.
-
-**Atributos:** historial de edición (timestamp), posibilidad de restaurar versión previa (opcional).
 
 ---
 
