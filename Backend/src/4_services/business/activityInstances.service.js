@@ -9,12 +9,12 @@ const activityInstanceInsert = async (activityInstanceData) => {
   const newActivityInstance = await insertActivityInstance(activityInstanceData);
   await updateActivityDate(activityInstanceData.activity);
 
-  // Invalidar cache de la actividad padre (ya que ahora tiene una nueva instancia)
-  const activityCacheKey = `activity:${activityInstanceData.activity}`;
-  const activitiesPattern = generateCachePattern("activities");
-
-  await cacheService.deleteMultiple([activityCacheKey, activitiesPattern]);
-
+  /*   // Invalidar cache de la actividad padre (ya que ahora tiene una nueva instancia)
+    const activityCacheKey = `activity:${activityInstanceData.activity}`;
+    const activitiesPattern = generateCachePattern("activities");
+  
+    await cacheService.deleteMultiple([activityCacheKey, activitiesPattern]);
+   */
   return newActivityInstance;
 };
 

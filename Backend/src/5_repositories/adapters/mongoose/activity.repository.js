@@ -14,8 +14,8 @@ const findActivitiesByUsername = async (username, page = 1) => {
   const skip = (page - 1) * pageSize;
 
   return await Activity.find({ owner: organizer._id })
-    .skip(skip)
-    .limit(pageSize)
+    /*     .skip(skip)
+        .limit(pageSize) */
     .populate("instances")
     .populate("owner");
 };
@@ -30,14 +30,14 @@ const updateActivity = async (id, activityData) => {
   return newData;
 };
 
-const findActivities = async (filter, page) => {
+const findActivities = async (filter, page = 1) => {
   const limit = 10
   const skip = page ? (Number(page) - 1) * limit : 0
 
   return await Activity
     .find(filter)
-    .skip(skip)
-    .limit(limit)
+    /*     .skip(skip)
+        .limit(limit) */
     .populate("instances")
     .populate("owner");
 }
