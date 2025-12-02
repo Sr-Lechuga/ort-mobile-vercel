@@ -2,7 +2,7 @@ const { activitiesSelect, activityInsert, activitySelectById, activityLogicalDel
 const { activityInstanceInsert, activityInstanceAddInscription, activityInstanceUpdate, activityInstanceSelectById } = require("../4_services/business/activityInstances.service");
 const { updateInscriptionAttendance } = require("../4_services/business/inscription.service");
 const { createActivityInstanceComment, getActivityCommentsSummary } = require("../4_services/business/activityComment.service");
-const { checkOwnership } = require("./helpers/ownership.helper");
+const { checkOwnership, checkOwnership2 } = require("./helpers/ownership.helper");
 
 const getActivities = async (req, res, next) => {
   try {
@@ -85,8 +85,7 @@ const postActivityInstance = async (req, res, next) => {
   try {
     const { activityId } = req.params;
 
-    // OWNERSHIP CHECK
-    const isOwner = await checkOwnership(res, activitySelectById, activityId, "Actividad", req.session.id);
+    const isOwner = await checkOwnership2(res, activitySelectById, activityId, "Actividad", req.session.id);
 
     if (isOwner) {
       const newActivityInstance = { owner: req.session.id, activity: activityId, ...req.body };

@@ -29,7 +29,7 @@ const checkOwnership = async (res, docFindFn, docId, docModelName, docOwnerId) =
     }
 
     // Verificar ownership
-    isOwner = doc.owner.toString() === docOwnerId.toString();
+    isOwner = doc.owner._id.toString() === docOwnerId.toString();
     const TTL = process.env.CACHE_TTL_OWNERSHIP_CHECK ? parseInt(process.env.CACHE_TTL_OWNERSHIP_CHECK) : CACHE_TTL.OWNERSHIP_CHECK;
     await cacheService.set(cacheKey, isOwner, TTL);
   }
@@ -43,6 +43,25 @@ const checkOwnership = async (res, docFindFn, docId, docModelName, docOwnerId) =
   return true;
 };
 
+const checkOwnership2 = async (res, docFindFn, docId, docModelName, docOwnerId) => {
+  const doc = await docFindFn(docId);
+  if (!doc) {
+    res.status(400).json({ message: `El recurso ${docModelName} no existe o es incorrecto` });
+    return false;
+  }
+
+  isOwner = doc.owner._id.toString() === docOwnerId.toString();
+
+  // Si no es owner, enviar respuesta de error
+  if (!isOwner) {
+    res.status(403).json({ message: `No tienes permisos para acceder al recurso ${docModelName}` });
+    return false;
+  }
+
+  return true;
+}
+
 module.exports = {
   checkOwnership,
+  checkOwnership2
 };

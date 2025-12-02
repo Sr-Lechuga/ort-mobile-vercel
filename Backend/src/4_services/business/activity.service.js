@@ -74,21 +74,23 @@ const sanitizeGeoQueryParams = (requestQuery) => {
 };
 
 const activitySelectById = async (id) => {
-  const cacheKey = generateActivityCacheKey(id);
-  let activity = await cacheService.get(cacheKey);
-
-  if (!activity) {
-    // Si no está en cache, ejecutar consulta a la base de datos
-    activity = await findActivityById(id);
-
-    if (activity) {
-      // Guardar en cache por el TTL configurado desde .env
-      const TTL = process.env.CACHE_TTL_ACTIVITY_DETAIL ? parseInt(process.env.CACHE_TTL_ACTIVITY_DETAIL) : CACHE_TTL.ACTIVITY_DETAIL;
-      await cacheService.set(cacheKey, activity, TTL);
+  /*   const cacheKey = generateActivityCacheKey(id);
+    let activity = await cacheService.get(cacheKey);
+  
+    if (!activity) {
+      // Si no está en cache, ejecutar consulta a la base de datos
+      activity = await findActivityById(id);
+  
+      if (activity) {
+        // Guardar en cache por el TTL configurado desde .env
+        const TTL = process.env.CACHE_TTL_ACTIVITY_DETAIL ? parseInt(process.env.CACHE_TTL_ACTIVITY_DETAIL) : CACHE_TTL.ACTIVITY_DETAIL;
+        await cacheService.set(cacheKey, activity, TTL);
+      }
     }
-  }
+  
+    return activity; */
 
-  return activity;
+  return await findActivityById(id);
 };
 
 const activitiesSelectByUsername = async (username, page) => {

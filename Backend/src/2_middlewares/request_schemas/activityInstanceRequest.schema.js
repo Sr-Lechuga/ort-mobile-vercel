@@ -2,22 +2,24 @@ const joi = require("joi");
 
 // Esquema para crear una instancia de actividad
 const activityInstancePostRequestSchema = joi.object({
-  date: joi.date().iso().min("now")
+  date: joi.date().iso().min("now").required()
     .messages({
       "date.base": "La fecha de inicio debe ser una fecha válida en formato ISO",
       "date.format": "La fecha de inicio debe estar en formato ISO: YYYY-MM-DDTHH:mm:ss",
       "date.min": "La fecha de inicio debe ser actual o futura",
+      "any.required": "La fecha es requerida"
     }),
 
-  duration: joi.number().integer().min(1).max(1440)
+  duration: joi.number().integer().min(1).max(1440).required()
     .messages({
       "number.base": "La duración debe ser un número",
       "number.integer": "La duración debe ser un número entero",
       "number.min": "La duración mínima es 1 minuto",
       "number.max": "La duración máxima es 1440 minutos (24 horas)",
+      "any.required": "La duración es requerida"
     }),
 
-  inscriptionsOpen: joi.boolean().optional(),
+  /* inscriptionsOpen: joi.boolean().optional(), */
 
   slots: joi.number().integer().min(0).allow(null).optional()
     .messages({
